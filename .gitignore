@@ -1,0 +1,29 @@
+# Generic
+# --------------------------
+Thumbs.db
+Desktop.ini
+.DS_Store
+.directory
+*.bak
+*.swp
+*.cache
+*.old
+*.log
+*.zip
+._*
+*~
+
+# Developments
+# --------------------------
+nbproject
+.vagrant
+.idea
+.settings
+.project
+*.sublime-*
+.env
+
+# But Keep these
+# --------------------------
+!.gitkeep
+
