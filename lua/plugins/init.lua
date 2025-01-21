@@ -16,7 +16,7 @@ return {
         overrides = {
           Normal = { bg = 'none' },
           -- NormalFloat = { bg = '#3a3a3a' },
-          SignColumn = { fg = colors.comment },
+          SignColumn = { fg = colors.comment, bg = 'none' },
           LineNr = { fg = colors.comment },
           Comment = { fg = colors.comment },
           -- CursorLine = { bg = '#1c1c1c' },
