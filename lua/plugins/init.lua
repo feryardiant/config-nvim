@@ -25,7 +25,9 @@ return {
           Pmenu = { bg = colors.selection_inactive },
           PmenuSel = { bg = colors.selection_bg },
           Visual = { bg = colors.selection_bg },
-          NonText = { fg = colors.comment }
+          NonText = { fg = colors.comment },
+          IblIndent = { fg = colors.comment },
+          IblScope = { fg = '#ffad66' },
         },
       })
     end,
