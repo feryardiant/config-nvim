@@ -15,7 +15,7 @@ return {
       ayu.setup({
         overrides = {
           Normal = { bg = 'none' },
-          -- NormalFloat = { bg = '#3a3a3a' },
+          NormalFloat = { bg = '#1c212b' },
           SignColumn = { fg = colors.comment, bg = 'none' },
           LineNr = { fg = colors.comment },
           Comment = { fg = colors.comment },
