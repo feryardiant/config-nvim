@@ -1,23 +1,4 @@
 return {
-  {
-    'antoinemadec/FixCursorHold.nvim',
-    lazy = true,
-  },
-
-  {
-    'V13Axel/neotest-pest',
-    lazy = true,
-  },
-
-  {
-    'olimorris/neotest-phpunit',
-    lazy = true,
-  },
-
-  {
-    'marilari88/neotest-vitest',
-    lazy = true,
-  },
 
   {
     'nvim-neotest/neotest',
@@ -30,29 +11,28 @@ return {
       { 'olimorris/neotest-phpunit' },
       { 'marilari88/neotest-vitest' },
     },
-    opts = function()
-      ---@type neotest.Config
-      return {
-        discovery = {
-          enabled = false,
-        },
-        adapters = {
-          require('neotest-vitest'),
-          require('neotest-pest'),
-          require('neotest-phpunit')({
-            root_ignore_files = { 'tests/Pest.php' },
-          }),
-        },
-      }
-    end,
     keys = {
       { '<leader>tr', function() require('neotest').run.run() end, desc = '[T]est [R]un' },
       { '<leader>tx', function() require('neotest').run.stop() end, desc = '[T]est stop' },
       { '<leader>td', function() require('neotest').run.run({ strategy = 'dap' }) end, desc = '[T]est run with [D]AP' },
       { '<leader>tf', function() require('neotest').run.run(vim.fn.expand('%')) end, desc = '[T]est [F]ile' },
       { '<leader>ts', function() require('neotest').run.run({ suite = true }) end, desc = '[T]est [S]uite' },
-      { '<leader>to', function() require('neotest').output() end, desc = '[T]est [O]utput' },
+      { '<leader>to', function() require('neotest').output.open() end, desc = '[T]est [O]utput' },
+      { '<leader>top', function() require('neotest').output_panel.toggle() end, desc = '[T]est [O]utput [P]anel' },
       { '<leader>tS', function() require('neotest').summary.toggle() end, desc = 'Toggle [T]est [S]ummary' },
     },
+    config = function ()
+      require('neotest').setup({
+        adapters = {
+          require('neotest-vitest')({}),
+          require('neotest-pest')({}),
+          require('neotest-phpunit')({
+            filter_dirs = { 'vendor' },
+            root_ignore_files = { 'tests/Pest.php' },
+          }),
+        },
+      })
+    end
   },
+
 }
