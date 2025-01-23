@@ -28,6 +28,7 @@ return {
           NonText = { fg = colors.comment },
           IblIndent = { fg = colors.comment },
           IblScope = { fg = '#ffad66' },
+          WinSeparator = { fg = colors.comment, bg = 'none' },
         },
       })
     end,
