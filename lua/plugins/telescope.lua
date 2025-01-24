@@ -1,23 +1,26 @@
 return {
 
   {
+    'nvim-telescope/telescope-fzf-native.nvim',
+    build = 'make',
+    enabled = vim.fn.executable('make') == 1,
+    lazy = true,
+  },
+
+  {
     'nvim-telescope/telescope.nvim',
-    tag = '0.1.4',
+    tag = '0.1.8',
     cmd = 'Telescope',
     version = false,
     dependencies = {
       { 'nvim-lua/plenary.nvim' },
-      {
-        'nvim-telescope/telescope-fzf-native.nvim',
-        build = 'make',
-        enabled = vim.fn.executable('make') == 1,
-      },
+      { 'nvim-telescope/telescope-fzf-native.nvim' },
     },
     opts = function()
       local actions = require('telescope.actions')
 
       return {
-        defaults = {
+        defaults = require('telescope.themes').get_dropdown({
           path_display = { 'smart' },
           prompt_prefix = ' ',
           selection_caret = ' ',
@@ -32,18 +35,46 @@ return {
               ['<Esc>'] = actions.close,
             },
           },
-        },
+        }),
       }
     end,
-    init = function()
-      local builtin = require('telescope.builtin')
-
-      vim.keymap.set('n', '<leader><space>', builtin.buffers, { desc = 'Find files from existing buffer' })
-      vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Find files' })
-      vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = 'Find current word' })
-      vim.keymap.set('n', '<C-p>', builtin.git_files, { desc = 'Find files inside git repository' })
-      vim.keymap.set('n', '<leader>ds', builtin.lsp_document_symbols, { desc = 'Find document symbols' })
-    end,
+    keys = {
+      {
+        '<leader><space>',
+        function()
+          require('telescope.builtin').buffers()
+        end,
+        desc = 'Find files from existing buffer',
+      },
+      {
+        '<leader>ff',
+        function()
+          require('telescope.builtin').find_files()
+        end,
+        desc = 'Find files',
+      },
+      {
+        '<leader>fw',
+        function()
+          require('telescope.builtin').grep_string()
+        end,
+        desc = 'Find current word',
+      },
+      {
+        '<C-p>',
+        function()
+          require('telescope.builtin').git_files()
+        end,
+        desc = 'Find files inside git repository',
+      },
+      {
+        '<leader>ds',
+        function()
+          require('telescope.builtin').lsp_document_symbols()
+        end,
+        desc = 'Find document symbols',
+      },
+    },
     config = function(_, opts)
       local telescope = require('telescope')
 

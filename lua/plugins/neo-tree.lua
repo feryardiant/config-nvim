@@ -11,23 +11,43 @@ return {
     keys = {
       {
         '<leader>ge',
-        function() require('neo-tree.command').execute({ source = 'git_status', position = 'float', toggle = true }) end,
+        function()
+          require('neo-tree.command').execute({
+            source = 'git_status',
+            position = 'float',
+            toggle = true
+          })
+        end,
         desc = 'Git explorer',
       },
 
       {
         '<leader>be',
-        function() require('neo-tree.command').execute({ source = 'buffers', position = 'float', toggle = true }) end,
+        function()
+          require('neo-tree.command').execute({
+            source = 'buffers',
+            position = 'float',
+            toggle = true
+          })
+        end,
         desc = 'Buffers explorer',
       },
 
       {
         '<leader>fe',
-        function() require('neo-tree.command').execute({ source = 'filesystem', position = 'float', toggle = true }) end,
+        function()
+          require('neo-tree.command').execute({
+            source = 'filesystem',
+            position = 'float',
+            toggle = true
+          })
+        end,
         desc = 'File explorer',
       },
     },
-    deactivate = function() vim.cmd([[Neotree close]]) end,
+    deactivate = function()
+      vim.cmd([[Neotree close]])
+    end,
     init = function()
       if vim.fn.argc(-1) == 1 then
         local stat = vim.loop.fs_stat(vim.fn.argv(0))
@@ -106,7 +126,9 @@ return {
       vim.api.nvim_create_autocmd('TermClose', {
         pattern = '*lazygit',
         callback = function()
-          if package.loaded['neo-tree.source.git_status'] then require('neo-tree.source.git_status').refresh() end
+          if package.loaded['neo-tree.source.git_status'] then
+            require('neo-tree.source.git_status').refresh()
+          end
         end,
       })
     end,

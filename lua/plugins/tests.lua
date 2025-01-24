@@ -5,7 +5,6 @@ return {
     dependencies = {
       { 'nvim-neotest/nvim-nio' },
       { 'nvim-lua/plenary.nvim' },
-      { 'antoinemadec/FixCursorHold.nvim' },
       { 'nvim-treesitter/nvim-treesitter' },
       { 'V13Axel/neotest-pest' },
       { 'olimorris/neotest-phpunit' },
@@ -21,8 +20,8 @@ return {
       { '<leader>top', function() require('neotest').output_panel.toggle() end, desc = '[T]est [O]utput [P]anel' },
       { '<leader>tS', function() require('neotest').summary.toggle() end, desc = 'Toggle [T]est [S]ummary' },
     },
-    config = function ()
-      require('neotest').setup({
+    opts = function()
+      return {
         adapters = {
           require('neotest-vitest')({}),
           require('neotest-pest')({}),
@@ -31,7 +30,7 @@ return {
             root_ignore_files = { 'tests/Pest.php' },
           }),
         },
-      })
+      }
     end
   },
 

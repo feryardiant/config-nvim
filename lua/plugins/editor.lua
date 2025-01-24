@@ -1,68 +1,6 @@
 return {
 
   {
-    -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
-    -- used for completion, annotations and signatures of Neovim apis
-    'folke/lazydev.nvim',
-    ft = 'lua',
-    opts = {
-      library = {
-        -- Load luvit types when the `vim.uv` word is found
-        { path = 'luvit-meta/library', words = { 'vim%.uv' } },
-      },
-    },
-  },
-
-  { 'Bilal2453/luvit-meta', lazy = true },
-
-  {
-    'ricardoramirezr/blade-nav.nvim',
-    dependencies = {
-      { 'hrsh7th/nvim-cmp' },
-    },
-    ft = { 'blade', 'php' },
-  },
-
-  {
-    'stevearc/conform.nvim',
-    event = { 'BufWritePre' },
-    cmd = { 'ConformInfo' },
-    keys = function(_, keys)
-      local conform = require('conform')
-
-      return {
-        {
-          '<leader>fb',
-          function() conform.format({ async = true, lsp_fallbak = true, timeout_ms = 5000 }) end,
-          desc = '[F]ormat [B]uffer',
-        },
-        unpack(keys),
-      }
-    end,
-    ---@module "conform"
-    ---@type conform.setupOpts
-    opts = {
-      log_level = vim.log.levels.WARN,
-      formatters = {
-        prettier = {
-          prepend_args = { '--ignore-unknown' },
-        },
-      },
-      formatters_by_ft = {
-        blade = { 'prettier', 'blade-formatter', stop_after_first = true },
-        json = { 'prettier', 'jq', stop_after_first = true },
-        javascript = { 'prettier', stop_after_first = true },
-        lua = { 'stylua' },
-        markdown = { 'prettier', 'markdownlint', stop_after_first = true },
-        php = { 'pint', stop_after_first = true },
-        sql = { 'pg_format', 'sqlfmt', stop_after_first = true },
-        yaml = { 'yamlfmt' },
-      },
-    },
-    init = function() vim.o.formatexpr = "v:lua.require('conform').formatexpr()" end,
-  },
-
-  {
     'lewis6991/gitsigns.nvim',
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
@@ -71,30 +9,26 @@ return {
     opts = {
       current_line_blame = true,
       signs = {
-        untracked = { text = '│' },
+        untracked = { text = '▎' },
       },
     },
   },
 
   {
     'lukas-reineke/indent-blankline.nvim',
+    event = { 'BufReadPre', 'BufNewFile' },
     main = 'ibl',
     ---@module 'ibl'
     ---@type ibl.config
     opts = {
-      indent = {
-        char = '┆'
-      },
-      scope = {
-        char = '▎',
-      }
+      indent = { char = '┆' },
+      scope = { char = '▏' }
     },
   },
 
   {
     'echasnovski/mini.pairs',
     event = { 'BufReadPre', 'BufNewFile' },
-    lazy = true,
     opts = {},
   },
 
@@ -107,6 +41,9 @@ return {
   {
     'echasnovski/mini.comment',
     lazy = true,
+    dependencies = {
+      { 'JoosepAlviste/nvim-ts-context-commentstring' },
+    },
     opts = {
       options = {
         custom_commentstring = function()
@@ -157,11 +94,6 @@ return {
     opts = {
       use_diagnostic_signs = true,
     },
-  },
-
-  {
-    'ghostty',
-    dir = '/Applications/Ghostty.app/Contents/Resources/vim/vimfiles/',
   },
 
 }

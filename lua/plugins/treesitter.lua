@@ -1,29 +1,40 @@
 return {
 
   {
+    'JoosepAlviste/nvim-ts-context-commentstring',
+    lazy = true,
+    opts = {
+      enable_autocmd = false,
+    },
+  },
+
+  -- Show context of the current function
+  {
+    'nvim-treesitter/nvim-treesitter-context',
+    lazy = true,
+    opts = {
+      mode = 'cursor',
+      max_line = 3
+    },
+  },
+
+  {
+    'windwp/nvim-ts-autotag',
+    event = { 'BufReadPre', 'BufNewFile' },
+    opts = {}
+  },
+
+  {
     'nvim-treesitter/nvim-treesitter',
     version = false,
     build = ':TSUpdate',
-    -- cmd = { 'TSUpdateSync', 'TSUpdate', 'TSInstall' },
+    cmd = { 'TSUpdateSync', 'TSUpdate', 'TSInstall' },
+    event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
       { 'nvim-treesitter/playground' },
       { 'nvim-treesitter/nvim-treesitter-textobjects' },
-      {
-        'JoosepAlviste/nvim-ts-context-commentstring',
-        opts = {
-          enable_autocmd = false,
-        },
-      },
-
-      -- Show context of the current function
-      {
-        'nvim-treesitter/nvim-treesitter-context',
-        enabled = true,
-        opts = { mode = 'cursor', max_line = 3 },
-      },
-
-      -- Automatically add closing tags for HTML and JSX
-      { 'windwp/nvim-ts-autotag' },
+      { 'JoosepAlviste/nvim-ts-context-commentstring' },
+      { 'nvim-treesitter/nvim-treesitter-context', enabled = true },
     },
     opts = {
       indent = { enable = true },
