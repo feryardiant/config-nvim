@@ -30,6 +30,12 @@ return {
           IblIndent = { fg = colors.comment },
           IblScope = { fg = '#ffad66' },
           WinSeparator = { fg = colors.comment, bg = 'none' },
+
+          DapBreakpoint = { fg = colors.accent },
+          DapBreakpointCondition = { fg = colors.warning },
+          DapBreakpointRejected = { fg = colors.error },
+          DapLogPoint = { fg = colors.selection_bg },
+          DapStopped = { fg = colors.tag },
         },
       }
     end,

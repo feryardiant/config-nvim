@@ -25,6 +25,14 @@ return {
       { '<F3>', function () require('dap').step_out() end, desc = 'Debug: Step out' },
       { '<leader>b', function () require('dap').toggle_breakpoint() end, desc = 'Debug: Toggle Breakpoint' },
     },
+    init = function ()
+      -- Credit: https://github.com/mfussenegger/nvim-dap/discussions/355
+      vim.fn.sign_define('DapBreakpoint', { text= '󰃤', texthl='DapBreakpoint' })
+      vim.fn.sign_define('DapBreakpointCondition', { text='󰃤', texthl='DapBreakpointCondition' })
+      vim.fn.sign_define('DapBreakpointRejected', { text='󰃤', texthl='DapBreakpointRejected' })
+      vim.fn.sign_define('DapLogPoint', { text='', texthl='DapLogPoint' })
+      vim.fn.sign_define('DapStopped', { text='', texthl='DapStopped' })
+    end,
     config = function ()
       local dap, dapui = require('dap'), require('dapui')
 
