@@ -23,6 +23,10 @@ nbproject
 *.sublime-*
 .env
 
+# Local only files
+# --------------------------
+lazy-lock.json
+
 # But Keep these
 # --------------------------
 !.gitkeep
