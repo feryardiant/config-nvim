@@ -26,6 +26,12 @@ return {
   },
 
   {
+    'norcalli/nvim-colorizer.lua',
+    event = { 'BufReadPre', 'BufNewFile' },
+    opts = { '*' },
+  },
+
+  {
     'echasnovski/mini.pairs',
     event = { 'BufReadPre', 'BufNewFile' },
     opts = {},
