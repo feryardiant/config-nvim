@@ -1,5 +1,4 @@
 return {
-
   {
     'williamboman/mason.nvim',
     cmd = { 'Mason', 'MasonUpdate' },
@@ -68,9 +67,7 @@ return {
           function(server_name)
             local config = servers[server_name] or {}
 
-            if server_name == 'tsserver' then
-              server_name = 'ts_ls'
-            end
+            if server_name == 'tsserver' then server_name = 'ts_ls' end
 
             if server_name == 'emmet_ls' then
               config.filetypes = {
@@ -92,13 +89,9 @@ return {
               }
             end
 
-            if server_name == 'intelephense' then
-              config.filetypes = { 'blade', 'php', 'php_only' }
-            end
+            if server_name == 'intelephense' then config.filetypes = { 'blade', 'php', 'php_only' } end
 
-            if server_name == 'html' then
-              config.filetypes = { 'blade', 'html', 'templ' }
-            end
+            if server_name == 'html' then config.filetypes = { 'blade', 'html', 'templ' } end
 
             config.capabilities = vim.tbl_deep_extend('force', {}, capabilities, config.capabilities or {})
 
@@ -124,7 +117,7 @@ return {
                     location = table.concat({
                       get_mason_pkg_path('vue-language-server'),
                       'node_modules/@vue/language-server',
-                      'node_modules/@vue/typescript-plugin'
+                      'node_modules/@vue/typescript-plugin',
                     }, '/'),
                     languages = { 'vue', 'javascript', 'typescript' },
                   },
@@ -141,7 +134,7 @@ return {
           volar = function()
             local global_ts_path = table.concat({
               get_mason_pkg_path('typescript-language-server'),
-              'node_modules/typescript/lib'
+              'node_modules/typescript/lib',
             }, '/')
 
             ---Get typescript server path
@@ -181,7 +174,7 @@ return {
           end,
         },
       }
-    end
+    end,
   },
 
   {
@@ -255,7 +248,7 @@ return {
                 '<leader>th',
                 function()
                   vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({
-                    bufnr = event.buf
+                    bufnr = event.buf,
                   }))
                 end,
                 '[T]oggle Inlay [H]ints'

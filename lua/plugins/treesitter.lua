@@ -1,5 +1,4 @@
 return {
-
   {
     'JoosepAlviste/nvim-ts-context-commentstring',
     lazy = true,
@@ -14,14 +13,14 @@ return {
     lazy = true,
     opts = {
       mode = 'cursor',
-      max_line = 3
+      max_line = 3,
     },
   },
 
   {
     'windwp/nvim-ts-autotag',
     event = { 'BufReadPre', 'BufNewFile' },
-    opts = {}
+    opts = {},
   },
 
   {

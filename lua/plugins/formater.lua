@@ -1,5 +1,4 @@
 return {
-
   {
     'stevearc/conform.nvim',
     event = { 'BufWritePre' },
@@ -11,13 +10,13 @@ return {
           require('conform').format({
             async = true,
             lsp_fallbak = true,
-            timeout_ms = 5000
+            timeout_ms = 5000,
           })
         end,
         desc = '[F]ormat [B]uffer',
-      }
+      },
     },
-    opts = function ()
+    opts = function()
       local util = require('conform.util')
 
       ---@module 'conform'
@@ -53,9 +52,6 @@ return {
         },
       }
     end,
-    init = function()
-      vim.o.formatexpr = "v:lua.require('conform').formatexpr()"
-    end,
+    init = function() vim.o.formatexpr = "v:lua.require('conform').formatexpr()" end,
   },
-
 }

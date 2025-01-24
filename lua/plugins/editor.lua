@@ -1,5 +1,4 @@
 return {
-
   {
     'lewis6991/gitsigns.nvim',
     event = { 'BufReadPre', 'BufNewFile' },
@@ -22,7 +21,7 @@ return {
     ---@type ibl.config
     opts = {
       indent = { char = '┆' },
-      scope = { char = '▏' }
+      scope = { char = '▏' },
     },
   },
 
@@ -63,17 +62,17 @@ return {
       {
         '<leader>xx',
         '<Cmd>Trouble diagnostics toggle<CR>',
-        desc = '[Trouble] Diagnostics'
+        desc = '[Trouble] Diagnostics',
       },
       {
         '<leader>xX',
         '<Cmd>Trouble diagnostics toggle filter.buf=0<CR>',
-        desc = '[Trouble] Buffer diagnostics'
+        desc = '[Trouble] Buffer diagnostics',
       },
       {
         '<leader>xs',
         '<Cmd>Trouble symbols toggle focus=false<CR>',
-        desc = '[Trouble] Symbols'
+        desc = '[Trouble] Symbols',
       },
       {
         '<leader>xl',
@@ -83,17 +82,16 @@ return {
       {
         '<leader>xL',
         '<Cmd>Trouble loclist toggle<CR>',
-        desc = '[Trouble] Location list'
+        desc = '[Trouble] Location list',
       },
       {
         '<leader>xq',
         '<Cmd>Trouble qflist toggle<CR>',
-        desc = '[Trouble] Quickfix list'
+        desc = '[Trouble] Quickfix list',
       },
     },
     opts = {
       use_diagnostic_signs = true,
     },
   },
-
 }

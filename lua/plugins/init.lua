@@ -1,13 +1,10 @@
 return {
-
   {
     'Shatur/neovim-ayu',
     name = 'ayu',
     lazy = false,
     priority = 1000,
-    init = function()
-      vim.cmd.colorscheme('ayu')
-    end,
+    init = function() vim.cmd.colorscheme('ayu') end,
     opts = function()
       local colors = require('ayu.colors')
 
@@ -16,20 +13,21 @@ return {
       return {
         overrides = {
           Normal = { bg = 'none' },
-          NormalFloat = { bg = '#1c212b' },
+          NormalFloat = { bg = colors.panel_bg },
           SignColumn = { fg = colors.comment, bg = 'none' },
           LineNr = { fg = colors.comment },
           Comment = { fg = colors.comment },
-          CursorLine = { bg = '#1c212b' },
+          CursorLine = { bg = colors.panel_bg },
           CursorLineNr = { bg = 'none' },
-          ColorColumn = { bg = '#1c212b' },
+          ColorColumn = { bg = colors.panel_bg },
           Pmenu = { bg = colors.selection_inactive },
           PmenuSel = { bg = colors.selection_bg },
           Visual = { bg = colors.selection_bg },
-          NonText = { fg = colors.comment },
-          IblIndent = { fg = colors.comment },
-          IblScope = { fg = '#ffad66' },
+          NonText = { fg = colors.guide_active },
           WinSeparator = { fg = colors.comment, bg = 'none' },
+
+          IblIndent = { fg = colors.guide_normal },
+          IblScope = { fg = colors.accent },
 
           DapBreakpoint = { fg = colors.accent },
           DapBreakpointCondition = { fg = colors.warning },

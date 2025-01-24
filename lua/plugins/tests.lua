@@ -1,5 +1,4 @@
 return {
-
   {
     'nvim-neotest/neotest',
     dependencies = {
@@ -31,7 +30,6 @@ return {
           }),
         },
       }
-    end
+    end,
   },
-
 }

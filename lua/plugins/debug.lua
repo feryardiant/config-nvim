@@ -1,5 +1,4 @@
 return {
-
   {
     'rcarriga/nvim-dap-ui',
     dependencies = {
@@ -9,7 +8,7 @@ return {
       { 'jay-babu/mason-nvim-dap.nvim' },
     },
     keys = {
-      { '<F7>', function () require('dapui').toggle() end, desc = 'Debug: Toggle UI' },
+      { '<F7>', function() require('dapui').toggle() end, desc = 'Debug: Toggle UI' },
     },
     ---@module 'dapui'
     ---@type dapui.Config
@@ -19,21 +18,21 @@ return {
   {
     'mfussenegger/nvim-dap',
     keys = {
-      { '<F5>', function () require('dap').continue() end, desc = 'Debug: Start/Continue' },
-      { '<F1>', function () require('dap').step_into() end, desc = 'Debug: Step into' },
-      { '<F2>', function () require('dap').step_over() end, desc = 'Debug: Step over' },
-      { '<F3>', function () require('dap').step_out() end, desc = 'Debug: Step out' },
-      { '<leader>b', function () require('dap').toggle_breakpoint() end, desc = 'Debug: Toggle Breakpoint' },
+      { '<F5>', function() require('dap').continue() end, desc = 'Debug: Start/Continue' },
+      { '<F1>', function() require('dap').step_into() end, desc = 'Debug: Step into' },
+      { '<F2>', function() require('dap').step_over() end, desc = 'Debug: Step over' },
+      { '<F3>', function() require('dap').step_out() end, desc = 'Debug: Step out' },
+      { '<leader>b', function() require('dap').toggle_breakpoint() end, desc = 'Debug: Toggle Breakpoint' },
     },
-    init = function ()
+    init = function()
       -- Credit: https://github.com/mfussenegger/nvim-dap/discussions/355
-      vim.fn.sign_define('DapBreakpoint', { text= '󰃤', texthl='DapBreakpoint' })
-      vim.fn.sign_define('DapBreakpointCondition', { text='󰃤', texthl='DapBreakpointCondition' })
-      vim.fn.sign_define('DapBreakpointRejected', { text='󰃤', texthl='DapBreakpointRejected' })
-      vim.fn.sign_define('DapLogPoint', { text='', texthl='DapLogPoint' })
-      vim.fn.sign_define('DapStopped', { text='', texthl='DapStopped' })
+      vim.fn.sign_define('DapBreakpoint', { text = '󰃤', texthl = 'DapBreakpoint' })
+      vim.fn.sign_define('DapBreakpointCondition', { text = '󰃤', texthl = 'DapBreakpointCondition' })
+      vim.fn.sign_define('DapBreakpointRejected', { text = '󰃤', texthl = 'DapBreakpointRejected' })
+      vim.fn.sign_define('DapLogPoint', { text = '', texthl = 'DapLogPoint' })
+      vim.fn.sign_define('DapStopped', { text = '', texthl = 'DapStopped' })
     end,
-    config = function ()
+    config = function()
       local dap, dapui = require('dap'), require('dapui')
 
       dap.listeners.before.attach.dapui_config = dapui.open
@@ -62,9 +61,7 @@ return {
       handlers = {
         -- all sources with no handler get passed here
         -- see https://github.com/jay-babu/mason-nvim-dap.nvim?tab=readme-ov-file#advanced-customization
-        function(config)
-          require('mason-nvim-dap').default_setup(config)
-        end,
+        function(config) require('mason-nvim-dap').default_setup(config) end,
 
         -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#php
         ---@param config table
@@ -77,12 +74,11 @@ return {
           -- Overwrite default config
           ---@see https://github.com/jay-babu/mason-nvim-dap.nvim/blob/8b9363d/lua/mason-nvim-dap/mappings/configurations.lua#L135-L140
           config.configurations[1].port = 9003
-          config.configurations[1].cwd = "${workspaceFolder}"
+          config.configurations[1].cwd = '${workspaceFolder}'
 
           require('mason-nvim-dap').default_setup(config)
         end,
       },
     },
   },
-
 }

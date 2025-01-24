@@ -1,5 +1,4 @@
 return {
-
   {
     'nvim-telescope/telescope-fzf-native.nvim',
     build = 'make',
@@ -41,37 +40,27 @@ return {
     keys = {
       {
         '<leader><space>',
-        function()
-          require('telescope.builtin').buffers()
-        end,
+        function() require('telescope.builtin').buffers() end,
         desc = 'Find files from existing buffer',
       },
       {
         '<leader>ff',
-        function()
-          require('telescope.builtin').find_files()
-        end,
+        function() require('telescope.builtin').find_files() end,
         desc = 'Find files',
       },
       {
         '<leader>fw',
-        function()
-          require('telescope.builtin').grep_string()
-        end,
+        function() require('telescope.builtin').grep_string() end,
         desc = 'Find current word',
       },
       {
         '<C-p>',
-        function()
-          require('telescope.builtin').git_files()
-        end,
+        function() require('telescope.builtin').git_files() end,
         desc = 'Find files inside git repository',
       },
       {
         '<leader>ds',
-        function()
-          require('telescope.builtin').lsp_document_symbols()
-        end,
+        function() require('telescope.builtin').lsp_document_symbols() end,
         desc = 'Find document symbols',
       },
     },

@@ -1,5 +1,4 @@
 return {
-
   {
     'hrsh7th/nvim-cmp',
     event = { 'BufReadPre', 'BufNewFile' },
@@ -10,7 +9,7 @@ return {
       { 'hrsh7th/cmp-path' },
       { 'onsails/lspkind.nvim' },
       { 'L3MON4D3/LuaSnip' },
-      { 'williamboman/mason-lspconfig.nvim' }
+      { 'williamboman/mason-lspconfig.nvim' },
     },
     opts = function()
       local cmp = require('cmp')
@@ -38,9 +37,7 @@ return {
           expandable_indicator = true,
           fields = { 'kind', 'abbr', 'menu' },
           format = function(entry, item)
-            if kind_icons[item.kind] then
-              item.kind = string.format('%s %s', kind_icons[item.kind], item.kind)
-            end
+            if kind_icons[item.kind] then item.kind = string.format('%s %s', kind_icons[item.kind], item.kind) end
 
             return require('lspkind').cmp_format({
               mode = 'symbol',
@@ -48,9 +45,7 @@ return {
           end,
         },
         snippet = {
-          expand = function(args)
-            require('luasnip').lsp_expand(args.body)
-          end,
+          expand = function(args) require('luasnip').lsp_expand(args.body) end,
         },
         mapping = cmp.mapping.preset.insert({
           ['<C-space>'] = cmp.mapping.complete(),
@@ -75,7 +70,7 @@ return {
             end
           end, { 'i', 's' }),
 
-          ['<S-Tab>'] = cmp.mapping(function (fallback)
+          ['<S-Tab>'] = cmp.mapping(function(fallback)
             local ls = require('luasnip')
 
             if cmp.visible() then
@@ -95,7 +90,7 @@ return {
     'L3MON4D3/LuaSnip',
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
-      { 'rafamadriz/friendly-snippets' }
+      { 'rafamadriz/friendly-snippets' },
     },
     opts = {
       history = true,
@@ -138,5 +133,4 @@ return {
     dir = '/Applications/Ghostty.app/Contents/Resources/vim/vimfiles/',
     ft = 'ghostty',
   },
-
 }
