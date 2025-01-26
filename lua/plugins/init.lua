@@ -121,18 +121,18 @@ return {
     'laytan/cloak.nvim',
     ---@module 'cloak'
     opts = {
+      cloak_telescope = true,
       patterns = {
         {
           cloak_pattern = {
             '(%u+_ID)=.+',
             '(%u+_DSN)=.+',
             '(%u+_KEY)=.+',
-            '(%u+_PASS)=.+',
-            '(%u+_PASSWORD)=.+',
-            '(%u+_SECRET)=.+',
+            '(%u+_PASS%u+)=.+',
+            '(%u+_PRIVATE%u+)=.+',
+            '(%u+_SECRET%u+)=.+',
             '(%u+_TOKEN)=.+',
-            '(%u+_USER)=.+',
-            '(%u+_USERNAME)=.+',
+            '(%u+_USER%u+)=.+',
             '(%u+)=(%a+://).+',
             '(%u+)=\'(%a+://).+\'$',
             '(%u+)="(%a+://).+"$',
