@@ -117,6 +117,32 @@ return {
     lazy = true,
   },
 
+  {
+    'laytan/cloak.nvim',
+    ---@module 'cloak'
+    opts = {
+      cloak_telescope = true,
+      patterns = {
+        {
+          cloak_pattern = {
+            '(%u+_ID)=.+',
+            '(%u+_DSN)=.+',
+            '(%u+_KEY)=.+',
+            '(%u+_PASS%u+)=.+',
+            '(%u+_PRIVATE%u+)=.+',
+            '(%u+_SECRET%u+)=.+',
+            '(%u+_TOKEN)=.+',
+            '(%u+_USER%u+)=.+',
+            '(%u+)=(%a+://).+',
+            '(%u+)=\'(%a+://).+\'$',
+            '(%u+)="(%a+://).+"$',
+          },
+          replace = '%1='
+        },
+      }
+    },
+  },
+
   -- {
   --   'akinsho/bufferline.nvim',
   --   opts = {
