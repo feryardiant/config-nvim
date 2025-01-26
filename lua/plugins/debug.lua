@@ -80,6 +80,8 @@ return {
       { 'williamboman/mason.nvim' },
       { 'mfussenegger/nvim-dap' },
     },
+    ---@module 'mason-nvim-dap'
+    ---@type MasonNvimDapSettings
     opts = {
       automatic_installation = true,
       ensure_installed = {
