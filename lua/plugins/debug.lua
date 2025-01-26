@@ -22,9 +22,6 @@ return {
     },
     keys = {
       { '<F5>', function() require('dap').continue() end, desc = 'Debug: Start/Continue' },
-      { '<F1>', function() require('dap').step_into() end, desc = 'Debug: Step into' },
-      { '<F2>', function() require('dap').step_over() end, desc = 'Debug: Step over' },
-      { '<F3>', function() require('dap').step_out() end, desc = 'Debug: Step out' },
       { '<leader>b', function() require('dap').toggle_breakpoint() end, desc = 'Debug: Toggle Breakpoint' },
     },
     init = function()
@@ -42,6 +39,18 @@ return {
       dap.listeners.before.launch.dapui_config = dapui.open
       dap.listeners.before.event_terminated.dapui_config = dapui.close
       dap.listeners.before.event_exited.dapui_config = dapui.close
+
+      vim.keymap.set({ 'n' }, '<F1>', dap.step_into, { desc = 'Debug: Step into' })
+      vim.keymap.set({ 'n' }, '<F2>', dap.step_over, { desc = 'Debug: Step over' })
+      vim.keymap.set({ 'n' }, '<F3>', dap.step_out, { desc = 'Debug: Step out' })
+      vim.keymap.set({ 'n' }, '<F4>', dap.step_back, { desc = 'Debug: Step back' })
+
+      vim.keymap.set(
+        { 'n' },
+        '<leader>?',
+        function() dapui.eval(nil, { enter = true }) end,
+        { desc = 'Debug: Evaluate value under the cursor' }
+      )
     end,
   },
 
