@@ -20,6 +20,8 @@ return {
       { '<leader>tS', function() require('neotest').summary.toggle() end, desc = 'Toggle [T]est [S]ummary' },
     },
     opts = function()
+      ---@module 'neotest'
+      ---@type neotest.Config
       return {
         adapters = {
           require('neotest-vitest')({}),

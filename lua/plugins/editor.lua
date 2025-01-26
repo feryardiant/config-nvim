@@ -5,6 +5,8 @@ return {
     dependencies = {
       { 'tpope/vim-fugitive' },
     },
+    ---@module 'gitsigns'
+    ---@type Gitsigns.Config
     opts = {
       current_line_blame = true,
       signs = {
@@ -49,6 +51,7 @@ return {
     dependencies = {
       { 'JoosepAlviste/nvim-ts-context-commentstring' },
     },
+    ---@module 'mini.comment'
     opts = {
       options = {
         custom_commentstring = function()
@@ -96,6 +99,8 @@ return {
         desc = '[Trouble] Quickfix list',
       },
     },
+    ---@module 'trouble'
+    ---@type trouble.Config
     opts = {
       use_diagnostic_signs = true,
     },

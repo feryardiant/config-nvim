@@ -49,12 +49,16 @@ return {
     dependencies = {
       { 'nvim-tree/nvim-web-devicons' },
     },
+    ---@module 'which-key'
+    ---@type wk.Config
     opts = {},
   },
 
   {
     'rcarriga/nvim-notify',
     lazy = true,
+    ---@module 'notify'
+    ---@type notify.Config
     opts = {
       minimum_width = 25,
       max_width = 50,
@@ -69,6 +73,7 @@ return {
       { 'MunifTanjim/nui.nvim' },
       { 'rcarriga/nvim-notify' },
     },
+    ---@module 'noice'
     ---@type NoiceConfig
     opts = {
       lsp = {
