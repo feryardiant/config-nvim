@@ -117,6 +117,12 @@ return {
     lazy = true,
   },
 
+  {
+    'laytan/cloak.nvim',
+    lazy = false,
+    opts = {},
+  },
+
   -- {
   --   'akinsho/bufferline.nvim',
   --   opts = {
