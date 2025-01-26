@@ -120,7 +120,25 @@ return {
   {
     'laytan/cloak.nvim',
     lazy = false,
-    opts = {},
+    ---@module 'cloak'
+    opts = {
+      patterns = {
+        {
+          file_pattern = '.env*',
+          cloak_pattern = {
+            '(%u+_ID=).+',
+            '(%u+_DSN=).+',
+            '(%u+_KEY=).+',
+            '(%u+_PASS=).+',
+            '(%u+_PASSWORD=).+',
+            '(%u+_USER=).+',
+            '(%u+_USERNAME=).+',
+            '(%u+_TOKEN=).+',
+          },
+          replace = '%1'
+        }
+      }
+    },
   },
 
   -- {
