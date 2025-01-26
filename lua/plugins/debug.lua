@@ -17,6 +17,9 @@ return {
 
   {
     'mfussenegger/nvim-dap',
+    dependencies = {
+      { 'theHamsta/nvim-dap-virtual-text' },
+    },
     keys = {
       { '<F5>', function() require('dap').continue() end, desc = 'Debug: Start/Continue' },
       { '<F1>', function() require('dap').step_into() end, desc = 'Debug: Step into' },
@@ -40,6 +43,25 @@ return {
       dap.listeners.before.event_terminated.dapui_config = dapui.close
       dap.listeners.before.event_exited.dapui_config = dapui.close
     end,
+  },
+
+  {
+    'theHamsta/nvim-dap-virtual-text',
+    lazy = true,
+    ---@module 'nvim-dap-virtual-text'
+    ---@type nvim_dap_virtual_text_options
+    opts = {
+      display_callback = function(var)
+        local name = string.lower(var.name)
+        local value = string.lower(var.value)
+
+        if name:match('secret') or name:match('key') or name:match('api') then return '*****' end
+
+        if #value > 10 then return ' ' .. string.sub(var.value, 1, 10) .. '...' end
+
+        return var.value
+      end,
+    },
   },
 
   {
