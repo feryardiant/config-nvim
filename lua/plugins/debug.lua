@@ -107,7 +107,7 @@ return {
           -- Overwrite default config
           ---@see https://github.com/jay-babu/mason-nvim-dap.nvim/blob/8b9363d/lua/mason-nvim-dap/mappings/configurations.lua#L135-L140
           config.configurations[1].port = 9003
-          config.configurations[1].cwd = '${workspaceFolder}'
+          config.configurations[1].cwd = vim.fn.getcwd()
 
           require('mason-nvim-dap').default_setup(config)
         end,
