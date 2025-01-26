@@ -117,6 +117,49 @@ return {
     lazy = true,
   },
 
+  {
+    'philosofonusus/ecolog.nvim',
+    lazy = false,
+    ---@module 'ecolog'
+    ---@type EcologConfig
+    opts = {
+      types = {
+        boolean = false,
+        database_url = true,
+        ipv4 = true,
+      },
+      integrations = {
+        lsp = true,
+        fzf = true,
+        statusline = true,
+      },
+      shelter = {
+        configuration = {
+          patterns = {
+            ['*_DSN'] = 'full',
+            ['*_KEY'] = 'full',
+            ['*_PASS'] = 'full',
+            ['*_PASSWORD'] = 'full',
+            ['*_TOKEN'] = 'full',
+            ['*_USER'] = 'full',
+            ['*_USERNAME'] = 'full',
+          },
+          sources = {
+            ['.env.*'] = 'full',
+            ['.env'] = 'partial',
+            ['.env.example'] = 'none',
+          },
+        },
+        modules = {
+          cmp = true,
+          files = true,
+          telescope_previewer = true,
+          fzf_previewer = true,
+        }
+      }
+    },
+  },
+
   -- {
   --   'akinsho/bufferline.nvim',
   --   opts = {

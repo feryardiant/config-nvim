@@ -32,6 +32,7 @@ return {
           { name = 'luasnip' },
           { name = 'path' },
           { name = 'lazydev', group_index = 0 },
+          { name = 'ecolog' },
         }, {
           { name = 'buffer', keyword_length = 5 },
         }),
