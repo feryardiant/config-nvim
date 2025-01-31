@@ -150,7 +150,7 @@ return {
               local function check_ts_dir(project_path)
                 project_ts_path = project_path .. '/node_modules/typescript/lib'
 
-                if vim.loop.fs_stat(project_ts_path) then return project_path end
+                if vim.uv.fs_stat(project_ts_path) then return project_path end
               end
 
               if lspconfig.util.search_ancestors(root_path, check_ts_dir) then
