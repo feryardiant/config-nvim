@@ -51,6 +51,112 @@ return {
         function() dapui.eval(nil, { enter = true }) end,
         { desc = 'Debug: Evaluate value under the cursor' }
       )
+
+      local mason_registry = require('mason-registry')
+
+      local enter_launch_url = function()
+        local co = coroutine.running()
+
+        return coroutine.create(function ()
+          vim.ui.input({ prompt = 'Enter URL: ', default = 'http://localhost:' }, function (url)
+            if url == nil or url == '' then
+              return
+            else
+              coroutine.resume(co, url)
+            end
+          end)
+        end)
+      end
+
+      -- PHP debug config
+
+      if mason_registry.is_installed('php-debug-adapter') then
+        dap.adapters.php = {
+          type = 'executable',
+          command = vim.fn.exepath('php-debug-adapter'),
+        }
+
+        for _, lang in ipairs({ 'php', 'blade' }) do
+          dap.configurations[lang] = {
+            {
+              type = 'php',
+              request = 'launch',
+              name = 'PHP: Listen for XDebug',
+              port = 9003,
+              cwd = vim.fn.getcwd(),
+            },
+          }
+        end
+      end
+
+      -- Front-end debug config (JS(X), TS(X), Vue, Svelte, Astro)
+
+      local fe_langs = {
+        'astro',
+        'javascript',
+        'javascriptreact',
+        'typescript',
+        'typescriptreact',
+        'svelte',
+        'vue',
+      }
+
+      for _, lang in ipairs(fe_langs) do
+        dap.configurations[lang] = dap.configurations[lang] or {}
+      end
+
+      if mason_registry.is_installed('js-debug-adapter') then
+        local js_adapter_path = mason_registry.get_package('js-debug-adapter'):get_install_path()
+
+        for _, adapter in ipairs({ 'node', 'chrome', 'msedge' }) do
+          local pwa_adapter = 'pwa-' .. adapter
+
+          dap.adapters[pwa_adapter] = {
+            type = 'server',
+            host = 'localhost',
+            port = '${port}',
+            executable = {
+              command = 'node',
+              args = {
+                js_adapter_path .. '/js-debug/src/dapDebugServer.js',
+                '${port}',
+              },
+            },
+          }
+
+          dap.adapters[adapter] = function(cb, config)
+            local native_adapter = dap.adapters[pwa_adapter]
+
+            config.type = pwa_adapter
+
+            if type(native_adapter) == 'function' then
+              native_adapter(cb, config)
+            else
+              cb(native_adapter)
+            end
+          end
+        end
+
+        for _, lang in ipairs(fe_langs) do
+          table.insert(dap.configurations[lang], {
+            type = 'pwa-chrome',
+            request = 'launch',
+            name = 'Launch Chrome',
+            url = enter_launch_url,
+            webRoot = '${workspaceFolder}',
+            sourceMaps = true,
+          })
+
+          table.insert(dap.configurations[lang], {
+            type = 'pwa-msedge',
+            request = 'launch',
+            name = 'Launch MSEdge',
+            url = enter_launch_url,
+            webRoot = '${workspaceFolder}',
+            sourceMaps = true,
+          })
+        end
+      end
     end,
   },
 
@@ -70,48 +176,6 @@ return {
 
         return var.value
       end,
-    },
-  },
-
-  {
-    'jay-babu/mason-nvim-dap.nvim',
-    lazy = true,
-    dependencies = {
-      { 'williamboman/mason.nvim' },
-      { 'mfussenegger/nvim-dap' },
-    },
-    ---@module 'mason-nvim-dap'
-    ---@type MasonNvimDapSettings
-    opts = {
-      automatic_installation = true,
-      ensure_installed = {
-        'chrome-debug-adapter',
-        'firefox-debug-adapter',
-        'php-debug-adapter',
-        'js-debug-adapter',
-        'node-debug2-adapter',
-      },
-      handlers = {
-        -- all sources with no handler get passed here
-        -- see https://github.com/jay-babu/mason-nvim-dap.nvim?tab=readme-ov-file#advanced-customization
-        function(config) require('mason-nvim-dap').default_setup(config) end,
-
-        -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#php
-        ---@param config table
-        php = function(config)
-          config.adapters = {
-            type = 'executable',
-            command = 'php-debug-adapter',
-          }
-
-          -- Overwrite default config
-          ---@see https://github.com/jay-babu/mason-nvim-dap.nvim/blob/8b9363d/lua/mason-nvim-dap/mappings/configurations.lua#L135-L140
-          config.configurations[1].port = 9003
-          config.configurations[1].cwd = vim.fn.getcwd()
-
-          require('mason-nvim-dap').default_setup(config)
-        end,
-      },
     },
   },
 }
