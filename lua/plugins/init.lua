@@ -45,6 +45,28 @@ return {
   },
 
   {
+    'kdheepak/lazygit.nvim',
+    lazy = true,
+    cmd = {
+        'LazyGit',
+        -- 'LazyGitConfig',
+        -- 'LazyGitCurrentFile',
+        -- 'LazyGitFilter',
+        -- 'LazyGitFilterCurrentFile',
+    },
+    dependencies = {
+      { 'nvim-lua/plenary.nvim' },
+      { 'nvim-telescope/telescope.nvim' }
+    },
+    keys = {
+      { '<leader>lg', '<cmd>LazyGit<cr>', desc = 'LazyGit' }
+    },
+    config = function ()
+      require('telescope').load_extension('lazygit')
+    end
+  },
+
+  {
     'folke/which-key.nvim',
     dependencies = {
       { 'nvim-tree/nvim-web-devicons' },
@@ -61,7 +83,7 @@ return {
     ---@type notify.Config
     opts = {
       minimum_width = 25,
-      max_width = 50,
+      -- max_width = 50,
       background_colour = '#000000',
     },
   },
