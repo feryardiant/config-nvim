@@ -27,10 +27,10 @@ vim.keymap.set('v', '<A-j>', ":move'>+1<CR>gv=gv", { noremap = true, desc = 'Mov
 vim.keymap.set('v', '<A-k>', ":move'<-2<CR>gv=gv", { noremap = true, desc = 'Move lines up' })
 
 -- Split navigation - use <leader>H/J/K/L instead of CTRL+H/J/K/L to navigate window
-vim.keymap.set('n', '<leader>h', '<C-w>h', { noremap = true, desc = 'Go to left window' })
-vim.keymap.set('n', '<leader>j', '<C-w>j', { noremap = true, desc = 'Go to window below' })
-vim.keymap.set('n', '<leader>k', '<C-w>k', { noremap = true, desc = 'Go to window above' })
-vim.keymap.set('n', '<leader>l', '<C-w>l', { noremap = true, desc = 'Go to right window' })
+vim.keymap.set('n', '<C-h>', '<C-w>h', { noremap = true, desc = 'Go to left window' })
+vim.keymap.set('n', '<C-j>', '<C-w>j', { noremap = true, desc = 'Go to window below' })
+vim.keymap.set('n', '<C-k>', '<C-w>k', { noremap = true, desc = 'Go to window above' })
+vim.keymap.set('n', '<C-l>', '<C-w>l', { noremap = true, desc = 'Go to right window' })
 
 -- Resize window - Use CTRL + arrow keys
 vim.keymap.set('n', '<A-Up>', '<Cmd>resize+2<CR>', { desc = 'Increase window height' })
@@ -39,8 +39,8 @@ vim.keymap.set('n', '<A-Left>', '<Cmd>vertical resize-2<CR>', { desc = 'Decrease
 vim.keymap.set('n', '<A-Right>', '<Cmd>vertical resize+2<CR>', { desc = 'Increase window width' })
 
 -- Speed up viewport scrolling
-vim.keymap.set('n', '<C-j>', '4<C-e>', { desc = 'Scroll 4 lines down' })
-vim.keymap.set('n', '<C-k>', '4<C-y>', { desc = 'Scroll 4 lines up' })
+-- vim.keymap.set('n', '<C-J>', '4<C-e>', { desc = 'Scroll 4 lines down' })
+-- vim.keymap.set('n', '<C-K>', '4<C-y>', { desc = 'Scroll 4 lines up' })
 
 -- Buffers navigation
 vim.keymap.set('n', '[b', vim.cmd.bprevious, { noremap = true, desc = 'Previous Buffer' })
