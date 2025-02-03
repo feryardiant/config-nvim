@@ -220,16 +220,16 @@ return {
           -- Credit: https://github.com/nvim-lua/kickstart.nvim/blob/7201dc480134f41dd1be1f8f9b8f8470aac82a3b/init.lua#L555-L588
           if client then
             if client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
-              local highlight_augroup = vim.api.nvim_create_augroup('my-lsp-highlight', { clear = false })
+              local highlight_augroup = vim.api.nvim_create_augroup('lsp_document_highlight', { clear = false })
 
-              vim.api.nvim_create_autocmd({ 'CursorHold' }, {
-                buffer = event.buff,
+              vim.api.nvim_create_autocmd('CursorHold', {
+                buffer = event.buf,
                 group = highlight_augroup,
                 callback = vim.lsp.buf.document_highlight,
               })
 
-              vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
-                buffer = event.buff,
+              vim.api.nvim_create_autocmd('CursorMoved', {
+                buffer = event.buf,
                 group = highlight_augroup,
                 callback = vim.lsp.buf.clear_references,
               })
@@ -238,7 +238,7 @@ return {
                 group = vim.api.nvim_create_augroup('lsp-detach', { clear = true }),
                 callback = function(e)
                   vim.lsp.buf.clear_references()
-                  vim.api.nvim_clear_autocmds({ group = 'my-lsp-highlight', buffer = e.buf })
+                  vim.api.nvim_clear_autocmds({ group = 'lsp_document_highlight', buffer = e.buf })
                 end,
               })
             end
