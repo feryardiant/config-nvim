@@ -13,10 +13,27 @@ return {
       }
     },
     init = function ()
-      local opts = { buffer = 0 }
-      local Terminal = require('toggleterm.terminal').Terminal
+      -- Configure terminal's local options and keymaps
+      vim.api.nvim_create_autocmd({ 'TermOpen' }, {
+        pattern = 'term://*',
+        callback = function ()
+          local opts = { buffer = 0 }
 
-      vim.keymap.set({'t'}, '<Esc>', [[<C-\><C-n>]], opts)
+          -- Disable sign-column in terminal window
+          vim.opt_local.signcolumn = 'no'
+
+          vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
+
+          -- vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
+          -- vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
+          vim.keymap.set('t', '<leader>h', [[<Cmd>wincmd h<CR>]], { desc = 'Go to left window'  })
+          vim.keymap.set('t', '<leader>j', [[<Cmd>wincmd j<CR>]], { desc = 'Go to window below' })
+          vim.keymap.set('t', '<leader>k', [[<Cmd>wincmd k<CR>]], { desc = 'Go to window above' })
+          vim.keymap.set('t', '<leader>l', [[<Cmd>wincmd l<CR>]], { desc = 'Go to right window' })
+        end
+      })
+
+      local Terminal = require('toggleterm.terminal').Terminal
 
       local lazygit = Terminal:new({
         cmd = 'lazygit',
