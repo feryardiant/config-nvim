@@ -169,6 +169,19 @@ return {
     dependencies = {
       { 'nvim-tree/nvim-web-devicons' },
     },
+    opts = function(_, opts)
+      vim.o.laststatus = vim.g.lualine_laststatus
+
+      opts.options = {
+        theme = 'auto',
+        globalstatus = true,
+        disabled_filetypes = { 'dashboard', 'alpha', 'starter' },
+        componnet_separators = '',
+        section_separators = '',
+      }
+
+      opts.extensions = { 'neo-tree', 'lazy', 'toggleterm' }
+    end,
     init = function()
       vim.g.lualine_laststatus = vim.o.laststatus
 
@@ -177,20 +190,6 @@ return {
       else
         vim.o.laststatus = 0
       end
-    end,
-    opts = function()
-      vim.o.laststatus = vim.g.lualine_laststatus
-
-      return {
-        options = {
-          theme = 'auto',
-          globalstatus = true,
-          disabled_filetypes = { 'dashboard', 'alpha', 'starter' },
-          componnet_separators = '',
-          section_separators = '',
-        },
-        extensions = { 'neo-tree', 'lazy' },
-      }
     end,
   },
 }
