@@ -47,7 +47,7 @@ return {
 
   {
     'echasnovski/mini.comment',
-    lazy = true,
+    event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
       { 'JoosepAlviste/nvim-ts-context-commentstring' },
     },
