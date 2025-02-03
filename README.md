@@ -24,7 +24,8 @@
 - Panes / Splits
   - `ALT`+`Up`/`Down` arrow : Increase or decrease window height
   - `ALT`+`Left`/`Right` arrow : Decrease or increase window width
-  - `<leader>`+`h`/`j`/`k`/`l` : Jump to `left`, `below`, `above` or `right` window
+  - `CTRL`+`h`/`j`/`k`/`l` : Jump to `left`, `below`, `above` or `right` window
+  - `CTRL`+<code>`</code> : Toggle integrated terminal
 - File Navigations
   - `[b` and `]b` : Jump to previous and next buffer windows
   - `n` and `N` : Jump to previous and next search results and keep the cursor in the center
