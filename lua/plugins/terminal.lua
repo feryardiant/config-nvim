@@ -7,7 +7,7 @@ return {
     ---@type ToggleTermConfig
     opts = {
       hide_numbers = true,
-      open_mapping = [[<c-`>]],
+      open_mapping = '<c-`>',
       float_opts = {
         border = 'curved',
       }
@@ -16,20 +16,23 @@ return {
       -- Configure terminal's local options and keymaps
       vim.api.nvim_create_autocmd({ 'TermOpen' }, {
         pattern = 'term://*',
-        callback = function ()
+        callback = function (args)
           local opts = { buffer = 0 }
+          local file_match = args.match or args.file
 
           -- Disable sign-column in terminal window
           vim.opt_local.signcolumn = 'no'
 
-          vim.keymap.set('t', '<esc>', '<C-\\><C-n>', opts)
+          if not string.find(file_match, 'lazygit') then
+            vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', opts)
 
-          -- vim.keymap.set('t', 'jk', '<C-\><C-n>', opts)
-          vim.keymap.set('t', '<C-w>', '<C-\\><C-n><C-w>', opts)
-          vim.keymap.set('t', '<C-h>', '<Cmd>wincmd h<CR>', { desc = 'Go to left window'  })
-          vim.keymap.set('t', '<C-j>', '<Cmd>wincmd j<CR>', { desc = 'Go to window below' })
-          vim.keymap.set('t', '<C-k>', '<Cmd>wincmd k<CR>', { desc = 'Go to window above' })
-          vim.keymap.set('t', '<C-l>', '<Cmd>wincmd l<CR>', { desc = 'Go to right window' })
+            -- vim.keymap.set('t', 'jk', '<C-\><C-n>', opts)
+            -- vim.keymap.set('t', '<C-w>', '<C-\\><C-n><C-w>', opts)
+            vim.keymap.set('t', '<C-h>', '<Cmd>wincmd h<CR>', { desc = 'Go to left window'  })
+            vim.keymap.set('t', '<C-j>', '<Cmd>wincmd j<CR>', { desc = 'Go to window below' })
+            vim.keymap.set('t', '<C-k>', '<Cmd>wincmd k<CR>', { desc = 'Go to window above' })
+            vim.keymap.set('t', '<C-l>', '<Cmd>wincmd l<CR>', { desc = 'Go to right window' })
+          end
         end
       })
 
@@ -39,11 +42,12 @@ return {
         cmd = 'lazygit',
         dir = 'git_dir',
         direction = 'float',
+        hidden = true,
       })
 
       vim.keymap.set({'n'}, '<leader>gl', function ()
         lazygit:toggle()
-      end, { desc = 'Toggle LazyGit' })
+      end, { desc = 'Toggle LazyGit', noremap = true, silent = true })
     end,
   },
 }
