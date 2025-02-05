@@ -217,43 +217,43 @@ return {
 
           local client = vim.lsp.get_client_by_id(event.data.client_id)
 
+          if not client then return end
+
           -- Credit: https://github.com/nvim-lua/kickstart.nvim/blob/7201dc480134f41dd1be1f8f9b8f8470aac82a3b/init.lua#L555-L588
-          if client then
-            if client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
-              local highlight_augroup = vim.api.nvim_create_augroup('lsp_document_highlight', { clear = false })
+          if client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+            local highlight_augroup = vim.api.nvim_create_augroup('lsp_document_highlight', { clear = false })
 
-              vim.api.nvim_create_autocmd('CursorHold', {
-                buffer = event.buf,
-                group = highlight_augroup,
-                callback = vim.lsp.buf.document_highlight,
-              })
+            vim.api.nvim_create_autocmd('CursorHold', {
+              buffer = event.buf,
+              group = highlight_augroup,
+              callback = vim.lsp.buf.document_highlight,
+            })
 
-              vim.api.nvim_create_autocmd('CursorMoved', {
-                buffer = event.buf,
-                group = highlight_augroup,
-                callback = vim.lsp.buf.clear_references,
-              })
+            vim.api.nvim_create_autocmd('CursorMoved', {
+              buffer = event.buf,
+              group = highlight_augroup,
+              callback = vim.lsp.buf.clear_references,
+            })
 
-              vim.api.nvim_create_autocmd('LspDetach', {
-                group = vim.api.nvim_create_augroup('lsp-detach', { clear = true }),
-                callback = function(e)
-                  vim.lsp.buf.clear_references()
-                  vim.api.nvim_clear_autocmds({ group = 'lsp_document_highlight', buffer = e.buf })
-                end,
-              })
-            end
+            vim.api.nvim_create_autocmd('LspDetach', {
+              group = vim.api.nvim_create_augroup('lsp-detach', { clear = true }),
+              callback = function(e)
+                vim.lsp.buf.clear_references()
+                vim.api.nvim_clear_autocmds({ group = 'lsp_document_highlight', buffer = e.buf })
+              end,
+            })
+          end
 
-            if client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
-              map(
-                '<leader>th',
-                function()
-                  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({
-                    bufnr = event.buf,
-                  }))
-                end,
-                '[T]oggle Inlay [H]ints'
-              )
-            end
+          if client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+            map(
+              '<leader>th',
+              function()
+                vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({
+                  bufnr = event.buf,
+                }))
+              end,
+              '[T]oggle Inlay [H]ints'
+            )
           end
         end,
       })
