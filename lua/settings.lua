@@ -34,6 +34,12 @@ return {
         "**/vendor/**/vendor/**"
       }
     },
+    references = {
+      exclude = {
+        "**/*.old/**",
+        '**/vendor/**',
+      }
+    }
   },
 
   js = {
