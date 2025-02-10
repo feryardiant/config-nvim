@@ -2,26 +2,34 @@ return {
   {
     'williamboman/mason.nvim',
     cmd = { 'Mason', 'MasonUpdate' },
+    ---@module 'mason'
+    ---@type MasonSettings
+    opts = {},
   },
 
   {
     'williamboman/mason-lspconfig.nvim',
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
-      { 'williamboman/mason.nvim', config = true },
+      { 'williamboman/mason.nvim' },
       { 'neovim/nvim-lspconfig' },
       { 'hrsh7th/cmp-nvim-lsp' },
     },
-    opts = function()
-      local capabilities = vim.tbl_deep_extend(
-        'force',
-        vim.lsp.protocol.make_client_capabilities(),
-        require('cmp_nvim_lsp').default_capabilities()
-      )
-
+    ---@module 'mason-lspconfig'
+    ---@param opts MasonLspconfigSettings
+    opts = function(_, opts)
       local settings = require('settings')
+      local mason_registry = require('mason-registry')
+
+      ---Retrieve mason package install path
+      ---@param package_name string
+      ---@return string
+      local function get_mason_pkg_path(package_name) return mason_registry.get_package(package_name):get_install_path() end
+
+      ---@type table<string, lspconfig.Config>
       local servers = {
         cssls = {
+          filetypes = { 'css', 'less', 'sass', 'scss', 'pcss', 'postcss' },
           settings = { css = settings.css },
         },
         jsonls = {
@@ -30,7 +38,14 @@ return {
         yamlls = {
           settings = { yaml = settings.yaml },
         },
+        emmet_ls = {
+          filetypes = { 'blade', 'gohtml', 'gohtmltmpl', 'handlebars', 'hbs', 'njk', 'nunjucks', 'templ' },
+        },
+        html = {
+          filetypes = { 'blade' },
+        },
         intelephense = {
+          filetypes = { 'blade', 'php_only' },
           settings = { intelephense = settings.intelephense },
         },
         lua_ls = {
@@ -41,139 +56,79 @@ return {
       local lspconfig = require('lspconfig')
       local ensure_installed = vim.tbl_keys(servers or {})
 
-      ---Retrieve mason package install path
-      ---@param package_name string
-      ---@return string
-      local function get_mason_pkg_path(package_name)
-        return require('mason-registry').get_package(package_name):get_install_path()
-      end
-
-      vim.list_extend(ensure_installed, {
-        'nginx_language_server',
-        'emmet_ls',
+      opts.ensure_installed = vim.list_extend(ensure_installed, {
         'dockerls',
-        'sqls',
-        'html',
-        'tailwindcss',
         'eslint',
-        'ts_ls',
+        'nginx_language_server',
+        'sqls',
         'svelte',
+        'tailwindcss',
+        'ts_ls',
+        'unocss',
+        'vimls',
         'volar',
       })
 
-      return {
-        ensure_installed = ensure_installed,
-        handlers = {
-          function(server_name)
-            local config = servers[server_name] or {}
+      opts.handlers = {
+        -- Default handler for all available LSP server.
+        ---@param server string
+        function(server)
+          ---@type lspconfig.Config
+          local config = servers[server] or {}
+          local ok, base_config = pcall(require, 'lspconfig.configs.' .. server)
 
-            if server_name == 'tsserver' then server_name = 'ts_ls' end
+          if ok then
+            local default_config = base_config.default_config or {}
+            config.filetypes = vim.list_extend(default_config.filetypes, config.filetypes or {})
 
-            if server_name == 'emmet_ls' then
-              config.filetypes = {
-                'astro',
-                'blade',
-                'css',
-                'eruby',
-                'html',
-                'htmlangular',
-                'htmldjango',
-                'javascriptreact',
-                'less',
-                'pug',
-                'sass',
-                'scss',
-                'svelte',
-                'typescriptreact',
-                'vue',
-              }
-            end
+            table.sort(config.filetypes, function(a, b) return a:upper() < b:upper() end)
+          end
 
-            if server_name == 'intelephense' then config.filetypes = { 'blade', 'php', 'php_only' } end
+          local capabilities = vim.tbl_deep_extend(
+            'force',
+            vim.lsp.protocol.make_client_capabilities(),
+            require('cmp_nvim_lsp').default_capabilities()
+          )
 
-            if server_name == 'html' then config.filetypes = { 'blade', 'html', 'templ' } end
+          config.capabilities = vim.tbl_deep_extend('force', {}, capabilities, config.capabilities or {})
 
-            config.capabilities = vim.tbl_deep_extend('force', {}, capabilities, config.capabilities or {})
-
-            lspconfig[server_name].setup(config)
-          end,
-
-          ts_ls = function()
-            lspconfig.ts_ls.setup({
-              capabilities = capabilities,
-              filetypes = {
-                'javascript',
-                'javascriptreact',
-                'javascript.jsx',
-                'typescript',
-                'typescriptreact',
-                'typescript.tsx',
-                'vue',
-              },
-              init_options = {
-                plugins = {
-                  {
-                    name = '@vue/typescript-plugin',
-                    location = table.concat({
-                      get_mason_pkg_path('vue-language-server'),
-                      'node_modules/@vue/language-server',
-                      'node_modules/@vue/typescript-plugin',
-                    }, '/'),
-                    languages = { 'vue', 'javascript', 'typescript' },
-                  },
-                },
-              },
-              settings = {
-                tsserver_plugins = {
-                  '@vue/typescript-plugin',
-                },
-              },
-            })
-          end,
-
-          volar = function()
-            local global_ts_path = table.concat({
-              get_mason_pkg_path('typescript-language-server'),
-              'node_modules/typescript/lib',
-            }, '/')
-
-            ---Get typescript server path
-            ---@param root_path string
-            ---@return string
-            local function get_ts_path(root_path)
-              -- credit : https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#volar
-              local project_ts_path = ''
-
-              ---Check typescript server lib directory
-              ---@param project_path string
-              ---@return string?
-              local function check_ts_dir(project_path)
-                project_ts_path = project_path .. '/node_modules/typescript/lib'
-
-                if vim.uv.fs_stat(project_ts_path) then return project_path end
-              end
-
-              if lspconfig.util.search_ancestors(root_path, check_ts_dir) then
-                return project_ts_path
-              else
-                return global_ts_path
-              end
-            end
-
-            lspconfig.volar.setup({
-              capabilities = capabilities,
-              init_options = {
-                typescript = {
-                  tsdk = global_ts_path,
-                },
-              },
-              on_new_config = function(new_config, root_path)
-                new_config.init_options.typescript.tsdk = get_ts_path(root_path)
-              end,
-            })
-          end,
-        },
+          lspconfig[server].setup(config)
+        end,
       }
+
+      ---@param server string
+      opts.handlers.ts_ls = function(server)
+        servers[server] = {
+          filetypes = {},
+          init_options = { plugins = {} },
+          settings = {
+            javascript = settings.js,
+            typescript = settings.ts,
+          },
+        }
+
+        -- Add Vue Typescript supports
+        ---@see https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#vue-support
+        if mason_registry.is_installed('vue-language-server') then
+          local plugin = {
+            name = '@vue/typescript-plugin',
+            languages = { 'vue', 'javascript', 'typescript' },
+            location = table.concat({
+              get_mason_pkg_path('vue-language-server'),
+              'node_modules/@vue/language-server',
+              'node_modules/@vue/typescript-plugin',
+            }, '/'),
+          }
+
+          servers[server].settings.tsserver_plugins = { plugin.name }
+
+          table.insert(servers[server].filetypes, 'vue')
+          table.insert(servers[server].init_options.plugins, plugin)
+        end
+
+        -- Pass it back to default handler
+        opts.handlers[1](server)
+      end
     end,
   },
 

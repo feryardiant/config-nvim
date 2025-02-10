@@ -5,18 +5,53 @@ return {
       unknownAtRules = 'ignore',
     },
   },
+
   lua = {
     completion = {
       callSnippet = 'Replace',
     },
     diagnostics = { disable = { 'missing-fields' } },
   },
+
   intelephense = {
     environment = {
       includePaths = {},
     },
-    files = { maxSize = 5000000 },
+    files = {
+      maxSize = 5000000,
+      exclude = {
+        "**/*.old",
+        "**/*.old/**",
+        "**/.git/**",
+        "**/.svn/**",
+        "**/.hg/**",
+        "**/CVS/**",
+        "**/.DS_Store/**",
+        "**/node_modules/**",
+        "**/bower_components/**",
+        "**/vendor/**/{Tests,tests}/**",
+        "**/.history/**",
+        "**/vendor/**/vendor/**"
+      }
+    },
   },
+
+  js = {
+    inlayHints = {
+      functionLikeReturnTypes = { enabled = true },
+      parameterNames = { enabled = 'literals' },
+      parameterTypes = { enabled = true },
+    }
+  },
+
+  ts = {
+    inlayHints = {
+      functionLikeReturnTypes = { enabled = true },
+      parameterNames = { enabled = 'literals' },
+      parameterTypes = { enabled = true },
+    }
+  },
+
   json = {
     schemas = {
       {
