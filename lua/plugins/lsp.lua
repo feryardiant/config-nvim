@@ -57,6 +57,7 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
 
       opts.ensure_installed = vim.list_extend(ensure_installed, {
+        'bashls',
         'dockerls',
         'eslint',
         'nginx_language_server',

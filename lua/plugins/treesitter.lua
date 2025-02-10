@@ -114,7 +114,11 @@ return {
 
       vim.filetype.add({
         pattern = {
-          ['.env.*'] = 'dotenv'
+          ['.env.*'] = 'dotenv',
+          ['.aliases'] = 'bash',
+          ['.exports'] = 'bash',
+          ['.functions'] = 'bash',
+          ['.profile'] = 'bash',
         }
       })
 
