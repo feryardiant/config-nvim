@@ -16,10 +16,9 @@ return {
       on_open = function (term)
         vim.opt_local.signcolumn = 'no'
 
-        if string.find(term.name, vim.o.shell) then
-          vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { buffer = term.bufnr, desc = 'Swich to normal mode' })
+        if term.name:find(vim.o.shell) then
+          vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { buffer = term.bufnr, desc = 'Swich to normal mode' })
 
-          -- vim.keymap.set('t', 'jk', '<C-\><C-n>', opts)
           -- vim.keymap.set('t', '<C-w>', '<C-\\><C-n><C-w>', opts)
           vim.keymap.set('t', '<C-h>', '<Cmd>wincmd h<CR>', { buffer = term.bufnr, desc = 'Go to left window'  })
           vim.keymap.set('t', '<C-j>', '<Cmd>wincmd j<CR>', { buffer = term.bufnr, desc = 'Go to window below' })
