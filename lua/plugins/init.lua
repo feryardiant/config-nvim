@@ -24,6 +24,9 @@ return {
           PmenuSel = { bg = colors.selection_bg },
           Visual = { bg = colors.selection_bg },
           NonText = { fg = colors.guide_active },
+
+          WinBar = { bg = 'none' },
+          WinBarNC = { bg = 'none' },
           WinSeparator = { fg = colors.comment, bg = 'none' },
 
           IblIndent = { fg = colors.guide_normal },
