@@ -40,6 +40,8 @@ return {
           DapUIFloatBorder = { link = 'FloatBorder' },
           DapUIFloatNormal = { link = 'NormalFloat' },
 
+          StatusLine = { link = 'lualine_c_normal' },
+
           NvimDapVirtualText = { link = 'Comment' },
           NvimDapVirtualTextChanged = { fg = colors.accent },
         },
