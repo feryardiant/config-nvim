@@ -1,5 +1,3 @@
-local uv = vim.uv or vim.loop
-
 return {
   {
     'rcarriga/nvim-dap-ui',
@@ -86,7 +84,7 @@ return {
             {
               type = 'php',
               request = 'launch',
-              name = 'PHP: Listen for XDebug',
+              name = 'DAP: Listen for XDebug',
               port = xdebug_port,
               cwd = vim.fn.getcwd(),
             },
@@ -94,23 +92,18 @@ return {
         end
 
         if php.file_exists('/public/index.php') then
+          local route_file = php.route_file()
           local dev_server = {
             type = 'php',
             request = 'launch',
-            name = 'PHP: Launch Built-in web server',
-            cwd = vim.fn.getcwd() .. '/public',
+            name = 'DAP: Launch built-in server and Debug',
+            cwd = vim.fn.getcwd()..'/public',
             port = xdebug_port,
-            env = { XDEBUG_SESSION = '1' },
-            serverReadyAction = {
-              pattern = 'Development Server \\(http://localhost:([0-9]+)\\) started',
-              uriFormat = 'http://localhost:%s',
-              action = 'openExternally',
-            },
             runtimeArgs = {
               '-dxdebug.client_host=127.0.0.1',
               '-dxdebug.client_port='..xdebug_port,
               '-dxdebug.mode=debug',
-              '-dxdebug.start_with_request=1',
+              '-dxdebug.start_with_request=yes',
               '-S',
               'localhost:8000',
               '-t',
@@ -118,15 +111,14 @@ return {
             },
           }
 
-          if php.file_exists('/.env') then dev_server.envFile = '../.env' end
+          if php.file_exists('/.env') then
+            -- Try to add compatibility with non-laravel project
+            dev_server.envFile = '../.env'
+          end
 
-          if php.is_laravel() then
-            local route_file = php.route_file()
-
-            if route_file ~= nil then
-              -- Assign route file when available
-              table.insert(dev_server.runtimeArgs, '../'..route_file)
-            end
+          if route_file ~= nil then
+            -- Assign route file when available
+            table.insert(dev_server.runtimeArgs, '../'..route_file)
           end
 
           table.insert(dap.configurations.php, dev_server)
@@ -185,7 +177,7 @@ return {
           table.insert(dap.configurations[lang], {
             type = 'pwa-chrome',
             request = 'launch',
-            name = 'Launch Chrome',
+            name = 'DAP: Launch Chrome',
             url = enter_launch_url,
             webRoot = '${workspaceFolder}',
             sourceMaps = true,
@@ -194,7 +186,7 @@ return {
           table.insert(dap.configurations[lang], {
             type = 'pwa-msedge',
             request = 'launch',
-            name = 'Launch MSEdge',
+            name = 'DAP: Launch MSEdge',
             url = enter_launch_url,
             webRoot = '${workspaceFolder}',
             sourceMaps = true,
