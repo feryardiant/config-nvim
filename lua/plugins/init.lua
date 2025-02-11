@@ -24,6 +24,9 @@ return {
           PmenuSel = { bg = colors.selection_bg },
           Visual = { bg = colors.selection_bg },
           NonText = { fg = colors.guide_active },
+
+          WinBar = { bg = 'none' },
+          WinBarNC = { bg = 'none' },
           WinSeparator = { fg = colors.comment, bg = 'none' },
 
           IblIndent = { fg = colors.guide_normal },
@@ -34,6 +37,11 @@ return {
           DapBreakpointRejected = { fg = colors.error },
           DapLogPoint = { fg = colors.selection_bg },
           DapStopped = { fg = colors.tag },
+          DapUIFloatBorder = { link = 'FloatBorder' },
+          DapUIFloatNormal = { link = 'NormalFloat' },
+
+          NvimDapVirtualText = { link = 'Comment' },
+          NvimDapVirtualTextChanged = { fg = colors.accent },
         },
       }
     end,

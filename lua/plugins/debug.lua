@@ -5,20 +5,43 @@ return {
       { 'mfussenegger/nvim-dap' },
       { 'nvim-neotest/nvim-nio' },
       { 'stevearc/dressing.nvim' },
-      { 'jay-babu/mason-nvim-dap.nvim' },
     },
     keys = {
       { '<F7>', function() require('dapui').toggle() end, desc = 'Debug: Toggle UI' },
     },
     ---@module 'dapui'
     ---@type dapui.Config
-    opts = {},
+    opts = {
+      controls = { element = 'watches' },
+      floating = { border = 'rounded' },
+      layouts = {
+        {
+          size = 32,
+          position = 'left',
+          elements = {
+            { size = 0.3, id = 'scopes' },
+            { size = 0.3, id = 'stacks' },
+            { size = 0.2, id = 'breakpoints' },
+            { size = 0.2, id = 'watches' },
+          },
+        },
+        {
+          size = 10,
+          position = 'bottom',
+          elements = {
+            { size = 0.6, id = 'repl' },
+            { size = 0.4, id = 'console' },
+          },
+        },
+      },
+    },
   },
 
   {
     'mfussenegger/nvim-dap',
     dependencies = {
       { 'theHamsta/nvim-dap-virtual-text' },
+      { 'jay-babu/mason-nvim-dap.nvim' },
     },
     keys = {
       { '<F5>', function() require('dap').continue() end, desc = 'Debug: Start/Continue' },
@@ -57,8 +80,8 @@ return {
       local enter_launch_url = function()
         local co = coroutine.running()
 
-        return coroutine.create(function ()
-          vim.ui.input({ prompt = 'Enter URL: ', default = 'http://localhost:' }, function (url)
+        return coroutine.create(function()
+          vim.ui.input({ prompt = 'Enter URL: ', default = 'http://localhost:' }, function(url)
             if url == nil or url == '' then
               return
             else
@@ -76,16 +99,52 @@ return {
           command = vim.fn.exepath('php-debug-adapter'),
         }
 
+        local php = require('custom.php')
+        local xdebug_port = 9003
+
         for _, lang in ipairs({ 'php', 'blade' }) do
           dap.configurations[lang] = {
             {
               type = 'php',
               request = 'launch',
-              name = 'PHP: Listen for XDebug',
-              port = 9003,
+              name = 'DAP: Listen for XDebug',
+              port = xdebug_port,
               cwd = vim.fn.getcwd(),
             },
           }
+        end
+
+        if php.file_exists('/public/index.php') then
+          local route_file = php.route_file()
+          local dev_server = {
+            type = 'php',
+            request = 'launch',
+            name = 'DAP: Launch built-in server and Debug',
+            cwd = vim.fn.getcwd() .. '/public',
+            port = xdebug_port,
+            runtimeArgs = {
+              '-dxdebug.client_host=127.0.0.1',
+              '-dxdebug.client_port=' .. xdebug_port,
+              '-dxdebug.mode=debug',
+              '-dxdebug.start_with_request=yes',
+              '-S',
+              'localhost:8000',
+              '-t',
+              '.',
+            },
+          }
+
+          if php.file_exists('/.env') then
+            -- Try to add compatibility with non-laravel project
+            dev_server.envFile = '../.env'
+          end
+
+          if route_file ~= nil then
+            -- Assign route file when available
+            table.insert(dev_server.runtimeArgs, '../' .. route_file)
+          end
+
+          table.insert(dap.configurations.php, dev_server)
         end
       end
 
@@ -141,7 +200,7 @@ return {
           table.insert(dap.configurations[lang], {
             type = 'pwa-chrome',
             request = 'launch',
-            name = 'Launch Chrome',
+            name = 'DAP: Launch Chrome',
             url = enter_launch_url,
             webRoot = '${workspaceFolder}',
             sourceMaps = true,
@@ -150,10 +209,29 @@ return {
           table.insert(dap.configurations[lang], {
             type = 'pwa-msedge',
             request = 'launch',
-            name = 'Launch MSEdge',
+            name = 'DAP: Launch MSEdge',
             url = enter_launch_url,
             webRoot = '${workspaceFolder}',
             sourceMaps = true,
+          })
+        end
+      end
+
+      if mason_registry.is_installed('firefox-debug-adapter') then
+        dap.adapters.firefox = {
+          type = 'executable',
+          command = vim.fn.exepath('firefox-debug-adapter'),
+        }
+
+        for _, lang in ipairs(fe_langs) do
+          table.insert(dap.configurations[lang], {
+            type = 'firefox',
+            request = 'launch',
+            name = 'DAP: Launch Firefox',
+            url = enter_launch_url,
+            webRoot = '${workspaceFolder}',
+            sourceMaps = true,
+            firefoxExecutable = vim.fn.exepath('firefox'),
           })
         end
       end
@@ -161,20 +239,44 @@ return {
   },
 
   {
+    'jay-babu/mason-nvim-dap.nvim',
+    dependencies = {
+      { 'williamboman/mason.nvim' },
+    },
+    ---@module 'mason-nvim-dap'
+    ---@type MasonNvimDapSettings
+    opts = {
+      ensure_installed = {
+        'firefox-debug-adapter',
+        'js-debug-adapter',
+        'node-debug2-adapter',
+        'php-debug-adapter',
+      },
+    },
+  },
+
+  {
     'theHamsta/nvim-dap-virtual-text',
-    lazy = true,
     ---@module 'nvim-dap-virtual-text'
     ---@type nvim_dap_virtual_text_options
     opts = {
       display_callback = function(var)
-        local name = string.lower(var.name)
-        local value = string.lower(var.value)
+        local name = var.name:lower()
+        local value = var.value:lower()
 
-        if name:match('secret') or name:match('key') or name:match('api') then return '*****' end
+        if name:match('secret') or name:match('key') or name:match('api') then
+          -- Hide sensitive values
+          return ' *****'
+        end
 
-        if #value > 10 then return ' ' .. string.sub(var.value, 1, 10) .. '...' end
+        local output = var.value:gsub('%s+', ' ')
 
-        return var.value
+        if #value > 10 then
+          -- Shorten long value
+          return output:sub(1, 10) .. '...'
+        end
+
+        return output
       end,
     },
   },
