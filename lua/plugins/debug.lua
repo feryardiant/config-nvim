@@ -1,3 +1,5 @@
+local uv = vim.uv or vim.loop
+
 return {
   {
     'rcarriga/nvim-dap-ui',
@@ -57,8 +59,8 @@ return {
       local enter_launch_url = function()
         local co = coroutine.running()
 
-        return coroutine.create(function ()
-          vim.ui.input({ prompt = 'Enter URL: ', default = 'http://localhost:' }, function (url)
+        return coroutine.create(function()
+          vim.ui.input({ prompt = 'Enter URL: ', default = 'http://localhost:' }, function(url)
             if url == nil or url == '' then
               return
             else
@@ -76,16 +78,58 @@ return {
           command = vim.fn.exepath('php-debug-adapter'),
         }
 
+        local php = require('custom.php')
+        local xdebug_port = 9003
+
         for _, lang in ipairs({ 'php', 'blade' }) do
           dap.configurations[lang] = {
             {
               type = 'php',
               request = 'launch',
               name = 'PHP: Listen for XDebug',
-              port = 9003,
+              port = xdebug_port,
               cwd = vim.fn.getcwd(),
             },
           }
+        end
+
+        if php.file_exists('/public/index.php') then
+          local dev_server = {
+            type = 'php',
+            request = 'launch',
+            name = 'PHP: Launch Built-in web server',
+            cwd = vim.fn.getcwd() .. '/public',
+            port = xdebug_port,
+            env = { XDEBUG_SESSION = '1' },
+            serverReadyAction = {
+              pattern = 'Development Server \\(http://localhost:([0-9]+)\\) started',
+              uriFormat = 'http://localhost:%s',
+              action = 'openExternally',
+            },
+            runtimeArgs = {
+              '-dxdebug.client_host=127.0.0.1',
+              '-dxdebug.client_port='..xdebug_port,
+              '-dxdebug.mode=debug',
+              '-dxdebug.start_with_request=1',
+              '-S',
+              'localhost:8000',
+              '-t',
+              '.'
+            },
+          }
+
+          if php.file_exists('/.env') then dev_server.envFile = '../.env' end
+
+          if php.is_laravel() then
+            local route_file = php.route_file()
+
+            if route_file ~= nil then
+              -- Assign route file when available
+              table.insert(dev_server.runtimeArgs, '../'..route_file)
+            end
+          end
+
+          table.insert(dap.configurations.php, dev_server)
         end
       end
 
