@@ -22,7 +22,7 @@ vim.opt.number = true -- Enable line numbers
 vim.opt.relativenumber = true -- Relative line numbers
 vim.opt.cursorline = true -- Highlight line under the cursor
 
-vim.opt.signcolumn = 'yes:2'
+vim.opt.signcolumn = 'yes'
 
 -- Persistent Undo
 vim.opt.undofile = true
