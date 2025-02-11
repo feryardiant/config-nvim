@@ -34,6 +34,7 @@ return {
       { 'nvim-treesitter/nvim-treesitter-textobjects' },
       { 'JoosepAlviste/nvim-ts-context-commentstring' },
       { 'nvim-treesitter/nvim-treesitter-context', enabled = true },
+      { 'LiadOz/nvim-dap-repl-highlights', config = true },
     },
     opts = {
       indent = { enable = true },
@@ -43,6 +44,7 @@ return {
         'bash',
         'blade',
         'comment',
+        'dap_repl',
         'gitignore',
         'html',
         'json',
