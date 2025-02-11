@@ -5,20 +5,43 @@ return {
       { 'mfussenegger/nvim-dap' },
       { 'nvim-neotest/nvim-nio' },
       { 'stevearc/dressing.nvim' },
-      { 'jay-babu/mason-nvim-dap.nvim' },
     },
     keys = {
       { '<F7>', function() require('dapui').toggle() end, desc = 'Debug: Toggle UI' },
     },
     ---@module 'dapui'
     ---@type dapui.Config
-    opts = {},
+    opts = {
+      controls = { element = 'watches' },
+      floating = { border = 'rounded' },
+      layouts = {
+        {
+          size = 32,
+          position = 'left',
+          elements = {
+            { size = 0.3, id = 'scopes' },
+            { size = 0.3, id = 'stacks' },
+            { size = 0.2, id = 'breakpoints' },
+            { size = 0.2, id = 'watches' },
+          },
+        },
+        {
+          size = 10,
+          position = 'bottom',
+          elements = {
+            { size = 0.6, id = 'repl' },
+            { size = 0.4, id = 'console' },
+          },
+        },
+      },
+    },
   },
 
   {
     'mfussenegger/nvim-dap',
     dependencies = {
       { 'theHamsta/nvim-dap-virtual-text' },
+      { 'jay-babu/mason-nvim-dap.nvim' },
     },
     keys = {
       { '<F5>', function() require('dap').continue() end, desc = 'Debug: Start/Continue' },
@@ -97,17 +120,17 @@ return {
             type = 'php',
             request = 'launch',
             name = 'DAP: Launch built-in server and Debug',
-            cwd = vim.fn.getcwd()..'/public',
+            cwd = vim.fn.getcwd() .. '/public',
             port = xdebug_port,
             runtimeArgs = {
               '-dxdebug.client_host=127.0.0.1',
-              '-dxdebug.client_port='..xdebug_port,
+              '-dxdebug.client_port=' .. xdebug_port,
               '-dxdebug.mode=debug',
               '-dxdebug.start_with_request=yes',
               '-S',
               'localhost:8000',
               '-t',
-              '.'
+              '.',
             },
           }
 
@@ -118,7 +141,7 @@ return {
 
           if route_file ~= nil then
             -- Assign route file when available
-            table.insert(dev_server.runtimeArgs, '../'..route_file)
+            table.insert(dev_server.runtimeArgs, '../' .. route_file)
           end
 
           table.insert(dap.configurations.php, dev_server)
@@ -208,7 +231,7 @@ return {
             url = enter_launch_url,
             webRoot = '${workspaceFolder}',
             sourceMaps = true,
-            firefoxExecutable = vim.fn.exepath('firefox')
+            firefoxExecutable = vim.fn.exepath('firefox'),
           })
         end
       end
@@ -216,20 +239,44 @@ return {
   },
 
   {
+    'jay-babu/mason-nvim-dap.nvim',
+    dependencies = {
+      { 'williamboman/mason.nvim' },
+    },
+    ---@module 'mason-nvim-dap'
+    ---@type MasonNvimDapSettings
+    opts = {
+      ensure_installed = {
+        'firefox-debug-adapter',
+        'js-debug-adapter',
+        'node-debug2-adapter',
+        'php-debug-adapter',
+      },
+    },
+  },
+
+  {
     'theHamsta/nvim-dap-virtual-text',
-    lazy = true,
     ---@module 'nvim-dap-virtual-text'
     ---@type nvim_dap_virtual_text_options
     opts = {
       display_callback = function(var)
-        local name = string.lower(var.name)
-        local value = string.lower(var.value)
+        local name = var.name:lower()
+        local value = var.value:lower()
 
-        if name:match('secret') or name:match('key') or name:match('api') then return '*****' end
+        if name:match('secret') or name:match('key') or name:match('api') then
+          -- Hide sensitive values
+          return ' *****'
+        end
 
-        if #value > 10 then return ' ' .. string.sub(var.value, 1, 10) .. '...' end
+        local output = var.value:gsub('%s+', ' ')
 
-        return var.value
+        if #value > 10 then
+          -- Shorten long value
+          return output:sub(1, 10) .. '...'
+        end
+
+        return output
       end,
     },
   },

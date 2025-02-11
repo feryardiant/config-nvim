@@ -37,6 +37,11 @@ return {
           DapBreakpointRejected = { fg = colors.error },
           DapLogPoint = { fg = colors.selection_bg },
           DapStopped = { fg = colors.tag },
+          DapUIFloatBorder = { link = 'FloatBorder' },
+          DapUIFloatNormal = { link = 'NormalFloat' },
+
+          NvimDapVirtualText = { link = 'Comment' },
+          NvimDapVirtualTextChanged = { fg = colors.accent },
         },
       }
     end,
