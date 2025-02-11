@@ -193,6 +193,25 @@ return {
           })
         end
       end
+
+      if mason_registry.is_installed('firefox-debug-adapter') then
+        dap.adapters.firefox = {
+          type = 'executable',
+          command = vim.fn.exepath('firefox-debug-adapter'),
+        }
+
+        for _, lang in ipairs(fe_langs) do
+          table.insert(dap.configurations[lang], {
+            type = 'firefox',
+            request = 'launch',
+            name = 'DAP: Launch Firefox',
+            url = enter_launch_url,
+            webRoot = '${workspaceFolder}',
+            sourceMaps = true,
+            firefoxExecutable = vim.fn.exepath('firefox')
+          })
+        end
+      end
     end,
   },
 
