@@ -1,5 +1,23 @@
 return {
   {
+    'jay-babu/mason-nvim-dap.nvim',
+    lazy = true,
+    dependencies = {
+      { 'williamboman/mason.nvim' },
+    },
+    ---@module 'mason-nvim-dap'
+    ---@type MasonNvimDapSettings
+    opts = {
+      ensure_installed = {
+        'firefox-debug-adapter',
+        'js-debug-adapter',
+        'node-debug2-adapter',
+        'php-debug-adapter',
+      },
+    },
+  },
+
+  {
     'rcarriga/nvim-dap-ui',
     dependencies = {
       { 'mfussenegger/nvim-dap' },
@@ -240,24 +258,8 @@ return {
   },
 
   {
-    'jay-babu/mason-nvim-dap.nvim',
-    dependencies = {
-      { 'williamboman/mason.nvim' },
-    },
-    ---@module 'mason-nvim-dap'
-    ---@type MasonNvimDapSettings
-    opts = {
-      ensure_installed = {
-        'firefox-debug-adapter',
-        'js-debug-adapter',
-        'node-debug2-adapter',
-        'php-debug-adapter',
-      },
-    },
-  },
-
-  {
     'theHamsta/nvim-dap-virtual-text',
+    lazy = true,
     ---@module 'nvim-dap-virtual-text'
     ---@type nvim_dap_virtual_text_options
     opts = {

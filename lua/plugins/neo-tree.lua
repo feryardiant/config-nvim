@@ -2,6 +2,7 @@ return {
   {
     '3rd/image.nvim',
     -- build = false,
+    lazy = true,
     opts = {
       -- processor = 'magick_cli'
     },

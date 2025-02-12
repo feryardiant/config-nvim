@@ -18,6 +18,9 @@ return {
   {
     'rcarriga/nvim-notify',
     lazy = true,
+    dependencies = {
+      { 'nvim-telescope/telescope.nvim' }
+    },
     ---@module 'notify'
     ---@type notify.Config
     opts = {
@@ -25,6 +28,9 @@ return {
       -- max_width = 50,
       background_colour = '#000000',
     },
+    init = function()
+      require('telescope').load_extension('notify')
+    end
   },
 
   {

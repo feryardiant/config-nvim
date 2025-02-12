@@ -2,7 +2,6 @@ return {
   {
     'akinsho/toggleterm.nvim',
     version = '*',
-    event = { 'VimEnter' },
     ---@module 'toggleterm'
     ---@type ToggleTermConfig
     opts = {

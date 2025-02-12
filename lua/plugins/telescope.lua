@@ -4,6 +4,12 @@ return {
     build = 'make',
     enabled = vim.fn.executable('make') == 1,
     lazy = true,
+    dependencies = {
+      { 'nvim-telescope/telescope.nvim' },
+    },
+    config = function()
+      require('telescope').load_extension('fzf')
+    end,
   },
 
   {
@@ -13,29 +19,30 @@ return {
     version = false,
     dependencies = {
       { 'nvim-lua/plenary.nvim' },
-      { 'nvim-telescope/telescope-fzf-native.nvim' },
     },
-    opts = function()
+    ---@module 'telescope'
+    ---@param opts table
+    opts = function(_, opts)
       local actions = require('telescope.actions')
 
-      return {
-        defaults = require('telescope.themes').get_dropdown({
-          path_display = { 'smart' },
-          prompt_prefix = ' ',
-          selection_caret = ' ',
-          layout_config = {
-            vertical = { width = 0.5 },
+      opts.defaults = require('telescope.themes').get_dropdown({
+        path_display = { 'smart' },
+        prompt_prefix = ' ',
+        selection_caret = ' ',
+        layout_config = {
+          vertical = { width = 0.5 },
+        },
+        mappings = {
+          i = {
+            ['<Esc>'] = actions.close,
           },
-          mappings = {
-            i = {
-              ['<Esc>'] = actions.close,
-            },
-            n = {
-              ['<Esc>'] = actions.close,
-            },
+          n = {
+            ['<Esc>'] = actions.close,
           },
-        }),
-      }
+        },
+      })
+
+      opts.extensions = {}
     end,
     keys = {
       {
@@ -64,13 +71,5 @@ return {
         desc = 'Find document symbols',
       },
     },
-    config = function(_, opts)
-      local telescope = require('telescope')
-
-      telescope.setup(opts)
-
-      telescope.load_extension('fzf')
-      telescope.load_extension('notify')
-    end,
   },
 }
