@@ -1,5 +1,60 @@
 return {
   {
+    'Shatur/neovim-ayu',
+    name = 'ayu',
+    lazy = false,
+    priority = 1000,
+    init = function() vim.cmd.colorscheme('ayu') end,
+    opts = function(_, opts)
+      local colors = require('ayu.colors')
+
+      colors.generate(true)
+
+      opts.overrides = {
+        Normal = { bg = 'none' },
+        NormalFloat = { bg = colors.panel_bg },
+        FloatBorder = { fg = colors.comment, bg = 'none' },
+        SignColumn = { link = 'FloatBorder' },
+        LineNr = { fg = colors.comment },
+        Comment = { fg = colors.comment },
+        CursorLine = { bg = colors.panel_bg },
+        CursorLineNr = { bg = 'none' },
+        ColorColumn = { bg = colors.panel_bg },
+        Pmenu = { bg = colors.selection_inactive },
+        PmenuSel = { bg = colors.selection_bg },
+        Visual = { bg = colors.selection_bg },
+        NonText = { fg = colors.guide_active },
+
+        DapBreakpoint = { fg = colors.accent },
+        DapBreakpointCondition = { fg = colors.warning },
+        DapBreakpointRejected = { fg = colors.error },
+        DapLogPoint = { fg = colors.selection_bg },
+        DapStopped = { fg = colors.tag },
+        DapUIFloatBorder = { link = 'FloatBorder' },
+        DapUIFloatNormal = { link = 'NormalFloat' },
+
+        IblIndent = { fg = colors.guide_normal },
+        IblScope = { fg = colors.accent },
+
+        LazyNormal = { link = 'Normal' },
+        MasonNormal = { link = 'Normal' },
+
+        NeoTreeFloatBorder = { link = 'FloatBorder' },
+        NeoTreeFloatNormal = { link = 'Normal' },
+
+        NvimDapVirtualText = { link = 'Comment' },
+        NvimDapVirtualTextChanged = { fg = colors.accent },
+
+        StatusLine = { link = 'lualine_c_normal' },
+
+        WinBar = { bg = 'none' },
+        WinBarNC = { bg = 'none' },
+        WinSeparator = { fg = colors.guide_normal, bg = 'none' },
+      }
+    end,
+  },
+
+  {
     'wakatime/vim-wakatime',
     lazy = false,
   },
@@ -38,51 +93,6 @@ return {
   --     require('bufferline').setup(opts)
   --   end
   -- },
-
-  {
-    'folke/trouble.nvim',
-    cmd = 'Trouble',
-    dependencies = {
-      { 'nvim-tree/nvim-web-devicons' },
-    },
-    keys = {
-      {
-        '<leader>xx',
-        '<Cmd>Trouble diagnostics toggle<CR>',
-        desc = '[Trouble] Diagnostics',
-      },
-      {
-        '<leader>xX',
-        '<Cmd>Trouble diagnostics toggle filter.buf=0<CR>',
-        desc = '[Trouble] Buffer diagnostics',
-      },
-      {
-        '<leader>xs',
-        '<Cmd>Trouble symbols toggle focus=false<CR>',
-        desc = '[Trouble] Symbols',
-      },
-      {
-        '<leader>xl',
-        '<Cmd>Trouble lsp toggle focus=false win.position=right<CR>',
-        desc = '[Trouble] LSP Definitions',
-      },
-      {
-        '<leader>xL',
-        '<Cmd>Trouble loclist toggle<CR>',
-        desc = '[Trouble] Location list',
-      },
-      {
-        '<leader>xq',
-        '<Cmd>Trouble qflist toggle<CR>',
-        desc = '[Trouble] Quickfix list',
-      },
-    },
-    ---@module 'trouble'
-    ---@type trouble.Config
-    opts = {
-      use_diagnostic_signs = true,
-    },
-  },
 
   {
     'nvim-lualine/lualine.nvim',
