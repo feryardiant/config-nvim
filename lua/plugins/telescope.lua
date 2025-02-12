@@ -7,9 +7,7 @@ return {
     dependencies = {
       { 'nvim-telescope/telescope.nvim' },
     },
-    config = function()
-      require('telescope').load_extension('fzf')
-    end,
+    config = function() require('telescope').load_extension('fzf') end,
   },
 
   {
@@ -26,7 +24,9 @@ return {
       local actions = require('telescope.actions')
 
       opts.defaults = require('telescope.themes').get_dropdown({
-        path_display = { 'smart' },
+        path_display = {
+          shorten = { exclude = { 1, -1 }, len = 1 },
+        },
         prompt_prefix = ' ',
         selection_caret = ' ',
         layout_config = {
