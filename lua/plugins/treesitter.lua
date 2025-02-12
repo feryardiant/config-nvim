@@ -117,12 +117,19 @@ return {
       }
 
       vim.filetype.add({
+        extension = {
+          keymap = 'dst',
+          neon = 'yaml',
+          overlay = 'dst',
+        },
         pattern = {
           ['.env.*'] = 'dotenv',
           ['.aliases'] = 'bash',
           ['.exports'] = 'bash',
           ['.functions'] = 'bash',
           ['.profile'] = 'bash',
+          ['.*%.blade%.php'] = 'blade',
+          ['.*%.neon%.dist'] = 'yaml',
         },
       })
 
