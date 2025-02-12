@@ -1,58 +1,5 @@
 return {
   {
-    'Shatur/neovim-ayu',
-    name = 'ayu',
-    lazy = false,
-    priority = 1000,
-    init = function() vim.cmd.colorscheme('ayu') end,
-    opts = function()
-      local colors = require('ayu.colors')
-
-      colors.generate(true)
-
-      return {
-        overrides = {
-          Normal = { bg = 'none' },
-          NormalFloat = { bg = colors.panel_bg },
-          SignColumn = { fg = colors.comment, bg = 'none' },
-          LineNr = { fg = colors.comment },
-          Comment = { fg = colors.comment },
-          CursorLine = { bg = colors.panel_bg },
-          CursorLineNr = { bg = 'none' },
-          ColorColumn = { bg = colors.panel_bg },
-          Pmenu = { bg = colors.selection_inactive },
-          PmenuSel = { bg = colors.selection_bg },
-          Visual = { bg = colors.selection_bg },
-          NonText = { fg = colors.guide_active },
-
-          DapBreakpoint = { fg = colors.accent },
-          DapBreakpointCondition = { fg = colors.warning },
-          DapBreakpointRejected = { fg = colors.error },
-          DapLogPoint = { fg = colors.selection_bg },
-          DapStopped = { fg = colors.tag },
-          DapUIFloatBorder = { link = 'FloatBorder' },
-          DapUIFloatNormal = { link = 'NormalFloat' },
-
-          IblIndent = { fg = colors.guide_normal },
-          IblScope = { fg = colors.accent },
-
-          LazyNormal = { link = 'Normal' },
-          MasonNormal = { link = 'Normal' },
-
-          NvimDapVirtualText = { link = 'Comment' },
-          NvimDapVirtualTextChanged = { fg = colors.accent },
-
-          StatusLine = { link = 'lualine_c_normal' },
-
-          WinBar = { bg = 'none' },
-          WinBarNC = { bg = 'none' },
-          WinSeparator = { fg = colors.comment, bg = 'none' },
-        },
-      }
-    end,
-  },
-
-  {
     'wakatime/vim-wakatime',
     lazy = false,
   },
@@ -68,93 +15,8 @@ return {
   },
 
   {
-    'rcarriga/nvim-notify',
-    lazy = true,
-    ---@module 'notify'
-    ---@type notify.Config
-    opts = {
-      minimum_width = 25,
-      -- max_width = 50,
-      background_colour = '#000000',
-    },
-  },
-
-  {
-    'folke/noice.nvim',
-    event = 'VeryLazy',
-    dependencies = {
-      { 'MunifTanjim/nui.nvim' },
-      { 'rcarriga/nvim-notify' },
-    },
-    ---@module 'noice'
-    ---@type NoiceConfig
-    opts = {
-      lsp = {
-        ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
-        ['vim.lsp.util.stylize_markdown'] = true,
-        ['cmp.entry.get_documentation'] = false,
-        -- signature = {
-        --   enabled = false,
-        -- },
-        -- hover = {
-        --   enabled = false
-        -- }
-      },
-      messages = {
-        view = 'mini',
-      },
-      presets = {
-        bottom_search = true, -- use a classic bottom cmdline for search
-        command_palette = true, -- position the cmdline and popupmenu together
-        long_message_to_split = true, -- long messages will be sent to a split
-        -- inc_rename = false, -- enables an input dialog for inc-rename.nvim
-        lsp_doc_border = true, -- add a border to hover docs and signature help
-      },
-      routes = {
-        -- Credit: https://github.com/neovim/nvim-lspconfig/issues/1931#issuecomment-2138428768
-        {
-          filter = {
-            event = 'notify',
-            find = 'No information available',
-          },
-          opts = {
-            skip = true,
-          },
-        },
-      },
-    },
-  },
-
-  {
     'stevearc/dressing.nvim',
     lazy = true,
-  },
-
-  {
-    'laytan/cloak.nvim',
-    lazy = false,
-    ---@module 'cloak'
-    opts = {
-      cloak_telescope = true,
-      patterns = {
-        {
-          file_pattern = '.env*',
-          cloak_pattern = {
-            '(%u+_ID)=.+',
-            '(%u+_DSN)=.+',
-            '(%u+_KEY)=.+',
-            '(%u+_PASS%u+)=.+',
-            '(%u+_PRIVATE%u+)=.+',
-            '(%u+_SECRET%u+)=.+',
-            '(%u+_TOKEN%u+)=.+',
-            '(%u+_USER%u+)=.+',
-            '(%u+)=(%a+://).+',
-            '(%u+)=[\'"](%a+://).+[\'"]$',
-          },
-          replace = '%1=',
-        },
-      },
-    },
   },
 
   -- {
@@ -176,6 +38,51 @@ return {
   --     require('bufferline').setup(opts)
   --   end
   -- },
+
+  {
+    'folke/trouble.nvim',
+    cmd = 'Trouble',
+    dependencies = {
+      { 'nvim-tree/nvim-web-devicons' },
+    },
+    keys = {
+      {
+        '<leader>xx',
+        '<Cmd>Trouble diagnostics toggle<CR>',
+        desc = '[Trouble] Diagnostics',
+      },
+      {
+        '<leader>xX',
+        '<Cmd>Trouble diagnostics toggle filter.buf=0<CR>',
+        desc = '[Trouble] Buffer diagnostics',
+      },
+      {
+        '<leader>xs',
+        '<Cmd>Trouble symbols toggle focus=false<CR>',
+        desc = '[Trouble] Symbols',
+      },
+      {
+        '<leader>xl',
+        '<Cmd>Trouble lsp toggle focus=false win.position=right<CR>',
+        desc = '[Trouble] LSP Definitions',
+      },
+      {
+        '<leader>xL',
+        '<Cmd>Trouble loclist toggle<CR>',
+        desc = '[Trouble] Location list',
+      },
+      {
+        '<leader>xq',
+        '<Cmd>Trouble qflist toggle<CR>',
+        desc = '[Trouble] Quickfix list',
+      },
+    },
+    ---@module 'trouble'
+    ---@type trouble.Config
+    opts = {
+      use_diagnostic_signs = true,
+    },
+  },
 
   {
     'nvim-lualine/lualine.nvim',

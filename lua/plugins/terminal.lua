@@ -9,7 +9,12 @@ return {
       hide_numbers = true,
       open_mapping = '<c-`>',
       float_opts = {
-        border = 'curved',
+        border = 'rounded',
+      },
+      highlights = {
+        Normal = { link = 'Normal' },
+        NormalFloat = { link = 'Normal' },
+        FloatBorder = { link = 'FloatBorder' }
       },
 
       ---@param term Terminal

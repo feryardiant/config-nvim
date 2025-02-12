@@ -60,4 +60,31 @@ return {
       },
     },
   },
+
+  {
+    'laytan/cloak.nvim',
+    lazy = false,
+    ---@module 'cloak'
+    opts = {
+      cloak_telescope = true,
+      patterns = {
+        {
+          file_pattern = '.env*',
+          cloak_pattern = {
+            '(%u+_ID)=.+',
+            '(%u+_DSN)=.+',
+            '(%u+_KEY)=.+',
+            '(%u+_PASS%u+)=.+',
+            '(%u+_PRIVATE%u+)=.+',
+            '(%u+_SECRET%u+)=.+',
+            '(%u+_TOKEN%u+)=.+',
+            '(%u+_USER%u+)=.+',
+            '(%u+)=(%a+://).+',
+            '(%u+)=[\'"](%a+://).+[\'"]$',
+          },
+          replace = '%1=',
+        },
+      },
+    },
+  },
 }
