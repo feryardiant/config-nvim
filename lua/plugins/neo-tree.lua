@@ -1,11 +1,21 @@
 return {
   {
+    '3rd/image.nvim',
+    -- build = false,
+    opts = {
+      -- processor = 'magick_cli'
+    },
+  },
+
+  {
     'nvim-neo-tree/neo-tree.nvim',
     branch = 'v3.x',
     cmd = 'Neotree',
+    deactivate = function() vim.cmd([[Neotree close]]) end,
     dependencies = {
       { 'nvim-lua/plenary.nvim' },
       { 'MunifTanjim/nui.nvim' },
+      { '3rd/image.nvim' },
     },
     keys = {
       {
@@ -37,51 +47,40 @@ return {
         function()
           require('neo-tree.command').execute({
             source = 'filesystem',
-            position = 'float',
+            position = 'right',
+            reveal = true,
             toggle = true,
           })
         end,
         desc = 'File explorer',
       },
     },
-    deactivate = function() vim.cmd([[Neotree close]]) end,
-    init = function()
-      if vim.fn.argc(-1) == 1 then
-        local stat = vim.loop.fs_stat(vim.fn.argv(0))
-        if stat and stat.type == 'directory' then require('neo-tree') end
-      end
+    opts = function (_, opts)
+      opts.close_if_last_window = true
+      opts.popup_border_style = 'rounded'
 
-      vim.g.loaded_netrw = 1
-      vim.g.loaded_netrwPlugin = 1
+      opts.default_component_configs = {
+        indent = { with_expanders = true },
+        created = { enabled = true },
+        symlink_target = { enabled = true },
+      }
 
-      -- If you want icons for diagnostic errors, you'll need to define them somewhere:
-      vim.fn.sign_define('DiagnosticSignError', { text = ' ', texthl = 'DiagnosticSignError' })
-      vim.fn.sign_define('DiagnosticSignWarn', { text = ' ', texthl = 'DiagnosticSignWarn' })
-      vim.fn.sign_define('DiagnosticSignInfo', { text = ' ', texthl = 'DiagnosticSignInfo' })
-      vim.fn.sign_define('DiagnosticSignHint', { text = '󰌵', texthl = 'DiagnosticSignHint' })
-    end,
-    opts = {
-      popup_border_style = 'rounded',
-      default_component_configs = {
-        indent = {
-          with_expanders = true,
-        },
-        created = {
-          enabled = true,
-        },
-        symlink_target = {
-          enabled = true,
-        },
-      },
-      source_selector = {
-        winbar = true,
+      opts.source_selector = {
         statusline = true,
         content_layout = 'center',
-      },
-      window = {
+      }
+
+      opts.window = {
         position = 'current',
-      },
-      filesystem = {
+        mappings = {
+          ['P'] = {
+            'toggle_preview',
+            config = { use_image_nvim = true }
+          }
+        }
+      }
+
+      opts.filesystem = {
         follow_current_file = {
           enabled = true,
         },
@@ -112,13 +111,17 @@ return {
           },
         },
         use_libuv_file_watcher = true,
-      },
-      document_symbols = {
-        follow_cursor = true,
-      },
-    },
-    config = function(_, opts)
-      require('neo-tree').setup(opts)
+      }
+    end,
+    init = function()
+      vim.g.loaded_netrw = 1
+      vim.g.loaded_netrwPlugin = 1
+
+      if vim.fn.argc(-1) == 1 then
+        ---@diagnostic disable-next-line: param-type-mismatch
+        local stat = vim.uv.fs_stat(vim.fn.argv(0))
+        if stat and stat.type == 'directory' then require('neo-tree') end
+      end
 
       vim.api.nvim_create_autocmd('TermClose', {
         pattern = '*lazygit',
