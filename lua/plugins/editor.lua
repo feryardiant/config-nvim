@@ -134,7 +134,7 @@ return {
 
   {
     'laytan/cloak.nvim',
-    lazy = false,
+    ft = 'dotenv',
     ---@module 'cloak'
     opts = {
       cloak_telescope = true,
