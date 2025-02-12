@@ -72,6 +72,7 @@ return {
 
       opts.window = {
         position = 'current',
+        width = 32,
         mappings = {
           ['P'] = {
             'toggle_preview',
