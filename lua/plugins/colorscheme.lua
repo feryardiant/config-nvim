@@ -39,6 +39,9 @@ return {
         LazyNormal = { link = 'Normal' },
         MasonNormal = { link = 'Normal' },
 
+        NeoTreeFloatBorder = { link = 'FloatBorder' },
+        NeoTreeFloatNormal = { link = 'Normal' },
+
         NvimDapVirtualText = { link = 'Comment' },
         NvimDapVirtualTextChanged = { fg = colors.accent },
 
