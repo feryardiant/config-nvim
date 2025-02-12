@@ -166,7 +166,7 @@ return {
 
             opts.buffer = event.buf
             opts.remap = false
-            opts.desc = 'LSP: '..opts.desc
+            opts.desc = 'LSP: ' .. opts.desc
 
             vim.keymap.set(mode, keys, func, opts)
           end

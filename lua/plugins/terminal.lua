@@ -14,7 +14,7 @@ return {
       highlights = {
         Normal = { link = 'Normal' },
         NormalFloat = { link = 'Normal' },
-        FloatBorder = { link = 'FloatBorder' }
+        FloatBorder = { link = 'FloatBorder' },
       },
 
       ---@param term Terminal
