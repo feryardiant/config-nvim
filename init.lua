@@ -19,13 +19,23 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+local spec = {
+  { import = 'plugins' },
+}
+
+if vim.fn.executable('ghostty') then
+  table.insert(spec, {
+    'ghostty',
+    dir = '/Applications/Ghostty.app/Contents/Resources/vim/vimfiles/',
+    ft = 'ghostty',
+  })
+end
+
 require('lazy').setup({
   ui = {
     border = 'rounded',
   },
-  spec = {
-    { import = 'plugins' },
-  },
+  spec = spec,
 })
 
 require('options')

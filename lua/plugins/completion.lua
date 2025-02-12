@@ -132,10 +132,4 @@ return {
       close_tag_on_complete = false, -- default: true
     },
   },
-
-  {
-    'ghostty',
-    dir = '/Applications/Ghostty.app/Contents/Resources/vim/vimfiles/',
-    ft = 'ghostty',
-  },
 }

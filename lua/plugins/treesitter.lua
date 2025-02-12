@@ -36,6 +36,8 @@ return {
       { 'nvim-treesitter/nvim-treesitter-context', enabled = true },
       { 'LiadOz/nvim-dap-repl-highlights', config = true },
     },
+    ---@module 'nvim-treesitter'
+    ---@type TSConfig
     opts = {
       indent = { enable = true },
       highlight = { enable = true },
