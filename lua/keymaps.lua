@@ -43,8 +43,8 @@ vim.keymap.set('n', '<A-Right>', '<Cmd>vertical resize+2<CR>', { desc = 'Increas
 -- vim.keymap.set('n', '<C-K>', '4<C-y>', { desc = 'Scroll 4 lines up' })
 
 -- Buffers navigation
-vim.keymap.set('n', '[b', vim.cmd.bprevious, { noremap = true, desc = 'Previous Buffer' })
-vim.keymap.set('n', ']b', vim.cmd.bnext, { noremap = true, desc = 'Next Buffer' })
+vim.keymap.set('n', '<Tab>', vim.cmd.bnext, { noremap = true, desc = 'Next Buffer' })
+vim.keymap.set('n', '<S-Tab>', vim.cmd.bprevious, { noremap = true, desc = 'Previous Buffer' })
 
 -- Keep cursor in the middle while in search results
 vim.keymap.set('n', 'n', 'nzzzv', { noremap = true, desc = 'Previeous search result' })

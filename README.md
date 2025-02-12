@@ -18,7 +18,7 @@
   - `<` and `>` : Dedent and Indent line(s) on `visual` mode
   - `ALT`+`j`/`k` : Move line(s) down or up
   - `CTRL`+`j`/`k` : Scroll 4 lines down or up
-  - `TAB` or `SHIFT`+`TAB` : Navigate to next or previous completion item
+  - `TAB` or `SHIFT`+`TAB` : Navigate to next or previous completion item (insert mode)
   - `<leader>`+`fb` : Format current buffer
   - `<leader>`+`fl` : Lint current buffer
 - Panes / Splits
@@ -27,7 +27,7 @@
   - `CTRL`+`h`/`j`/`k`/`l` : Jump to `left`, `below`, `above` or `right` window
   - `CTRL`+<code>`</code> : Toggle integrated terminal
 - File Navigations
-  - `[b` and `]b` : Jump to previous and next buffer windows
+  - `TAB` or `SHIFT`+`TAB` : Navigate to next or previous buffer windows (normal mode)
   - `n` and `N` : Jump to previous and next search results and keep the cursor in the center
   - `gd` : [G]oto [D]efinition
   - `gD` : [G]oto [D]eclaration
