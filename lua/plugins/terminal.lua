@@ -22,13 +22,15 @@ return {
         vim.opt_local.signcolumn = 'no'
 
         if term.name:find(vim.o.shell) then
-          vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { buffer = term.bufnr, desc = 'Swich to normal mode' })
+          local map = require('util').create_keymap(term.bufnr)
 
-          -- vim.keymap.set('t', '<C-w>', '<C-\\><C-n><C-w>', opts)
-          vim.keymap.set('t', '<C-h>', '<Cmd>wincmd h<CR>', { buffer = term.bufnr, desc = 'Go to left window' })
-          vim.keymap.set('t', '<C-j>', '<Cmd>wincmd j<CR>', { buffer = term.bufnr, desc = 'Go to window below' })
-          vim.keymap.set('t', '<C-k>', '<Cmd>wincmd k<CR>', { buffer = term.bufnr, desc = 'Go to window above' })
-          vim.keymap.set('t', '<C-l>', '<Cmd>wincmd l<CR>', { buffer = term.bufnr, desc = 'Go to right window' })
+          map('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Swich to normal mode' })
+
+          -- map('t', '<C-w>', '<C-\\><C-n><C-w>', opts)
+          map('t', '<C-h>', '<Cmd>wincmd h<CR>', { desc = 'Go to left window' })
+          map('t', '<C-j>', '<Cmd>wincmd j<CR>', { desc = 'Go to window below' })
+          map('t', '<C-k>', '<Cmd>wincmd k<CR>', { desc = 'Go to window above' })
+          map('t', '<C-l>', '<Cmd>wincmd l<CR>', { desc = 'Go to right window' })
         end
       end,
     },

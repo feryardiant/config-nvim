@@ -1,5 +1,8 @@
+local map = require('util').create_keymap()
+local noremap = require('util').create_keymap({ noremap = true })
+
 -- Clear search with <ESC>
-vim.keymap.set('n', '<Esc>', '<Cmd>nohlsearch<CR>', { desc = 'Clear search highlight' })
+map('n', '<Esc>', '<Cmd>nohlsearch<CR>', { desc = 'Clear search highlight' })
 
 -- Diagnostics
 local diagnostic_goto = function(next, severity)
@@ -9,54 +12,54 @@ local diagnostic_goto = function(next, severity)
   return function() go({ severity = severity }) end
 end
 
-vim.keymap.set('n', '[d', diagnostic_goto(false), { desc = 'Goto previous diagnostic' })
-vim.keymap.set('n', ']d', diagnostic_goto(true), { desc = 'Goto next diagnostic' })
-vim.keymap.set('n', '[e', diagnostic_goto(false, 'ERROR'), { desc = 'Goto previous error' })
-vim.keymap.set('n', ']e', diagnostic_goto(true, 'ERROR'), { desc = 'Goto next error' })
-vim.keymap.set('n', '[w', diagnostic_goto(false, 'WARN'), { desc = 'Goto previous warning' })
-vim.keymap.set('n', ']w', diagnostic_goto(true, 'WARN'), { desc = 'Goto next warning' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+map('n', '[d', diagnostic_goto(false), { desc = 'Goto previous diagnostic' })
+map('n', ']d', diagnostic_goto(true), { desc = 'Goto next diagnostic' })
+map('n', '[e', diagnostic_goto(false, 'ERROR'), { desc = 'Goto previous error' })
+map('n', ']e', diagnostic_goto(true, 'ERROR'), { desc = 'Goto next error' })
+map('n', '[w', diagnostic_goto(false, 'WARN'), { desc = 'Goto previous warning' })
+map('n', ']w', diagnostic_goto(true, 'WARN'), { desc = 'Goto next warning' })
+map('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+map('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 -- Move lines - use ALT+J/K to move line up and down
-vim.keymap.set('n', '<A-j>', '<Cmd>move+1<CR>==', { noremap = true, desc = 'Move lines down' })
-vim.keymap.set('n', '<A-k>', '<Cmd>move-2<CR>==', { noremap = true, desc = 'Move lines up' })
-vim.keymap.set('i', '<A-j>', '<Esc><Cmd>move+1<CR>==gi', { noremap = true, desc = 'Move lines down' })
-vim.keymap.set('i', '<A-k>', '<Esc><Cmd>move-2<CR>==gi', { noremap = true, desc = 'Move lines up' })
-vim.keymap.set('v', '<A-j>', ":move'>+1<CR>gv=gv", { noremap = true, desc = 'Move lines down' })
-vim.keymap.set('v', '<A-k>', ":move'<-2<CR>gv=gv", { noremap = true, desc = 'Move lines up' })
+noremap('n', '<A-j>', '<Cmd>move+1<CR>==', { desc = 'Move lines down' })
+noremap('n', '<A-k>', '<Cmd>move-2<CR>==', { desc = 'Move lines up' })
+noremap('i', '<A-j>', '<Esc><Cmd>move+1<CR>==gi', { desc = 'Move lines down' })
+noremap('i', '<A-k>', '<Esc><Cmd>move-2<CR>==gi', { desc = 'Move lines up' })
+noremap('v', '<A-j>', ":move'>+1<CR>gv=gv", { desc = 'Move lines down' })
+noremap('v', '<A-k>', ":move'<-2<CR>gv=gv", { desc = 'Move lines up' })
 
 -- Split navigation - use <leader>H/J/K/L instead of CTRL+H/J/K/L to navigate window
-vim.keymap.set('n', '<C-h>', '<C-w>h', { noremap = true, desc = 'Go to left window' })
-vim.keymap.set('n', '<C-j>', '<C-w>j', { noremap = true, desc = 'Go to window below' })
-vim.keymap.set('n', '<C-k>', '<C-w>k', { noremap = true, desc = 'Go to window above' })
-vim.keymap.set('n', '<C-l>', '<C-w>l', { noremap = true, desc = 'Go to right window' })
+noremap('n', '<C-h>', '<C-w>h', { desc = 'Go to left window' })
+noremap('n', '<C-j>', '<C-w>j', { desc = 'Go to window below' })
+noremap('n', '<C-k>', '<C-w>k', { desc = 'Go to window above' })
+noremap('n', '<C-l>', '<C-w>l', { desc = 'Go to right window' })
 
 -- Resize window - Use CTRL + arrow keys
-vim.keymap.set('n', '<A-Up>', '<Cmd>resize+2<CR>', { desc = 'Increase window height' })
-vim.keymap.set('n', '<A-Down>', '<Cmd>resize-2<CR>', { desc = 'Decrease window height' })
-vim.keymap.set('n', '<A-Left>', '<Cmd>vertical resize-2<CR>', { desc = 'Decrease window width' })
-vim.keymap.set('n', '<A-Right>', '<Cmd>vertical resize+2<CR>', { desc = 'Increase window width' })
+map('n', '<A-Up>', '<Cmd>resize+2<CR>', { desc = 'Increase window height' })
+map('n', '<A-Down>', '<Cmd>resize-2<CR>', { desc = 'Decrease window height' })
+map('n', '<A-Left>', '<Cmd>vertical resize-2<CR>', { desc = 'Decrease window width' })
+map('n', '<A-Right>', '<Cmd>vertical resize+2<CR>', { desc = 'Increase window width' })
 
 -- Speed up viewport scrolling
--- vim.keymap.set('n', '<C-J>', '4<C-e>', { desc = 'Scroll 4 lines down' })
--- vim.keymap.set('n', '<C-K>', '4<C-y>', { desc = 'Scroll 4 lines up' })
+-- map('n', '<C-J>', '4<C-e>', { desc = 'Scroll 4 lines down' })
+-- map('n', '<C-K>', '4<C-y>', { desc = 'Scroll 4 lines up' })
 
 -- Buffers navigation
-vim.keymap.set('n', '<Tab>', vim.cmd.bnext, { noremap = true, desc = 'Next Buffer' })
-vim.keymap.set('n', '<S-Tab>', vim.cmd.bprevious, { noremap = true, desc = 'Previous Buffer' })
+noremap('n', '<Tab>', vim.cmd.bnext, { desc = 'Next Buffer' })
+noremap('n', '<S-Tab>', vim.cmd.bprevious, { desc = 'Previous Buffer' })
 
 -- Keep cursor in the middle while in search results
-vim.keymap.set('n', 'n', 'nzzzv', { noremap = true, desc = 'Previeous search result' })
-vim.keymap.set('n', 'N', 'Nzzzv', { noremap = true, desc = 'Next search result' })
+noremap('n', 'n', 'nzzzv', { desc = 'Previeous search result' })
+noremap('n', 'N', 'Nzzzv', { desc = 'Next search result' })
 
 -- Better indenting
-vim.keymap.set('v', '<', '<gv', { desc = 'Dedent line' })
-vim.keymap.set('v', '>', '>gv', { desc = 'Indent line' })
+map('v', '<', '<gv', { desc = 'Dedent line' })
+map('v', '>', '>gv', { desc = 'Indent line' })
 
 -- Copy to system clipboard
-vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y', { noremap = true, desc = 'Copy to system clipboard' })
-vim.keymap.set({ 'n', 'v' }, '<leader>Y', '"+Y', { noremap = true, desc = 'Copy to system clipboard' })
+noremap({ 'n', 'v' }, '<leader>y', '"+y', { desc = 'Copy to system clipboard' })
+noremap({ 'n', 'v' }, '<leader>Y', '"+Y', { desc = 'Copy to system clipboard' })
 
 -- Delete word
-vim.keymap.set({ 'n', 'v' }, '<leader>d', '"_d', { noremap = true, desc = 'Delete word' })
+noremap({ 'n', 'v' }, '<leader>d', '"_d', { desc = 'Delete word' })

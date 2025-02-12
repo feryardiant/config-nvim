@@ -155,37 +155,23 @@ return {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
           local telescope_builtin = require('telescope.builtin')
+          local map = require('util').create_keymap({ buffer = event.buf, remap = false, desc = 'LSP: ' })
 
-          ---@param keys string
-          ---@param func function
-          ---@param opts vim.keymap.set.Opts
-          ---@param mode? string|string[]
-          local function map(keys, func, opts, mode)
-            mode = mode or 'n'
-            opts = opts or {}
+          map('n', 'gd', vim.lsp.buf.definition, { desc = '[G]oto [D]efinition' })
+          map('n', 'gD', vim.lsp.buf.declaration, { desc = '[G]oto [D]eclaration' })
 
-            opts.buffer = event.buf
-            opts.remap = false
-            opts.desc = 'LSP: ' .. opts.desc
+          map('n', 'gr', vim.lsp.buf.references, { desc = '[G]oto [R]eferences' })
+          map('n', 'gI', vim.lsp.buf.implementation, { desc = '[G]oto [I]mplementation' })
 
-            vim.keymap.set(mode, keys, func, opts)
-          end
+          map('n', '<leader>D', vim.lsp.buf.type_definition, { desc = 'Type [D]efinition' })
+          map('n', '<leader>ds', telescope_builtin.lsp_document_symbols, { desc = '[D]ocument [S]ymbols' })
 
-          map('gd', vim.lsp.buf.definition, { desc = '[G]oto [D]efinition' })
-          map('gD', vim.lsp.buf.declaration, { desc = '[G]oto [D]eclaration' })
+          map('n', '<leader>ws', telescope_builtin.lsp_dynamic_workspace_symbols, { desc = '[W]orkspace [S]ymbols' })
 
-          map('gr', vim.lsp.buf.references, { desc = '[G]oto [R]eferences' })
-          map('gI', vim.lsp.buf.implementation, { desc = '[G]oto [I]mplementation' })
+          map('n', '<leader>rn', vim.lsp.buf.rename, { desc = '[R]e[n]ame' })
+          map({ 'n', 'x' }, '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ction' })
 
-          map('<leader>D', vim.lsp.buf.type_definition, { desc = 'Type [D]efinition' })
-          map('<leader>ds', telescope_builtin.lsp_document_symbols, { desc = '[D]ocument [S]ymbols' })
-
-          map('<leader>ws', telescope_builtin.lsp_dynamic_workspace_symbols, { desc = '[W]orkspace [S]ymbols' })
-
-          map('<leader>rn', vim.lsp.buf.rename, { desc = '[R]e[n]ame' })
-          map('<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ction' }, { 'n', 'x' })
-
-          map('K', vim.lsp.buf.hover, { desc = 'Show signature help' })
+          map('n', 'K', vim.lsp.buf.hover, { desc = 'Show signature help' })
 
           local client = vim.lsp.get_client_by_id(event.data.client_id)
 
@@ -218,6 +204,7 @@ return {
 
           if client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
             map(
+              'n',
               '<leader>th',
               function()
                 vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({
