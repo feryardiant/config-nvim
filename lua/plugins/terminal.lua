@@ -13,21 +13,21 @@ return {
       },
 
       ---@param term Terminal
-      on_open = function (term)
+      on_open = function(term)
         vim.opt_local.signcolumn = 'no'
 
         if term.name:find(vim.o.shell) then
           vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { buffer = term.bufnr, desc = 'Swich to normal mode' })
 
           -- vim.keymap.set('t', '<C-w>', '<C-\\><C-n><C-w>', opts)
-          vim.keymap.set('t', '<C-h>', '<Cmd>wincmd h<CR>', { buffer = term.bufnr, desc = 'Go to left window'  })
+          vim.keymap.set('t', '<C-h>', '<Cmd>wincmd h<CR>', { buffer = term.bufnr, desc = 'Go to left window' })
           vim.keymap.set('t', '<C-j>', '<Cmd>wincmd j<CR>', { buffer = term.bufnr, desc = 'Go to window below' })
           vim.keymap.set('t', '<C-k>', '<Cmd>wincmd k<CR>', { buffer = term.bufnr, desc = 'Go to window above' })
           vim.keymap.set('t', '<C-l>', '<Cmd>wincmd l<CR>', { buffer = term.bufnr, desc = 'Go to right window' })
         end
-      end
+      end,
     },
-    init = function ()
+    init = function()
       local Terminal = require('toggleterm.terminal').Terminal
 
       local lazygit = Terminal:new({
@@ -37,9 +37,12 @@ return {
         hidden = true,
       })
 
-      vim.keymap.set({'n'}, '<leader>gl', function ()
-        lazygit:toggle()
-      end, { desc = 'Toggle LazyGit', noremap = true, silent = true })
+      vim.keymap.set(
+        { 'n' },
+        '<leader>gl',
+        function() lazygit:toggle() end,
+        { desc = 'Toggle LazyGit', noremap = true, silent = true }
+      )
     end,
   },
 }

@@ -121,7 +121,7 @@ return {
           ['.exports'] = 'bash',
           ['.functions'] = 'bash',
           ['.profile'] = 'bash',
-        }
+        },
       })
 
       require('nvim-treesitter.configs').setup(opts)

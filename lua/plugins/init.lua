@@ -148,9 +148,9 @@ return {
             '(%u+)=(%a+://).+',
             '(%u+)=[\'"](%a+://).+[\'"]$',
           },
-          replace = '%1='
-        }
-      }
+          replace = '%1=',
+        },
+      },
     },
   },
 
@@ -213,7 +213,7 @@ return {
           modified = '',
           readonly = '󰗖',
           unnamed = '',
-          newfile = '󱨧'
+          newfile = '󱨧',
         },
       }
 
