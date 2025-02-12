@@ -30,4 +30,14 @@ function util.create_keymap(default_opts)
   end
 end
 
+---@param file string
+---@return boolean
+function util.is_image(file)
+  local extensions = { 'jpg', 'jpeg', 'png' }
+  local splits = vim.split(file:lower(), '.', { plain = true })
+  local extension = splits[#splits]
+
+  return vim.tbl_contains(extensions, extension)
+end
+
 return util
