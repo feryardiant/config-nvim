@@ -42,6 +42,12 @@ return {
         },
       })
 
+      opts.pickers = {
+        find_files = {
+          find_command = { 'rg', '--files', '--hidden', '--glob', '!**/.git/*' },
+        },
+      }
+
       opts.extensions = {}
     end,
     keys = {
