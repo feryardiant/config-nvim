@@ -19,18 +19,16 @@ return {
       { '<leader>top', function() require('neotest').output_panel.toggle() end, desc = '[T]est [O]utput [P]anel' },
       { '<leader>tS', function() require('neotest').summary.toggle() end, desc = 'Toggle [T]est [S]ummary' },
     },
-    opts = function()
-      ---@module 'neotest'
-      ---@type neotest.Config
-      return {
-        adapters = {
-          require('neotest-vitest')({}),
-          require('neotest-pest')({}),
-          require('neotest-phpunit')({
-            filter_dirs = { 'vendor' },
-            root_ignore_files = { 'tests/Pest.php' },
-          }),
-        },
+    ---@module 'neotest'
+    ---@param opts neotest.Config
+    opts = function(_, opts)
+      opts.adapters = {
+        require('neotest-vitest')({}),
+        require('neotest-pest')({}),
+        require('neotest-phpunit')({
+          filter_dirs = { 'vendor' },
+          root_ignore_files = { 'tests/Pest.php' },
+        }),
       }
     end,
   },
