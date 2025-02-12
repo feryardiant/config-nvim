@@ -158,28 +158,34 @@ return {
 
           ---@param keys string
           ---@param func function
-          ---@param desc string
-          ---@param mode? table|string
-          local function map(keys, func, desc, mode)
+          ---@param opts vim.keymap.set.Opts
+          ---@param mode? string|string[]
+          local function map(keys, func, opts, mode)
             mode = mode or 'n'
-            vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc, remap = false })
+            opts = opts or {}
+
+            opts.buffer = event.buf
+            opts.remap = false
+            opts.desc = 'LSP: '..opts.desc
+
+            vim.keymap.set(mode, keys, func, opts)
           end
 
-          map('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-          map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+          map('gd', vim.lsp.buf.definition, { desc = '[G]oto [D]efinition' })
+          map('gD', vim.lsp.buf.declaration, { desc = '[G]oto [D]eclaration' })
 
-          map('gr', vim.lsp.buf.references, '[G]oto [R]eferences')
-          map('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
+          map('gr', vim.lsp.buf.references, { desc = '[G]oto [R]eferences' })
+          map('gI', vim.lsp.buf.implementation, { desc = '[G]oto [I]mplementation' })
 
-          map('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
-          map('<leader>ds', telescope_builtin.lsp_document_symbols, '[D]ocument [S]ymbols')
+          map('<leader>D', vim.lsp.buf.type_definition, { desc = 'Type [D]efinition' })
+          map('<leader>ds', telescope_builtin.lsp_document_symbols, { desc = '[D]ocument [S]ymbols' })
 
-          map('<leader>ws', telescope_builtin.lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+          map('<leader>ws', telescope_builtin.lsp_dynamic_workspace_symbols, { desc = '[W]orkspace [S]ymbols' })
 
-          map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-          map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
+          map('<leader>rn', vim.lsp.buf.rename, { desc = '[R]e[n]ame' })
+          map('<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ction' }, { 'n', 'x' })
 
-          map('K', vim.lsp.buf.hover, 'Show signature help')
+          map('K', vim.lsp.buf.hover, { desc = 'Show signature help' })
 
           local client = vim.lsp.get_client_by_id(event.data.client_id)
 
@@ -218,7 +224,7 @@ return {
                   bufnr = event.buf,
                 }))
               end,
-              '[T]oggle Inlay [H]ints'
+              { desc = '[T]oggle Inlay [H]ints' }
             )
           end
         end,
