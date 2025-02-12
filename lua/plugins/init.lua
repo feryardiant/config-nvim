@@ -25,13 +25,6 @@ return {
           Visual = { bg = colors.selection_bg },
           NonText = { fg = colors.guide_active },
 
-          WinBar = { bg = 'none' },
-          WinBarNC = { bg = 'none' },
-          WinSeparator = { fg = colors.comment, bg = 'none' },
-
-          IblIndent = { fg = colors.guide_normal },
-          IblScope = { fg = colors.accent },
-
           DapBreakpoint = { fg = colors.accent },
           DapBreakpointCondition = { fg = colors.warning },
           DapBreakpointRejected = { fg = colors.error },
@@ -40,10 +33,20 @@ return {
           DapUIFloatBorder = { link = 'FloatBorder' },
           DapUIFloatNormal = { link = 'NormalFloat' },
 
-          StatusLine = { link = 'lualine_c_normal' },
+          IblIndent = { fg = colors.guide_normal },
+          IblScope = { fg = colors.accent },
+
+          LazyNormal = { link = 'Normal' },
+          MasonNormal = { link = 'Normal' },
 
           NvimDapVirtualText = { link = 'Comment' },
           NvimDapVirtualTextChanged = { fg = colors.accent },
+
+          StatusLine = { link = 'lualine_c_normal' },
+
+          WinBar = { bg = 'none' },
+          WinBarNC = { bg = 'none' },
+          WinSeparator = { fg = colors.comment, bg = 'none' },
         },
       }
     end,
