@@ -42,6 +42,8 @@ return {
     },
   },
 
+  deno = {},
+
   js = {
     inlayHints = {
       functionLikeReturnTypes = { enabled = true },

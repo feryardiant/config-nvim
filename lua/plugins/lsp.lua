@@ -69,6 +69,7 @@ return {
       opts.ensure_installed = vim.list_extend(ensure_installed, {
         'bashls',
         'dockerls',
+        'denols',
         'eslint',
         'nginx_language_server',
         'sqls',
@@ -106,6 +107,20 @@ return {
           lspconfig[server].setup(config)
         end,
       }
+
+      opts.handlers.denols = function(server)
+        servers[server] = {
+          settings = {
+            deno = vim.tbl_deep_extend('force', settings.deno, { enable = false })
+          }
+        }
+
+        if vim.uv.fs_stat(vim.fn.getcwd()..'/deno.json') ~= 0 then
+          servers[server].settings.deno.enable = true
+        end
+
+        opts.handlers[1](server)
+      end
 
       ---@param server string
       opts.handlers.ts_ls = function(server)
