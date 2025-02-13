@@ -42,6 +42,8 @@ return {
     },
   },
 
+  eslint = {},
+
   deno = {},
 
   js = {

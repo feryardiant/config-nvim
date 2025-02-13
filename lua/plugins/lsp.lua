@@ -108,16 +108,28 @@ return {
         end,
       }
 
+      opts.handlers.eslint = function(server)
+        servers[server] = {
+          settings = {
+            eslint = vim.tbl_deep_extend('force', settings.eslint, {
+              -- Disable eslint on a deno project
+              enable = not require('util').is_deno(),
+            }),
+          },
+        }
+
+        opts.handlers[1](server)
+      end
+
       opts.handlers.denols = function(server)
         servers[server] = {
           settings = {
-            deno = vim.tbl_deep_extend('force', settings.deno, { enable = false })
-          }
+            deno = vim.tbl_deep_extend('force', settings.deno, {
+              -- Disable denols on non-deno project
+              enable = require('util').is_deno(),
+            }),
+          },
         }
-
-        if vim.uv.fs_stat(vim.fn.getcwd()..'/deno.json') ~= 0 then
-          servers[server].settings.deno.enable = true
-        end
 
         opts.handlers[1](server)
       end
