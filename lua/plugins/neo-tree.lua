@@ -56,7 +56,7 @@ return {
         desc = 'File explorer',
       },
     },
-    opts = function (_, opts)
+    opts = function(_, opts)
       opts.close_if_last_window = true
       opts.popup_border_style = 'rounded'
 
@@ -77,9 +77,9 @@ return {
         mappings = {
           ['P'] = {
             'toggle_preview',
-            config = { use_image_nvim = true }
-          }
-        }
+            config = { use_image_nvim = true },
+          },
+        },
       }
 
       opts.filesystem = {

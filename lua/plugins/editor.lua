@@ -19,7 +19,7 @@ return {
     'rcarriga/nvim-notify',
     lazy = true,
     dependencies = {
-      { 'nvim-telescope/telescope.nvim' }
+      { 'nvim-telescope/telescope.nvim' },
     },
     ---@module 'notify'
     ---@type notify.Config
@@ -28,9 +28,7 @@ return {
       -- max_width = 50,
       background_colour = '#000000',
     },
-    init = function()
-      require('telescope').load_extension('notify')
-    end
+    init = function() require('telescope').load_extension('notify') end,
   },
 
   {
@@ -42,7 +40,7 @@ return {
     },
     ---@module 'noice'
     ---@param opts NoiceConfig
-    opts = function (_, opts)
+    opts = function(_, opts)
       opts.lsp = {
         override = {
           ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
@@ -68,7 +66,7 @@ return {
           view = 'split',
           opts = { enter = true, format = 'details', border = 'none' },
           filter = { event = 'notify' },
-        }
+        },
       }
 
       opts.presets = {
@@ -76,7 +74,7 @@ return {
         command_palette = true, -- position the cmdline and popupmenu together
         long_message_to_split = true, -- long messages will be sent to a split
         -- inc_rename = false, -- enables an input dialog for inc-rename.nvim
-        lsp_doc_border = true -- add a border to hover docs and signature help
+        lsp_doc_border = true, -- add a border to hover docs and signature help
       }
 
       opts.routes = {
@@ -89,7 +87,7 @@ return {
           opts = { skip = true },
         },
       }
-    end
+    end,
   },
 
   {
