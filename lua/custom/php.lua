@@ -2,8 +2,6 @@
 local PHP = {}
 local uv = vim.uv or vim.loop
 
-function PHP.is_laravel() return PHP.file_exists('/artisan') end
-
 ---Check wheter file exists
 ---@param file_path string
 ---@return boolean

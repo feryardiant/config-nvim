@@ -69,6 +69,7 @@ return {
       opts.ensure_installed = vim.list_extend(ensure_installed, {
         'bashls',
         'dockerls',
+        'denols',
         'eslint',
         'nginx_language_server',
         'sqls',
@@ -106,6 +107,32 @@ return {
           lspconfig[server].setup(config)
         end,
       }
+
+      opts.handlers.eslint = function(server)
+        servers[server] = {
+          settings = {
+            eslint = vim.tbl_deep_extend('force', settings.eslint, {
+              -- Disable eslint on a deno project
+              enable = not require('util').is_deno(),
+            }),
+          },
+        }
+
+        opts.handlers[1](server)
+      end
+
+      opts.handlers.denols = function(server)
+        servers[server] = {
+          settings = {
+            deno = vim.tbl_deep_extend('force', settings.deno, {
+              -- Disable denols on non-deno project
+              enable = require('util').is_deno(),
+            }),
+          },
+        }
+
+        opts.handlers[1](server)
+      end
 
       ---@param server string
       opts.handlers.ts_ls = function(server)

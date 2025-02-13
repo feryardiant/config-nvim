@@ -1,4 +1,26 @@
 local util = {}
+local uv = vim.uv or vim.loop
+
+---Check whether file exists
+---@param ... string
+---@return boolean
+function util.file_exists(...)
+  for _, filepath in ipairs({ ... }) do
+    filepath = table.concat({ vim.fn.getcwd(), filepath }, '/')
+
+    if uv.fs_stat(filepath) ~= nil then return true end
+  end
+
+  return false
+end
+
+---Is it a Laravel project
+---@return boolean
+function util.is_laravel() return util.file_exists('artisan') end
+
+---Is it a Deno project
+---@return boolean
+function util.is_deno() return util.file_exists('deno.json', 'deno.jsonc', 'deno.lock') end
 
 ---@param default_opts? number|vim.keymap.set.Opts
 function util.create_keymap(default_opts)
