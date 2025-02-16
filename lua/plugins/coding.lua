@@ -82,6 +82,10 @@ return {
           root_ignore_files = { 'tests/Pest.php' },
         }),
       }
+
+      opts.summary = {
+        open = 'botright vsplit | vertical resize 32',
+      }
     end,
   },
 
