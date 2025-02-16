@@ -27,13 +27,24 @@ return {
       end
 
       opts.sources = cmp.config.sources({
-        { name = 'nvim_lsp' },
-        { name = 'luasnip' },
-        { name = 'path' },
+        { name = 'nvim_lsp', priority = 1000, group_index = 1 },
+        { name = 'luasnip', priority = 950, group_index = 2 },
+        { name = 'path', group_index = 0 },
         { name = 'lazydev', group_index = 0 },
       }, {
         { name = 'buffer', keyword_length = 5 },
       })
+
+      opts.sorting = {
+        priority_weight = 2,
+        comparators = {
+          cmp.config.compare.exact,
+          cmp.config.compare.score,
+          cmp.config.compare.kind,
+          cmp.config.compare.length,
+          cmp.config.compare.order,
+        }
+      }
 
       opts.formatting = {
         expandable_indicator = true,
