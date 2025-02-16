@@ -66,7 +66,9 @@ return {
     },
     ---@module 'which-key'
     ---@type wk.Config
-    opts = {},
+    opts = {
+      delay = 1500,
+    },
   },
 
   {
