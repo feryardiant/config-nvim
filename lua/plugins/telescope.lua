@@ -32,6 +32,24 @@ return {
         layout_config = {
           vertical = { width = 0.5 },
         },
+        preview = {
+          mime_hook = function(filepath, buffer, hook_opts)
+            if require('util').is_image(filepath) then
+              local viewer = require('image')
+
+              local image = viewer.from_file(filepath, {
+                window = hook_opts.winid,
+                buffer = buffer,
+              })
+
+              ---@diagnostic disable-next-line: need-check-nil
+              image:render()
+            else
+              local previewer_util = require('telescope.previewers.utils')
+              previewer_util.set_preview_message(buffer, hook_opts.winid, 'Binary cannot be previewed')
+            end
+          end,
+        },
         mappings = {
           i = {
             ['<Esc>'] = actions.close,
