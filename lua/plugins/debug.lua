@@ -299,10 +299,10 @@ return {
 
         if #value > 10 then
           -- Shorten long value
-          return output:sub(1, 10) .. '...'
+          output = output:sub(1, 10) .. '…'
         end
 
-        return output
+        return ' ' .. output
       end,
     },
   },
