@@ -74,8 +74,8 @@ return {
       vim.fn.sign_define('DapStopped', { text = '', texthl = 'DapStopped' })
     end,
     config = function()
-      local dap, dapui = require('dap'), require('dapui')
-      local map = require('util').create_keymap()
+      local dap, dapui, util = require('dap'), require('dapui'), require('util')
+      local map = util.create_keymap()
 
       dap.listeners.before.attach.dapui_config = dapui.open
       dap.listeners.before.launch.dapui_config = dapui.open
@@ -133,12 +133,12 @@ return {
           }
         end
 
-        if php.file_exists('/public/index.php') then
+        if util.file_exists('public/index.php') then
           local route_file = php.route_file()
           local dev_server = {
             type = 'php',
             request = 'launch',
-            name = 'DAP: Launch built-in server and Debug',
+            name = 'DAP: Launch Built-in Server and Debug',
             cwd = vim.fn.getcwd() .. '/public',
             port = xdebug_port,
             runtimeArgs = {
@@ -153,7 +153,7 @@ return {
             },
           }
 
-          if php.file_exists('/.env') then
+          if util.file_exists('.env') then
             -- Try to add compatibility with non-laravel project
             dev_server.envFile = '../.env'
           end
@@ -169,15 +169,20 @@ return {
 
       -- Front-end debug config (JS(X), TS(X), Vue, Svelte, Astro)
 
-      local fe_langs = {
-        'astro',
+      local js_langs = {
         'javascript',
         'javascriptreact',
         'typescript',
         'typescriptreact',
+      }
+
+      local fe_langs = {
+        'astro',
         'svelte',
         'vue',
       }
+
+      table.move(js_langs, 1, #js_langs, #fe_langs, fe_langs)
 
       for _, lang in ipairs(fe_langs) do
         dap.configurations[lang] = dap.configurations[lang] or {}
@@ -215,14 +220,32 @@ return {
           end
         end
 
+        for _, lang in ipairs(js_langs) do
+          table.insert(dap.configurations[lang], {
+            type = 'pwa-node',
+            request = 'launch',
+            name = 'DAP: Launch file using Node.js',
+            program = '${file}',
+            cwd = '${workspaceFolder}'
+          })
+
+          table.insert(dap.configurations[lang], {
+            type = 'pwa-node',
+            request = 'launch',
+            name = 'DAP: Attach to Node.js Process',
+            processId = require("dap.utils").pick_process,
+            cwd = '${workspaceFolder}'
+          })
+        end
+
         for _, lang in ipairs(fe_langs) do
           table.insert(dap.configurations[lang], {
             type = 'pwa-chrome',
             request = 'launch',
             name = 'DAP: Launch Chrome',
             url = enter_launch_url,
-            webRoot = '${workspaceFolder}',
-            sourceMaps = true,
+            webroot = '${workspacefolder}',
+            sourcemaps = true,
           })
 
           table.insert(dap.configurations[lang], {

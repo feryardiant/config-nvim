@@ -1,11 +1,6 @@
 ---@class PHP
 local PHP = {}
-local uv = vim.uv or vim.loop
-
----Check wheter file exists
----@param file_path string
----@return boolean
-function PHP.file_exists(file_path) return uv.fs_stat(vim.fn.getcwd() .. file_path) ~= nil end
+local util = require('util')
 
 ---Retrieve route file
 ---@return string?
@@ -16,7 +11,7 @@ function PHP.route_file()
   }
 
   for _, file in ipairs(try_files) do
-    if PHP.file_exists('/' .. file) then return file end
+    if util.file_exists(file) then return file end
   end
 
   return nil
