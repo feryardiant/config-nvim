@@ -45,7 +45,7 @@ return {
         desc = 'Find files inside workspace',
       },
       {
-        '<leader>ds',
+        '<leader>fs',
         function() require('telescope.builtin').lsp_document_symbols() end,
         desc = 'Find document symbols',
       },
