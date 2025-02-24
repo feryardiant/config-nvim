@@ -10,10 +10,10 @@ return {
     opts = {
       current_line_blame = true,
       signs = {
-        add = { text = "▎" },
-        change = { text = "▎" },
-        changedelete = { text = "▎" },
-        untracked = { text = "▎" },
+        add = { text = '▎' },
+        change = { text = '▎' },
+        changedelete = { text = '▎' },
+        untracked = { text = '▎' },
       },
       on_attach = function(bufnr)
         ---@type gitsigns.actions

@@ -43,7 +43,7 @@ return {
           cmp.config.compare.kind,
           cmp.config.compare.length,
           cmp.config.compare.order,
-        }
+        },
       }
 
       opts.formatting = {
