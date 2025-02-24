@@ -26,6 +26,7 @@ return {
     },
     keys = {
       { '<F7>', function() require('dapui').toggle() end, desc = 'Debug: Toggle UI' },
+      { '<leader>?', function() require('dapui').eval(nil, { enter = true }) end, desc = 'Debug: Evaluate value' },
     },
     ---@module 'dapui'
     ---@type dapui.Config
@@ -53,6 +54,16 @@ return {
         },
       },
     },
+    config = function(_, opts)
+      local dap, dapui = require('dap'), require('dapui')
+
+      dap.listeners.before.attach.dapui_config = dapui.open
+      dap.listeners.before.launch.dapui_config = dapui.open
+      dap.listeners.before.event_terminated.dapui_config = dapui.close
+      dap.listeners.before.event_exited.dapui_config = dapui.close
+
+      dapui.setup(opts)
+    end,
   },
 
   {
@@ -76,11 +87,6 @@ return {
     config = function()
       local dap, dapui, util = require('dap'), require('dapui'), require('util')
       local map = util.create_keymap()
-
-      dap.listeners.before.attach.dapui_config = dapui.open
-      dap.listeners.before.launch.dapui_config = dapui.open
-      dap.listeners.before.event_terminated.dapui_config = dapui.close
-      dap.listeners.before.event_exited.dapui_config = dapui.close
 
       map('n', '<F1>', dap.step_into, { desc = 'Debug: Step into' })
       map('n', '<F2>', dap.step_over, { desc = 'Debug: Step over' })
