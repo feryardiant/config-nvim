@@ -3,7 +3,7 @@ return {
     'lewis6991/gitsigns.nvim',
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
-      { 'tpope/vim-fugitive' },
+      -- { 'tpope/vim-fugitive' },
     },
     ---@module 'gitsigns'
     ---@type Gitsigns.Config
