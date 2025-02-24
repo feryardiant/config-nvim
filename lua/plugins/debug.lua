@@ -177,14 +177,14 @@ return {
 
       local js_langs = {
         'javascript',
-        'javascriptreact',
         'typescript',
-        'typescriptreact',
       }
 
       local fe_langs = {
         'astro',
+        'javascriptreact',
         'svelte',
+        'typescriptreact',
         'vue',
       }
 
