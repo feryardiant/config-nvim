@@ -69,8 +69,9 @@ return {
   {
     'mfussenegger/nvim-dap',
     dependencies = {
-      { 'theHamsta/nvim-dap-virtual-text' },
       { 'jay-babu/mason-nvim-dap.nvim' },
+      { 'theHamsta/nvim-dap-virtual-text' },
+      { 'LiadOz/nvim-dap-repl-highlights', config = true },
     },
     keys = {
       { '<F5>', function() require('dap').continue() end, desc = 'Debug: Start/Continue' },
@@ -85,36 +86,14 @@ return {
       vim.fn.sign_define('DapStopped', { text = '', texthl = 'DapStopped' })
     end,
     config = function()
-      local dap, dapui, util = require('dap'), require('dapui'), require('util')
+      local dap, util = require('dap'), require('util')
+      local mason_registry = require('mason-registry')
       local map = util.create_keymap()
 
       map('n', '<F1>', dap.step_into, { desc = 'Debug: Step into' })
       map('n', '<F2>', dap.step_over, { desc = 'Debug: Step over' })
       map('n', '<F3>', dap.step_out, { desc = 'Debug: Step out' })
       map('n', '<F4>', dap.step_back, { desc = 'Debug: Step back' })
-
-      map(
-        'n',
-        '<leader>?',
-        function() dapui.eval(nil, { enter = true }) end,
-        { desc = 'Debug: Evaluate value under the cursor' }
-      )
-
-      local mason_registry = require('mason-registry')
-
-      local enter_launch_url = function()
-        local co = coroutine.running()
-
-        return coroutine.create(function()
-          vim.ui.input({ prompt = 'Enter URL: ', default = 'http://localhost:' }, function(url)
-            if url == nil or url == '' then
-              return
-            else
-              coroutine.resume(co, url)
-            end
-          end)
-        end)
-      end
 
       -- PHP debug config
 
