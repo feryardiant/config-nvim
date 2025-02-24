@@ -257,7 +257,7 @@ return {
             type = 'pwa-chrome',
             request = 'launch',
             name = 'DAP: Launch Chrome',
-            url = enter_launch_url,
+            url = util.launch_url_prompt,
             webroot = '${workspacefolder}',
             sourcemaps = true,
           })
@@ -266,7 +266,7 @@ return {
             type = 'pwa-msedge',
             request = 'launch',
             name = 'DAP: Launch MSEdge',
-            url = enter_launch_url,
+            url = util.launch_url_prompt,
             webRoot = '${workspaceFolder}',
             sourceMaps = true,
           })
@@ -284,7 +284,7 @@ return {
             type = 'firefox',
             request = 'launch',
             name = 'DAP: Launch Firefox',
-            url = enter_launch_url,
+            url = util.launch_url_prompt,
             webRoot = '${workspaceFolder}',
             sourceMaps = true,
             firefoxExecutable = vim.fn.exepath('firefox'),
