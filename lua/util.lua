@@ -14,10 +14,6 @@ function util.file_exists(...)
   return false
 end
 
----Is it a Laravel project
----@return boolean
-function util.is_laravel() return util.file_exists('artisan') end
-
 ---Is it a Deno project
 ---@return boolean
 function util.is_deno() return util.file_exists('deno.json', 'deno.jsonc', 'deno.lock') end
