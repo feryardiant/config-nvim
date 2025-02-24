@@ -227,20 +227,28 @@ return {
         end
 
         for _, lang in ipairs(js_langs) do
-          table.insert(dap.configurations[lang], {
+          local launchFile = {
             type = 'pwa-node',
             request = 'launch',
             name = 'DAP: Launch file using Node.js',
             program = '${file}',
-            cwd = '${workspaceFolder}'
-          })
+            cwd = '${workspaceFolder}',
+          }
+
+          if lang == 'typescript' then
+            -- Try to run current script with `ts-node`
+            launchFile.name = launchFile.name .. ' with ts-node'
+            launchFile.runtimeArgs = { '-r', 'ts-node/register' }
+          end
+
+          table.insert(dap.configurations[lang], launchFile)
 
           table.insert(dap.configurations[lang], {
             type = 'pwa-node',
             request = 'launch',
             name = 'DAP: Attach to Node.js Process',
-            processId = require("dap.utils").pick_process,
-            cwd = '${workspaceFolder}'
+            processId = require('dap.utils').pick_process,
+            cwd = '${workspaceFolder}',
           })
         end
 
