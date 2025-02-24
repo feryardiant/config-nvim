@@ -61,5 +61,6 @@ map('v', '>', '>gv', { desc = 'Indent line' })
 noremap({ 'n', 'v' }, '<leader>y', '"+y', { desc = 'Copy to system clipboard' })
 noremap({ 'n', 'v' }, '<leader>Y', '"+Y', { desc = 'Copy to system clipboard' })
 
--- Delete word
-noremap({ 'n', 'v' }, '<leader>d', '"_d', { desc = 'Delete word' })
+-- Delete word without leaving the trace
+-- https://learnvim.irian.to/basics/registers
+-- noremap({ 'n', 'v' }, '<leader>d', '"_d', { desc = 'Delete word' })
