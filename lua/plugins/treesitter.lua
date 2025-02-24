@@ -1,7 +1,12 @@
 return {
   {
     'JoosepAlviste/nvim-ts-context-commentstring',
-    lazy = true,
+    event = { 'BufReadPre', 'BufNewFile' },
+    dependencies = {
+      { 'nvim-treesitter/nvim-treesitter' },
+    },
+    ---@module 'ts_context_commentstring'
+    ---@type ts_context_commentstring.Config
     opts = {
       enable_autocmd = false,
     },
@@ -10,7 +15,12 @@ return {
   -- Show context of the current function
   {
     'nvim-treesitter/nvim-treesitter-context',
-    lazy = true,
+    event = { 'BufReadPre', 'BufNewFile' },
+    dependencies = {
+      { 'nvim-treesitter/nvim-treesitter' },
+    },
+    ---@module 'treesitter-context'
+    ---@type TSContext.UserConfig
     opts = {
       mode = 'cursor',
       max_line = 3,
@@ -20,6 +30,11 @@ return {
   {
     'windwp/nvim-ts-autotag',
     event = { 'BufReadPre', 'BufNewFile' },
+    dependencies = {
+      { 'nvim-treesitter/nvim-treesitter' },
+    },
+    ---@module 'nvim-ts-autotag'
+    ---@type nvim-ts-autotag.PluginSetup
     opts = {},
   },
 
@@ -32,9 +47,6 @@ return {
     dependencies = {
       { 'nvim-treesitter/playground' },
       { 'nvim-treesitter/nvim-treesitter-textobjects' },
-      { 'JoosepAlviste/nvim-ts-context-commentstring' },
-      { 'nvim-treesitter/nvim-treesitter-context', enabled = true },
-      { 'LiadOz/nvim-dap-repl-highlights', config = true },
     },
     ---@module 'nvim-treesitter'
     ---@type TSConfig

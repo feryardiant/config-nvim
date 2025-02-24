@@ -53,13 +53,27 @@ return {
         },
       },
     },
+    config = function(_, opts)
+      local dap, dapui = require('dap'), require('dapui')
+      local map = require('util').create_keymap()
+
+      dap.listeners.before.attach.dapui_config = dapui.open
+      dap.listeners.before.launch.dapui_config = dapui.open
+      dap.listeners.before.event_terminated.dapui_config = dapui.close
+      dap.listeners.before.event_exited.dapui_config = dapui.close
+
+      dapui.setup(opts)
+
+      map('n', '<leader>?', function() dapui.eval(nil, { enter = true }) end, { desc = 'Debug: Evaluate value' })
+    end,
   },
 
   {
     'mfussenegger/nvim-dap',
     dependencies = {
-      { 'theHamsta/nvim-dap-virtual-text' },
       { 'jay-babu/mason-nvim-dap.nvim' },
+      { 'theHamsta/nvim-dap-virtual-text' },
+      { 'LiadOz/nvim-dap-repl-highlights', config = true },
     },
     keys = {
       { '<F5>', function() require('dap').continue() end, desc = 'Debug: Start/Continue' },
@@ -74,41 +88,14 @@ return {
       vim.fn.sign_define('DapStopped', { text = '', texthl = 'DapStopped' })
     end,
     config = function()
-      local dap, dapui, util = require('dap'), require('dapui'), require('util')
+      local dap, util = require('dap'), require('util')
+      local mason_registry = require('mason-registry')
       local map = util.create_keymap()
-
-      dap.listeners.before.attach.dapui_config = dapui.open
-      dap.listeners.before.launch.dapui_config = dapui.open
-      dap.listeners.before.event_terminated.dapui_config = dapui.close
-      dap.listeners.before.event_exited.dapui_config = dapui.close
 
       map('n', '<F1>', dap.step_into, { desc = 'Debug: Step into' })
       map('n', '<F2>', dap.step_over, { desc = 'Debug: Step over' })
       map('n', '<F3>', dap.step_out, { desc = 'Debug: Step out' })
       map('n', '<F4>', dap.step_back, { desc = 'Debug: Step back' })
-
-      map(
-        'n',
-        '<leader>?',
-        function() dapui.eval(nil, { enter = true }) end,
-        { desc = 'Debug: Evaluate value under the cursor' }
-      )
-
-      local mason_registry = require('mason-registry')
-
-      local enter_launch_url = function()
-        local co = coroutine.running()
-
-        return coroutine.create(function()
-          vim.ui.input({ prompt = 'Enter URL: ', default = 'http://localhost:' }, function(url)
-            if url == nil or url == '' then
-              return
-            else
-              coroutine.resume(co, url)
-            end
-          end)
-        end)
-      end
 
       -- PHP debug config
 
@@ -119,7 +106,7 @@ return {
         }
 
         local php = require('custom.php')
-        local xdebug_port = 9003
+        local xdebug_port = php.xdebug_port()
 
         for _, lang in ipairs({ 'php', 'blade' }) do
           dap.configurations[lang] = {
@@ -171,14 +158,14 @@ return {
 
       local js_langs = {
         'javascript',
-        'javascriptreact',
         'typescript',
-        'typescriptreact',
       }
 
       local fe_langs = {
         'astro',
+        'javascriptreact',
         'svelte',
+        'typescriptreact',
         'vue',
       }
 
@@ -221,20 +208,28 @@ return {
         end
 
         for _, lang in ipairs(js_langs) do
-          table.insert(dap.configurations[lang], {
+          local launchFile = {
             type = 'pwa-node',
             request = 'launch',
             name = 'DAP: Launch file using Node.js',
             program = '${file}',
-            cwd = '${workspaceFolder}'
-          })
+            cwd = '${workspaceFolder}',
+          }
+
+          if lang == 'typescript' then
+            -- Try to run current script with `ts-node`
+            launchFile.name = launchFile.name .. ' with ts-node'
+            launchFile.runtimeArgs = { '-r', 'ts-node/register' }
+          end
+
+          table.insert(dap.configurations[lang], launchFile)
 
           table.insert(dap.configurations[lang], {
             type = 'pwa-node',
             request = 'launch',
             name = 'DAP: Attach to Node.js Process',
-            processId = require("dap.utils").pick_process,
-            cwd = '${workspaceFolder}'
+            processId = require('dap.utils').pick_process,
+            cwd = '${workspaceFolder}',
           })
         end
 
@@ -243,7 +238,7 @@ return {
             type = 'pwa-chrome',
             request = 'launch',
             name = 'DAP: Launch Chrome',
-            url = enter_launch_url,
+            url = util.launch_url_prompt,
             webroot = '${workspacefolder}',
             sourcemaps = true,
           })
@@ -252,7 +247,7 @@ return {
             type = 'pwa-msedge',
             request = 'launch',
             name = 'DAP: Launch MSEdge',
-            url = enter_launch_url,
+            url = util.launch_url_prompt,
             webRoot = '${workspaceFolder}',
             sourceMaps = true,
           })
@@ -270,7 +265,7 @@ return {
             type = 'firefox',
             request = 'launch',
             name = 'DAP: Launch Firefox',
-            url = enter_launch_url,
+            url = util.launch_url_prompt,
             webRoot = '${workspaceFolder}',
             sourceMaps = true,
             firefoxExecutable = vim.fn.exepath('firefox'),

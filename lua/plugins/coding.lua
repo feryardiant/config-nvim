@@ -17,11 +17,6 @@ return {
         desc = '[Trouble] Buffer diagnostics',
       },
       {
-        '<leader>xs',
-        '<Cmd>Trouble symbols toggle focus=false<CR>',
-        desc = '[Trouble] Symbols',
-      },
-      {
         '<leader>xl',
         '<Cmd>Trouble lsp toggle focus=false win.position=right<CR>',
         desc = '[Trouble] LSP Definitions',

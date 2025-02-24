@@ -2,6 +2,17 @@
 local PHP = {}
 local util = require('util')
 
+---Is it a Laravel project
+---@return boolean
+function PHP.is_laravel() return util.file_exists('artisan') end
+
+---Retrieve xdebug port
+---@return number
+function PHP.xdebug_port()
+  -- Default xdebug port
+  return 9003
+end
+
 ---Retrieve route file
 ---@return string?
 function PHP.route_file()

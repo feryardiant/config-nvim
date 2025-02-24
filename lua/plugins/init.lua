@@ -47,6 +47,8 @@ return {
 
         StatusLine = { link = 'lualine_c_normal' },
 
+        TreesitterContext = { link = 'NormalFloat'},
+
         WinBar = { bg = 'none' },
         WinBarNC = { bg = 'none' },
         WinSeparator = { fg = colors.guide_normal, bg = 'none' },

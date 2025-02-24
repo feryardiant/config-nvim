@@ -18,6 +18,38 @@ return {
     dependencies = {
       { 'nvim-lua/plenary.nvim' },
     },
+    keys = {
+      {
+        '<leader><space>',
+        function() require('telescope.builtin').buffers() end,
+        desc = 'Find buffers',
+      },
+      {
+        '<leader>ff',
+        function() require('telescope.builtin').find_files() end,
+        desc = 'Find files',
+      },
+      {
+        '<leader>fw',
+        function() require('telescope.builtin').grep_string() end,
+        desc = 'Find current word',
+      },
+      {
+        '<C-p>',
+        function() require('telescope.builtin').git_files() end,
+        desc = 'Find files inside git repository',
+      },
+      {
+        '<C-f>',
+        function() require('telescope.builtin').live_grep() end,
+        desc = 'Find files inside workspace',
+      },
+      {
+        '<leader>fs',
+        function() require('telescope.builtin').lsp_document_symbols() end,
+        desc = 'Find document symbols',
+      },
+    },
     ---@module 'telescope'
     ---@param opts table
     opts = function(_, opts)
@@ -50,32 +82,5 @@ return {
 
       opts.extensions = {}
     end,
-    keys = {
-      {
-        '<leader><space>',
-        function() require('telescope.builtin').buffers() end,
-        desc = 'Find files from existing buffer',
-      },
-      {
-        '<leader>ff',
-        function() require('telescope.builtin').find_files() end,
-        desc = 'Find files',
-      },
-      {
-        '<leader>fw',
-        function() require('telescope.builtin').grep_string() end,
-        desc = 'Find current word',
-      },
-      {
-        '<C-p>',
-        function() require('telescope.builtin').git_files() end,
-        desc = 'Find files inside git repository',
-      },
-      {
-        '<leader>ds',
-        function() require('telescope.builtin').lsp_document_symbols() end,
-        desc = 'Find document symbols',
-      },
-    },
   },
 }

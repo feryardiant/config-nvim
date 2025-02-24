@@ -14,13 +14,24 @@ function util.file_exists(...)
   return false
 end
 
----Is it a Laravel project
----@return boolean
-function util.is_laravel() return util.file_exists('artisan') end
-
 ---Is it a Deno project
 ---@return boolean
 function util.is_deno() return util.file_exists('deno.json', 'deno.jsonc', 'deno.lock') end
+
+---Prompt user regarding the launch url.
+function util.launch_url_prompt()
+  local co = coroutine.running()
+
+  return coroutine.create(function()
+    vim.ui.input({ prompt = 'Enter URL: ', default = 'http://localhost:' }, function(url)
+      if url == nil or url == '' then
+        return
+      else
+        coroutine.resume(co, url)
+      end
+    end)
+  end)
+end
 
 ---@param default_opts? number|vim.keymap.set.Opts
 function util.create_keymap(default_opts)
