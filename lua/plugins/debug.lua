@@ -26,7 +26,6 @@ return {
     },
     keys = {
       { '<F7>', function() require('dapui').toggle() end, desc = 'Debug: Toggle UI' },
-      { '<leader>?', function() require('dapui').eval(nil, { enter = true }) end, desc = 'Debug: Evaluate value' },
     },
     ---@module 'dapui'
     ---@type dapui.Config
@@ -56,6 +55,7 @@ return {
     },
     config = function(_, opts)
       local dap, dapui = require('dap'), require('dapui')
+      local map = require('util').create_keymap()
 
       dap.listeners.before.attach.dapui_config = dapui.open
       dap.listeners.before.launch.dapui_config = dapui.open
@@ -63,6 +63,8 @@ return {
       dap.listeners.before.event_exited.dapui_config = dapui.close
 
       dapui.setup(opts)
+
+      map('n', '<leader>?', function() dapui.eval(nil, { enter = true }) end, { desc = 'Debug: Evaluate value' })
     end,
   },
 
