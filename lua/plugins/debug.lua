@@ -125,7 +125,7 @@ return {
         }
 
         local php = require('custom.php')
-        local xdebug_port = 9003
+        local xdebug_port = php.xdebug_port()
 
         for _, lang in ipairs({ 'php', 'blade' }) do
           dap.configurations[lang] = {
