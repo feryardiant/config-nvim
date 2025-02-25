@@ -152,6 +152,7 @@ return {
       })
 
       local symbols = {
+        'symbols',
         doc_symbols.get,
         cond = doc_symbols.has,
         padding = { left = 1, right = 0 },
