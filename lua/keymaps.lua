@@ -43,6 +43,10 @@ map('n', '<A-Down>', '<Cmd>resize-2<CR>', { desc = 'Decrease window height' })
 map('n', '<A-Left>', '<Cmd>vertical resize-2<CR>', { desc = 'Decrease window width' })
 map('n', '<A-Right>', '<Cmd>vertical resize+2<CR>', { desc = 'Increase window width' })
 
+-- Keep cursor in the middle while scrolling page
+map('n', '<C-d>', '<C-d>zz')
+map('n', '<C-u>', '<C-u>zz')
+
 -- Speed up viewport scrolling
 -- map('n', '<C-J>', '4<C-e>', { desc = 'Scroll 4 lines down' })
 -- map('n', '<C-K>', '4<C-y>', { desc = 'Scroll 4 lines up' })
