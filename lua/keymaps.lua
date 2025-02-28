@@ -21,6 +21,8 @@ map('n', ']w', diagnostic_goto(true, 'WARN'), { desc = 'Goto next warning' })
 map('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 map('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
+noremap('n', 'J', 'mzJ`z', { desc = 'Move line below to end of current line' })
+
 -- Move lines - Use ALT+J/K to move line up and down
 noremap('n', '<A-j>', '<Cmd>move+1<CR>==', { desc = 'Move lines down' })
 noremap('n', '<A-k>', '<Cmd>move-2<CR>==', { desc = 'Move lines up' })
