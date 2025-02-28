@@ -53,10 +53,10 @@ return {
         WinBarNC = { bg = 'none' },
         WinSeparator = { fg = colors.guide_normal, bg = 'none' },
 
-        DiffText = { link = 'DiffChange' },
+        -- DiffText = { link = 'DiffChange' },
         -- DiffAdd = { fg = colors.vcs_added },
         -- DiffChange = { bg = colors.selection_inactive },
-        DiffDelete = { fg = colors.vcs_removed },
+        -- DiffDelete = { fg = colors.vcs_removed },
 
         -- DiffviewDiffAdd = { fg = colors.vcs_added },
         DiffviewDiffDelete = { fg = colors.comment },

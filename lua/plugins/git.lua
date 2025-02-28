@@ -36,6 +36,21 @@ return {
   },
 
   {
+    'akinsho/git-conflict.nvim',
+    version = '*',
+    ---@module 'git-conflict'
+    ---@type GitConflictConfig
+    opts = {
+      disable_diagnostics = true,
+      highlights = {
+        ancestor = 'DiffText',
+        current = 'DiffChange',
+        incoming = 'DiffAdd',
+      },
+    },
+  },
+
+  {
     'sindrets/diffview.nvim',
     dependencies = {
       { 'nvim-tree/nvim-web-devicons' },
