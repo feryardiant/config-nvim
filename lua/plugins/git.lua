@@ -42,6 +42,25 @@ return {
     },
     ---@module 'diffview'
     ---@type DiffviewConfig
-    opts = {},
-  }
+    opts = {
+      enhanced_diff_hl = true,
+      view = {
+        merge_tool = {
+          layout = 'diff3_mixed',
+        },
+      },
+      file_panel = {
+        win_config = {
+          position = 'right',
+          width = 32,
+        },
+      },
+      hooks = {
+        diff_buff_read = function()
+          vim.opt_local.wrap = false
+          vim.opt_local.colorcolumn = { 80 }
+        end,
+      },
+    },
+  },
 }
