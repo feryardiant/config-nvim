@@ -34,4 +34,48 @@ return {
       end,
     },
   },
+
+  {
+    'akinsho/git-conflict.nvim',
+    version = '*',
+    ---@module 'git-conflict'
+    ---@type GitConflictConfig
+    opts = {
+      disable_diagnostics = true,
+      highlights = {
+        ancestor = 'DiffText',
+        current = 'DiffChange',
+        incoming = 'DiffAdd',
+      },
+    },
+  },
+
+  {
+    'sindrets/diffview.nvim',
+    dependencies = {
+      { 'nvim-tree/nvim-web-devicons' },
+    },
+    ---@module 'diffview'
+    ---@type DiffviewConfig
+    opts = {
+      enhanced_diff_hl = true,
+      view = {
+        merge_tool = {
+          layout = 'diff3_mixed',
+        },
+      },
+      file_panel = {
+        win_config = {
+          position = 'right',
+          width = 32,
+        },
+      },
+      hooks = {
+        diff_buff_read = function()
+          vim.opt_local.wrap = false
+          vim.opt_local.colorcolumn = { 80 }
+        end,
+      },
+    },
+  },
 }

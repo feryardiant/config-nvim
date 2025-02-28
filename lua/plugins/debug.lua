@@ -77,7 +77,7 @@ return {
     },
     keys = {
       { '<F5>', function() require('dap').continue() end, desc = 'Debug: Start/Continue' },
-      { '<leader>b', function() require('dap').toggle_breakpoint() end, desc = 'Debug: Toggle Breakpoint' },
+      { '<leader>db', function() require('dap').toggle_breakpoint() end, desc = 'Debug: Toggle Breakpoint' },
     },
     init = function()
       -- Credit: https://github.com/mfussenegger/nvim-dap/discussions/355
