@@ -34,4 +34,14 @@ return {
       end,
     },
   },
+
+  {
+    'sindrets/diffview.nvim',
+    dependencies = {
+      { 'nvim-tree/nvim-web-devicons' },
+    },
+    ---@module 'diffview'
+    ---@type DiffviewConfig
+    opts = {},
+  }
 }
