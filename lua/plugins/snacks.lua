@@ -125,6 +125,9 @@ return {
           frecency = true,
         },
       },
+      statuscolumn = {
+        enabled = true,
+      },
       terminal = {},
     },
   },
