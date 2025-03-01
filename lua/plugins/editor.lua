@@ -4,7 +4,6 @@ return {
     event = 'VeryLazy',
     dependencies = {
       { 'MunifTanjim/nui.nvim' },
-      { 'nvim-telescope/telescope.nvim' },
     },
     ---@module 'noice'
     ---@param opts NoiceConfig
@@ -15,10 +14,6 @@ return {
           ['vim.lsp.util.stylize_markdown'] = true,
           ['cmp.entry.get_documentation'] = false,
         },
-      }
-
-      opts.notify = {
-        view = 'snacks',
       }
 
       opts.messages = {
@@ -43,8 +38,6 @@ return {
       --     opts = { skip = true },
       --   },
       -- }
-
-      require('telescope').load_extension('noice')
     end,
   },
 
