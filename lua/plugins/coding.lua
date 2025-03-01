@@ -109,7 +109,7 @@ return {
     cmd = { 'ConformInfo' },
     keys = {
       {
-        '<leader>fb',
+        '<leader>fo',
         function()
           require('conform').format({
             async = true,
@@ -117,7 +117,7 @@ return {
             timeout_ms = 5000,
           })
         end,
-        desc = '[F]ormat [B]uffer',
+        desc = '[Fo]rmat Buffer',
       },
     },
     ---@module 'conform'
