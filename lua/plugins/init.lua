@@ -78,11 +78,6 @@ return {
     },
   },
 
-  {
-    'stevearc/dressing.nvim',
-    lazy = true,
-  },
-
   -- {
   --   'akinsho/bufferline.nvim',
   --   opts = {
