@@ -5,9 +5,9 @@ return {
     priority = 1001,
     keys = {
       {
-        '<leader>nh',
+        '<leader>n',
         function()
-          Snacks.notifier.show_history({})
+          Snacks.picker.notifications()
         end,
         desc = 'Notification history'
       },
