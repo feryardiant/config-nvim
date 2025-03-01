@@ -11,7 +11,11 @@ return {
       },
       {
         '<leader>fe',
-        function() Snacks.picker.explorer() end,
+        function()
+          Snacks.explorer({
+            follow_file = true,
+          })
+        end,
         desc = 'Open [F]ile [E]xplorer',
       },
     },
@@ -23,6 +27,12 @@ return {
       },
       input = {
         enabled = true,
+      },
+      image = {
+        enabled = true,
+        doc = {
+          enabled = true,
+        },
       },
       notifier = {
         enabled = true,

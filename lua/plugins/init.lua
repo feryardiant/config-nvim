@@ -116,7 +116,6 @@ return {
       opts.extensions = {
         'lazy',
         'mason',
-        'neo-tree',
         'nvim-dap-ui',
         'quickfix',
         'toggleterm',
