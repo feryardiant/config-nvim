@@ -25,6 +25,11 @@ return {
         Visual = { bg = colors.selection_bg },
         NonText = { fg = colors.guide_active },
 
+        -- DiffText = { link = 'DiffChange' },
+        -- DiffAdd = { fg = colors.vcs_added },
+        -- DiffChange = { bg = colors.selection_inactive },
+        -- DiffDelete = { fg = colors.vcs_removed },
+
         DapBreakpoint = { fg = colors.accent },
         DapBreakpointCondition = { fg = colors.warning },
         DapBreakpointRejected = { fg = colors.error },

@@ -2,9 +2,6 @@ return {
   {
     'lewis6991/gitsigns.nvim',
     event = { 'BufReadPre', 'BufNewFile' },
-    dependencies = {
-      -- { 'tpope/vim-fugitive' },
-    },
     ---@module 'gitsigns'
     ---@type Gitsigns.Config
     opts = {
@@ -32,6 +29,27 @@ return {
 
         map('n', '<leader>h?', gs.preview_hunk_inline, { desc = 'Preview [H]unk' })
       end,
+    },
+  },
+
+  {
+    'akinsho/git-conflict.nvim',
+    version = '*',
+    ---@module 'git-conflict'
+    ---@type GitConflictConfig
+    opts = {
+      disable_diagnostics = true,
+      highlights = {
+        ancestor = 'DiffText',
+        current = 'DiffChange',
+        incoming = 'DiffAdd',
+      },
+      default_mappings = {
+        ours = '<leader>co',
+        theirs = '<leader>ct',
+        none = '<leader>c0',
+        both = '<leader>cb',
+      },
     },
   },
 }
