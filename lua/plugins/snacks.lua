@@ -64,6 +64,15 @@ return {
         desc = '[S]earch by [W]ord',
       },
       {
+        '<leader>gg',
+        function ()
+          Snacks.lazygit({
+            win = { border = 'rounded' },
+          })
+        end,
+        desc = 'Open LazyGit',
+      },
+      {
         '<C-f>',
         function ()
           Snacks.picker.grep()
@@ -77,6 +86,13 @@ return {
         end,
         desc = 'Projects',
       },
+      {
+        '<C-`>',
+        function ()
+          Snacks.terminal()
+        end,
+        desc = 'Toggle Terminal',
+      }
     },
     ---@module 'snacks'
     ---@type snacks.Config
@@ -109,6 +125,7 @@ return {
           frecency = true,
         },
       },
+      terminal = {},
     },
   },
 }
