@@ -22,7 +22,6 @@ return {
     dependencies = {
       { 'mfussenegger/nvim-dap' },
       { 'nvim-neotest/nvim-nio' },
-      { 'stevearc/dressing.nvim' },
     },
     keys = {
       { '<F7>', function() require('dapui').toggle() end, desc = 'Debug: Toggle UI' },
