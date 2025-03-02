@@ -52,7 +52,7 @@ return {
 
         StatusLine = { link = 'lualine_c_normal' },
 
-        TreesitterContext = { link = 'NormalFloat'},
+        TreesitterContext = { link = 'NormalFloat' },
 
         WinBar = { bg = 'none' },
         WinBarNC = { bg = 'none' },
@@ -151,7 +151,7 @@ return {
       })
 
       local symbols = {
-        'symbols',
+        -- 'symbols',
         doc_symbols.get,
         cond = doc_symbols.has,
         padding = { left = 1, right = 0 },

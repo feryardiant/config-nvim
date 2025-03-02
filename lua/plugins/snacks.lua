@@ -2,7 +2,7 @@ return {
   {
     'folke/snacks.nvim',
     lazy = false,
-    priority = 999,
+    priority = 1000,
     keys = {
       { '<C-`>', function() Snacks.terminal() end, desc = 'Toggle Terminal' },
       { '<C-p>', function() Snacks.picker.projects() end, desc = '[P]rojects' },
@@ -16,7 +16,7 @@ return {
       { '<leader>d', function() Snacks.picker.diagnostics() end, desc = 'Open [D]iagnostics' },
       { '<leader>da', function() Snacks.picker.diagnostics_buffer() end, desc = 'Open [D]iagnostics Buffer' },
       -- Searches
-      { '<leader>sw', function() Snacks.picker.grep_word() end, desc = '[S]earch by [W]ord', mode = { "n", "x" } },
+      { '<leader>sw', function() Snacks.picker.grep_word() end, desc = '[S]earch by [W]ord', mode = { 'n', 'x' } },
       { '<C-f>', function() Snacks.picker.grep() end, desc = 'Live grep' },
       -- Git
       { '<leader>gg', function() Snacks.lazygit({ win = { border = 'rounded' } }) end, desc = 'Open LazyGit' },
