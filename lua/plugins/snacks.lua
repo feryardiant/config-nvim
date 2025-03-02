@@ -54,36 +54,18 @@ return {
       explorer = {
         replace_netrw = true,
       },
-      input = {
-        enabled = true,
-      },
+      input = {},
       indent = {
-        enabled = true,
-        indent = {
-          char = '┆',
-        },
-        scope = {
-          enabled = true,
-          char = '│',
-        },
-        animate = {
-          step = 10,
-          total = 100,
-        },
+        indent = { char = '┆' },
+        scope = { char = '│' },
+        animate = { step = 10, total = 100 },
       },
       image = {
-        enabled = true,
-        doc = {
-          enabled = true,
-        },
+        doc = {},
       },
-      notifier = {
-        enabled = true,
-      },
+      notifier = {},
       picker = {
-        layout = {
-          preset = 'dropdown',
-        },
+        layout = { preset = 'dropdown' },
         layouts = {
           sidebar = {
             layout = {
@@ -92,13 +74,13 @@ return {
             },
           },
         },
-        matcher = {
-          frecency = true,
+        matcher = { frecency = true },
+        sources = {
+          explorer = { hidden = true },
+          files = { hidden = true },
         },
       },
-      statuscolumn = {
-        enabled = true,
-      },
+      statuscolumn = {},
       terminal = {},
     },
   },
