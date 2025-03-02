@@ -38,9 +38,6 @@ return {
         DapUIFloatBorder = { link = 'FloatBorder' },
         DapUIFloatNormal = { link = 'NormalFloat' },
 
-        SnacksIndent = { fg = colors.guide_normal },
-        SnacksIndentScope = { fg = colors.accent },
-
         LazyNormal = { link = 'Normal' },
         MasonNormal = { link = 'Normal' },
 
@@ -51,6 +48,12 @@ return {
         NvimDapVirtualTextChanged = { fg = colors.accent },
 
         StatusLine = { link = 'lualine_c_normal' },
+
+        SnacksBackdrop = { link = 'WinBar' },
+        SnacksIndent = { fg = colors.guide_normal },
+        SnacksIndentScope = { fg = colors.accent },
+        SnacksPicker = { link = 'WinBar' },
+        SnacksTerminal = { link = 'WinBar' },
 
         TreesitterContext = { link = 'NormalFloat' },
 

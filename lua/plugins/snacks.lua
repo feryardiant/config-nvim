@@ -82,6 +82,7 @@ return {
       },
       statuscolumn = {},
       terminal = {},
+      win = { backdrop = false },
     },
   },
 }
