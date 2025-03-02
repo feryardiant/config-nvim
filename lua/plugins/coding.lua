@@ -5,45 +5,54 @@ return {
     dependencies = {
       { 'nvim-tree/nvim-web-devicons' },
     },
-    keys = {
-      {
-        '<leader>xx',
-        '<Cmd>Trouble diagnostics toggle<CR>',
-        desc = '[Trouble] Diagnostics',
-      },
-      {
-        '<leader>xX',
-        '<Cmd>Trouble diagnostics toggle filter.buf=0<CR>',
-        desc = '[Trouble] Buffer diagnostics',
-      },
-      {
-        '<leader>xl',
-        '<Cmd>Trouble lsp toggle focus=false win.position=right<CR>',
-        desc = '[Trouble] LSP Definitions',
-      },
-      {
-        '<leader>xL',
-        '<Cmd>Trouble loclist toggle<CR>',
-        desc = '[Trouble] Location list',
-      },
-      {
-        '<leader>xq',
-        '<Cmd>Trouble qflist toggle<CR>',
-        desc = '[Trouble] Quickfix list',
-      },
-    },
     ---@module 'trouble'
     ---@type trouble.Config
     opts = {
       use_diagnostic_signs = true,
     },
     init = function()
+      local map = require('util').create_keymap()
+
       -- If you want icons for diagnostic errors, you'll need to define them somewhere:
       vim.fn.sign_define('DiagnosticSignError', { text = ' ', texthl = 'DiagnosticSignError' })
       vim.fn.sign_define('DiagnosticSignWarn', { text = ' ', texthl = 'DiagnosticSignWarn' })
       vim.fn.sign_define('DiagnosticSignInfo', { text = ' ', texthl = 'DiagnosticSignInfo' })
       vim.fn.sign_define('DiagnosticSignHint', { text = '󰌵', texthl = 'DiagnosticSignHint' })
+
+      -- Diagnostics
+      local diagnostic_goto = function(next, severity)
+        local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+        severity = severity and vim.diagnostic.severity[severity] or nil
+
+        return function() go({ severity = severity }) end
+      end
+
+      map('n', '[d', diagnostic_goto(false), { desc = 'Prev [D]iagnostic' })
+      map('n', ']d', diagnostic_goto(true), { desc = 'Next [D]iagnostic' })
+      map('n', '[e', diagnostic_goto(false, 'ERROR'), { desc = 'Prev [E]rror' })
+      map('n', ']e', diagnostic_goto(true, 'ERROR'), { desc = 'Next [E]rror' })
+      map('n', '[w', diagnostic_goto(false, 'WARN'), { desc = 'Prev [W]arning' })
+      map('n', ']w', diagnostic_goto(true, 'WARN'), { desc = 'Next [W]arning' })
+
+      map('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
     end,
+    specs = {
+      'folke/snacks.nvim',
+      opts = function(_, opts)
+        return vim.tbl_deep_extend('force', opts or {}, {
+          picker = {
+            actions = require('trouble.sources.snacks').actions,
+            -- win = {
+            --   input = {
+            --     keys = {
+            --       ['<c-t>'] = { 'trouble_open', mode = { 'n', 'i' } },
+            --     },
+            --   },
+            -- },
+          },
+        })
+      end,
+    },
   },
 
   {
@@ -109,7 +118,7 @@ return {
     cmd = { 'ConformInfo' },
     keys = {
       {
-        '<leader>fb',
+        '<leader>fo',
         function()
           require('conform').format({
             async = true,
@@ -117,7 +126,7 @@ return {
             timeout_ms = 5000,
           })
         end,
-        desc = '[F]ormat [B]uffer',
+        desc = '[Fo]rmat Buffer',
       },
     },
     ---@module 'conform'

@@ -1,26 +1,9 @@
 return {
   {
-    'rcarriga/nvim-notify',
-    lazy = true,
-    dependencies = {
-      { 'nvim-telescope/telescope.nvim' },
-    },
-    ---@module 'notify'
-    ---@type notify.Config
-    opts = {
-      minimum_width = 25,
-      -- max_width = 50,
-      background_colour = '#000000',
-    },
-    init = function() require('telescope').load_extension('notify') end,
-  },
-
-  {
     'folke/noice.nvim',
     event = 'VeryLazy',
     dependencies = {
       { 'MunifTanjim/nui.nvim' },
-      { 'rcarriga/nvim-notify' },
     },
     ---@module 'noice'
     ---@param opts NoiceConfig
@@ -31,26 +14,10 @@ return {
           ['vim.lsp.util.stylize_markdown'] = true,
           ['cmp.entry.get_documentation'] = false,
         },
-        -- signature = {
-        --   enabled = false,
-        -- },
-        -- hover = {
-        --   enabled = false
-        -- }
       }
 
       opts.messages = {
         view = 'mini',
-      }
-
-      opts.commands = {
-        -- Show all notification history
-        ---@see https://github.com/craftzdog/dotfiles-public/blob/a445967/.config/nvim/lua/plugins/ui.lua#L35-L40
-        all = {
-          view = 'split',
-          opts = { enter = true, format = 'details', border = 'none' },
-          filter = { event = 'notify' },
-        },
       }
 
       opts.presets = {
@@ -61,16 +28,16 @@ return {
         lsp_doc_border = true, -- add a border to hover docs and signature help
       }
 
-      opts.routes = {
-        -- Credit: https://github.com/neovim/nvim-lspconfig/issues/1931#issuecomment-2138428768
-        {
-          filter = {
-            event = 'notify',
-            find = 'No information available',
-          },
-          opts = { skip = true },
-        },
-      }
+      -- opts.routes = {
+      --   -- Credit: https://github.com/neovim/nvim-lspconfig/issues/1931#issuecomment-2138428768
+      --   {
+      --     filter = {
+      --       event = 'notify',
+      --       find = 'No information available',
+      --     },
+      --     opts = { skip = true },
+      --   },
+      -- }
     end,
   },
 
@@ -97,7 +64,6 @@ return {
     ft = 'dotenv',
     ---@module 'cloak'
     opts = {
-      cloak_telescope = true,
       patterns = {
         {
           file_pattern = '.env*',

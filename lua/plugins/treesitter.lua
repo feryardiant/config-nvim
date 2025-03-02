@@ -45,7 +45,6 @@ return {
     cmd = { 'TSUpdateSync', 'TSUpdate', 'TSInstall' },
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
-      { 'nvim-treesitter/playground' },
       { 'nvim-treesitter/nvim-treesitter-textobjects' },
     },
     ---@module 'nvim-treesitter'
