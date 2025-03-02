@@ -4,23 +4,6 @@ local noremap = require('util').create_keymap({ noremap = true })
 -- Clear search with <ESC>
 map('n', '<Esc>', '<Cmd>nohlsearch<CR>', { desc = 'Clear search highlight' })
 
--- Diagnostics
-local diagnostic_goto = function(next, severity)
-  local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
-  severity = severity and vim.diagnostic.severity[severity] or nil
-
-  return function() go({ severity = severity }) end
-end
-
-map('n', '[d', diagnostic_goto(false), { desc = 'Goto previous diagnostic' })
-map('n', ']d', diagnostic_goto(true), { desc = 'Goto next diagnostic' })
-map('n', '[e', diagnostic_goto(false, 'ERROR'), { desc = 'Goto previous error' })
-map('n', ']e', diagnostic_goto(true, 'ERROR'), { desc = 'Goto next error' })
-map('n', '[w', diagnostic_goto(false, 'WARN'), { desc = 'Goto previous warning' })
-map('n', ']w', diagnostic_goto(true, 'WARN'), { desc = 'Goto next warning' })
-map('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-map('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
-
 noremap('n', 'J', 'mzJ`z', { desc = 'Move line below to end of current line' })
 
 -- Move lines - Use ALT+J/K to move line up and down
