@@ -39,6 +39,20 @@ return {
       input = {
         enabled = true,
       },
+      indent = {
+        enabled = true,
+        indent = {
+          char = '┆',
+        },
+        scope = {
+          enabled = true,
+          char = '│',
+        },
+        animate = {
+          step = 10,
+          total = 100,
+        },
+      },
       image = {
         enabled = true,
         doc = {

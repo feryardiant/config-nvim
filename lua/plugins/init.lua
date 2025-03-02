@@ -38,8 +38,8 @@ return {
         DapUIFloatBorder = { link = 'FloatBorder' },
         DapUIFloatNormal = { link = 'NormalFloat' },
 
-        IblIndent = { fg = colors.guide_normal },
-        IblScope = { fg = colors.accent },
+        SnacksIndent = { fg = colors.guide_normal },
+        SnacksIndentScope = { fg = colors.accent },
 
         LazyNormal = { link = 'Normal' },
         MasonNormal = { link = 'Normal' },
