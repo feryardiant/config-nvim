@@ -64,7 +64,6 @@ return {
     ft = 'dotenv',
     ---@module 'cloak'
     opts = {
-      cloak_telescope = true,
       patterns = {
         {
           file_pattern = '.env*',

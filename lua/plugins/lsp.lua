@@ -174,26 +174,13 @@ return {
     'neovim/nvim-lspconfig',
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
-      { 'nvim-telescope/telescope.nvim' },
       { 'nvim-cmp' },
     },
     config = function()
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
-          local telescope_builtin = require('telescope.builtin')
           local map = require('util').create_keymap({ buffer = event.buf, remap = false, desc = 'LSP: ' })
-
-          map('n', 'gd', vim.lsp.buf.definition, { desc = '[G]oto [D]efinition' })
-          map('n', 'gD', vim.lsp.buf.declaration, { desc = '[G]oto [D]eclaration' })
-
-          map('n', 'gr', vim.lsp.buf.references, { desc = '[G]oto [R]eferences' })
-          map('n', 'gI', vim.lsp.buf.implementation, { desc = '[G]oto [I]mplementation' })
-
-          map('n', '<leader>D', vim.lsp.buf.type_definition, { desc = 'Type [D]efinition' })
-          map('n', '<leader>ds', telescope_builtin.lsp_document_symbols, { desc = '[D]ocument [S]ymbols' })
-
-          map('n', '<leader>ws', telescope_builtin.lsp_dynamic_workspace_symbols, { desc = '[W]orkspace [S]ymbols' })
 
           map('n', '<leader>rn', vim.lsp.buf.rename, { desc = '[R]e[n]ame' })
           map({ 'n', 'x' }, '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ction' })
