@@ -4,7 +4,17 @@ return {
     name = 'ayu',
     lazy = false,
     priority = 1000,
-    init = function() vim.cmd.colorscheme('ayu') end,
+    init = function()
+      vim.cmd.colorscheme('ayu')
+
+      vim.api.nvim_create_autocmd('TextYankPost', {
+        pattern = '*',
+        callback = function()
+          -- https://neovim.io/doc/user/lua.html#vim.hl
+          vim.highlight.on_yank({ higroup = 'Visual', timeout = 200 })
+        end,
+      })
+    end,
     opts = function(_, opts)
       local colors = require('ayu.colors')
 
