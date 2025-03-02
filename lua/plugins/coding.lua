@@ -6,31 +6,31 @@ return {
       { 'nvim-tree/nvim-web-devicons' },
     },
     keys = {
-      {
-        '<leader>xx',
-        '<Cmd>Trouble diagnostics toggle<CR>',
-        desc = '[Trouble] Diagnostics',
-      },
-      {
-        '<leader>xX',
-        '<Cmd>Trouble diagnostics toggle filter.buf=0<CR>',
-        desc = '[Trouble] Buffer diagnostics',
-      },
-      {
-        '<leader>xl',
-        '<Cmd>Trouble lsp toggle focus=false win.position=right<CR>',
-        desc = '[Trouble] LSP Definitions',
-      },
-      {
-        '<leader>xL',
-        '<Cmd>Trouble loclist toggle<CR>',
-        desc = '[Trouble] Location list',
-      },
-      {
-        '<leader>xq',
-        '<Cmd>Trouble qflist toggle<CR>',
-        desc = '[Trouble] Quickfix list',
-      },
+      -- {
+      --   '<leader>xx',
+      --   '<Cmd>Trouble diagnostics toggle<CR>',
+      --   desc = '[Trouble] Diagnostics',
+      -- },
+      -- {
+      --   '<leader>xX',
+      --   '<Cmd>Trouble diagnostics toggle filter.buf=0<CR>',
+      --   desc = '[Trouble] Buffer diagnostics',
+      -- },
+      -- {
+      --   '<leader>xl',
+      --   '<Cmd>Trouble lsp toggle focus=false win.position=right<CR>',
+      --   desc = '[Trouble] LSP Definitions',
+      -- },
+      -- {
+      --   '<leader>xL',
+      --   '<Cmd>Trouble loclist toggle<CR>',
+      --   desc = '[Trouble] Location list',
+      -- },
+      -- {
+      --   '<leader>xq',
+      --   '<Cmd>Trouble qflist toggle<CR>',
+      --   desc = '[Trouble] Quickfix list',
+      -- },
     },
     ---@module 'trouble'
     ---@type trouble.Config
@@ -44,6 +44,23 @@ return {
       vim.fn.sign_define('DiagnosticSignInfo', { text = ' ', texthl = 'DiagnosticSignInfo' })
       vim.fn.sign_define('DiagnosticSignHint', { text = '󰌵', texthl = 'DiagnosticSignHint' })
     end,
+    specs = {
+      'folke/snacks.nvim',
+      opts = function(_, opts)
+        return vim.tbl_deep_extend('force', opts or {}, {
+          picker = {
+            actions = require('trouble.sources.snacks').actions,
+            -- win = {
+            --   input = {
+            --     keys = {
+            --       ['<c-t>'] = { 'trouble_open', mode = { 'n', 'i' } },
+            --     },
+            --   },
+            -- },
+          },
+        })
+      end,
+    },
   },
 
   {
