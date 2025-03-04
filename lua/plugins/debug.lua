@@ -56,14 +56,21 @@ return {
       local dap, dapui = require('dap'), require('dapui')
       local map = require('util').create_keymap()
 
-      dap.listeners.before.attach.dapui_config = dapui.open
-      dap.listeners.before.launch.dapui_config = dapui.open
+      dap.listeners.after.event_initialized.dapui_config = function()
+        map('n', '<F1>', dap.step_into, { desc = 'Debug: Step into' })
+        map('n', '<F2>', dap.step_over, { desc = 'Debug: Step over' })
+        map('n', '<F3>', dap.step_out, { desc = 'Debug: Step out' })
+        map('n', '<F4>', dap.step_back, { desc = 'Debug: Step back' })
+        map('n', '<leader>de', function() dapui.eval(nil, { enter = true }) end, { desc = 'Debug: Evaluate value' })
+        map('n', '<leader>dc', dap.clear_breakpoints, { desc = 'Debug: Clear breakpoints' })
+
+        dapui.open()
+      end
+
       dap.listeners.before.event_terminated.dapui_config = dapui.close
       dap.listeners.before.event_exited.dapui_config = dapui.close
 
       dapui.setup(opts)
-
-      map('n', '<leader>?', function() dapui.eval(nil, { enter = true }) end, { desc = 'Debug: Evaluate value' })
     end,
   },
 
@@ -96,12 +103,6 @@ return {
     config = function()
       local dap, util = require('dap'), require('util')
       local mason_registry = require('mason-registry')
-      local map = util.create_keymap()
-
-      map('n', '<F1>', dap.step_into, { desc = 'Debug: Step into' })
-      map('n', '<F2>', dap.step_over, { desc = 'Debug: Step over' })
-      map('n', '<F3>', dap.step_out, { desc = 'Debug: Step out' })
-      map('n', '<F4>', dap.step_back, { desc = 'Debug: Step back' })
 
       -- PHP debug config
 

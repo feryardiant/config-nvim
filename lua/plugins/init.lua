@@ -43,7 +43,7 @@ return {
         DapBreakpoint = { fg = colors.accent },
         DapBreakpointCondition = { fg = colors.warning },
         DapBreakpointRejected = { fg = colors.error },
-        DapLogPoint = { fg = colors.selection_bg },
+        DapLogPoint = { fg = colors.accent },
         DapStopped = { fg = colors.tag },
         DapUIFloatBorder = { link = 'FloatBorder' },
         DapUIFloatNormal = { link = 'NormalFloat' },
