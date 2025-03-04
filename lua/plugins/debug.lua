@@ -80,11 +80,18 @@ return {
     },
     init = function()
       -- Credit: https://github.com/mfussenegger/nvim-dap/discussions/355
-      vim.fn.sign_define('DapBreakpoint', { text = '󰃤', texthl = 'DapBreakpoint' })
-      vim.fn.sign_define('DapBreakpointCondition', { text = '󰃤', texthl = 'DapBreakpointCondition' })
-      vim.fn.sign_define('DapBreakpointRejected', { text = '󰃤', texthl = 'DapBreakpointRejected' })
-      vim.fn.sign_define('DapLogPoint', { text = '', texthl = 'DapLogPoint' })
-      vim.fn.sign_define('DapStopped', { text = '', texthl = 'DapStopped' })
+      local sings = {
+        Breakpoint = '',
+        BreakpointCondition = '',
+        BreakpointRejected = '',
+        LogPoint = '',
+        Stopped = '',
+      }
+
+      for label, icon in pairs(sings) do
+        label = 'Dap' .. label
+        vim.fn.sign_define(label, { text = icon, texthl = label })
+      end
     end,
     config = function()
       local dap, util = require('dap'), require('util')
