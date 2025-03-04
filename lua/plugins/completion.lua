@@ -7,8 +7,8 @@ return {
       { 'hrsh7th/cmp-nvim-lsp' },
       { 'hrsh7th/cmp-nvim-lsp-signature-help' },
       { 'hrsh7th/cmp-path' },
+      { 'saadparwaiz1/cmp_luasnip' },
       { 'onsails/lspkind.nvim' },
-      { 'L3MON4D3/LuaSnip' },
       { 'williamboman/mason-lspconfig.nvim' },
     },
     ---@module 'cmp'
@@ -19,16 +19,18 @@ return {
         BladeNav = '',
       }
 
-      require('luasnip.loaders.from_vscode').lazy_load()
-
-      local function has_words_before()
-        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
-      end
-
       opts.sources = cmp.config.sources({
-        { name = 'nvim_lsp', priority = 1000, group_index = 1 },
-        { name = 'luasnip', priority = 950, group_index = 2 },
+        {
+          name = 'nvim_lsp',
+          priority = 100,
+          group_index = 1,
+        },
+        {
+          name = 'luasnip',
+          priority = 90,
+          group_index = 2,
+          option = { show_autosnippets = true },
+        },
         { name = 'path', group_index = 0 },
         { name = 'lazydev', group_index = 0 },
       }, {
@@ -50,7 +52,10 @@ return {
         expandable_indicator = true,
         fields = { 'kind', 'abbr', 'menu' },
         format = function(entry, item)
-          if kind_icons[item.kind] then item.kind = string.format('%s %s', kind_icons[item.kind], item.kind) end
+          if kind_icons[item.kind] then
+            -- Set custom kind icons
+            item.kind = string.format('%s %s', kind_icons[item.kind], item.kind)
+          end
 
           return require('lspkind').cmp_format({
             mode = 'symbol',
@@ -59,8 +64,16 @@ return {
       }
 
       opts.snippet = {
-        expand = function(args) require('luasnip').lsp_expand(args.body) end,
+        expand = function(args)
+          -- Set luasnip as default snippet engine
+          require('luasnip').lsp_expand(args.body)
+        end,
       }
+
+      local function has_words_before()
+        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
+      end
 
       opts.mapping = cmp.mapping.preset.insert({
         ['<C-space>'] = cmp.mapping.complete(),
@@ -101,15 +114,20 @@ return {
   },
 
   {
-    'L3MON4D3/LuaSnip',
-    event = { 'BufReadPre', 'BufNewFile' },
+    'saadparwaiz1/cmp_luasnip',
+    lazy = true,
     dependencies = {
+      { 'L3MON4D3/LuaSnip' },
       { 'rafamadriz/friendly-snippets' },
     },
-    opts = {
-      history = true,
-      delete_check_events = 'TextChanged',
-    },
+    config = function()
+      require('luasnip.config').set_config({
+        history = true,
+        delete_check_events = 'TextChanged',
+      })
+
+      require('luasnip.loaders.from_vscode').lazy_load()
+    end,
   },
 
   {
@@ -117,6 +135,9 @@ return {
     -- used for completion, annotations and signatures of Neovim apis
     'folke/lazydev.nvim',
     ft = 'lua',
+    dependencies = {
+      { 'Bilal2453/luvit-meta' },
+    },
     ---@module 'lazydev'
     ---@type lazydev.Config
     opts = {
@@ -126,11 +147,6 @@ return {
         { 'nvim-dap-ui' },
       },
     },
-  },
-
-  {
-    'Bilal2453/luvit-meta',
-    lazy = true,
   },
 
   {
