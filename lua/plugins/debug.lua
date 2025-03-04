@@ -52,26 +52,6 @@ return {
         },
       },
     },
-    config = function(_, opts)
-      local dap, dapui = require('dap'), require('dapui')
-      local map = require('util').create_keymap()
-
-      dap.listeners.after.event_initialized.dapui_config = function()
-        map('n', '<F1>', dap.step_into, { desc = 'Debug: Step into' })
-        map('n', '<F2>', dap.step_over, { desc = 'Debug: Step over' })
-        map('n', '<F3>', dap.step_out, { desc = 'Debug: Step out' })
-        map('n', '<F4>', dap.step_back, { desc = 'Debug: Step back' })
-        map('n', '<leader>dd', function() dapui.eval(nil, { enter = true }) end, { desc = 'Debug: Evaluate value' })
-        map('n', '<leader>dc', dap.clear_breakpoints, { desc = 'Debug: Clear breakpoints' })
-
-        dapui.open()
-      end
-
-      dap.listeners.before.event_terminated.dapui_config = dapui.close
-      dap.listeners.before.event_exited.dapui_config = dapui.close
-
-      dapui.setup(opts)
-    end,
   },
 
   {
@@ -125,6 +105,28 @@ return {
     config = function()
       local dap, util = require('dap'), require('util')
       local mason_registry = require('mason-registry')
+
+      dap.listeners.before.event_initialized.dapui_config = function()
+        local dapui, map = require('dapui'), util.create_keymap()
+
+        map('n', '<F1>', dap.step_into, { desc = 'Debug: Step into' })
+        map('n', '<F2>', dap.step_over, { desc = 'Debug: Step over' })
+        map('n', '<F3>', dap.step_out, { desc = 'Debug: Step out' })
+        map('n', '<F4>', dap.step_back, { desc = 'Debug: Step back' })
+        map('n', '<leader>dd', function() dapui.eval(nil, { enter = true }) end, { desc = 'Debug: Evaluate value' })
+        map('n', '<leader>dc', dap.clear_breakpoints, { desc = 'Debug: Clear breakpoints' })
+
+        dapui.open()
+      end
+
+      dap.listeners.before.event_terminated.dapui_config = function()
+        local dapui, sessions = require('dapui'), dap.sessions()
+
+        if #sessions == 1 then
+          -- Close dapui when there's only 1 session available
+          dapui.close()
+        end
+      end
 
       -- PHP debug config
 
