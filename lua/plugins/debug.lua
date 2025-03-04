@@ -61,7 +61,7 @@ return {
         map('n', '<F2>', dap.step_over, { desc = 'Debug: Step over' })
         map('n', '<F3>', dap.step_out, { desc = 'Debug: Step out' })
         map('n', '<F4>', dap.step_back, { desc = 'Debug: Step back' })
-        map('n', '<leader>de', function() dapui.eval(nil, { enter = true }) end, { desc = 'Debug: Evaluate value' })
+        map('n', '<leader>dd', function() dapui.eval(nil, { enter = true }) end, { desc = 'Debug: Evaluate value' })
         map('n', '<leader>dc', dap.clear_breakpoints, { desc = 'Debug: Clear breakpoints' })
 
         dapui.open()
@@ -84,6 +84,28 @@ return {
     keys = {
       { '<F5>', function() require('dap').continue() end, desc = 'Debug: Start/Continue' },
       { '<leader>db', function() require('dap').toggle_breakpoint() end, desc = 'Debug: Toggle Breakpoint' },
+      {
+        '<leader>d',
+        function()
+          local items = {
+            'Add conditional breakpoint',
+            'Add hit condition',
+            'Add log point',
+          }
+
+          Snacks.picker.select(items, { prompt = 'Set Breakpoint' }, function(label, idx)
+            local dap, param = require('dap'), vim.fn.input(label .. ': ')
+            local cases = {
+              [1] = function() dap.set_breakpoint(param, nil, nil) end,
+              [2] = function() dap.set_breakpoint(nil, param, nil) end,
+              [3] = function() dap.set_breakpoint(nil, nil, param) end,
+            }
+
+            cases[idx]()
+          end)
+        end,
+        desc = 'Debug: Set Breakpoint',
+      },
     },
     init = function()
       -- Credit: https://github.com/mfussenegger/nvim-dap/discussions/355
