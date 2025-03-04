@@ -134,16 +134,11 @@ return {
             name = 'DAP: Launch Built-in Server and Debug',
             cwd = vim.fn.getcwd() .. '/public',
             port = xdebug_port,
-            runtimeArgs = {
-              '-dxdebug.client_host=127.0.0.1',
-              '-dxdebug.client_port=' .. xdebug_port,
-              '-dxdebug.mode=debug',
-              '-dxdebug.start_with_request=yes',
-              '-S',
-              'localhost:8000',
-              '-t',
-              '.',
+            env = {
+              XDEBUG_CONFIG = 'client_host=127.0.0.1 client_port=${port}',
+              XDEBUG_MODE = 'debug',
             },
+            runtimeArgs = { '-dxdebug.start_with_request=yes', '-S', 'localhost:8000', '-t', '.' },
           }
 
           if util.file_exists('.env') then
