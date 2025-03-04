@@ -287,23 +287,23 @@ return {
     ---@module 'nvim-dap-virtual-text'
     ---@type nvim_dap_virtual_text_options
     opts = {
-      display_callback = function(var)
+      display_callback = function(var, _, _, _, opts)
         local name = var.name:lower()
         local value = var.value:lower()
-
-        if name:match('secret') or name:match('key') or name:match('api') then
-          -- Hide sensitive values
-          return ' *****'
-        end
-
         local output = var.value:gsub('%s+', ' ')
 
-        if #value > 10 then
-          -- Shorten long value
+        if name:match('secret') or name:match('key') or name:match('api') then
+          output = '****'
+        elseif #value > 10 then
           output = output:sub(1, 10) .. '…'
         end
 
-        return ' ' .. output
+        if opts.virt_text_pos == 'inline' then
+          -- Print the output
+          return '→ ' .. output
+        end
+
+        return string.format('%s→ %s', var.name, output)
       end,
     },
   },
