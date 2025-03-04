@@ -22,7 +22,7 @@ return {
       { '<leader>fg', function() Snacks.picker.git_files() end, desc = '[F]ind Current [G]it Repo' },
       { '<leader>r', function() Snacks.rename.rename_file() end, desc = '[R]ename File' },
       -- Diagnostics
-      { '<leader>d', function() Snacks.picker.diagnostics() end, desc = 'Open [D]iagnostics' },
+      { '<leader>do', function() Snacks.picker.diagnostics() end, desc = 'Open [D]iagnostics' },
       { '<leader>da', function() Snacks.picker.diagnostics_buffer() end, desc = 'Open [D]iagnostics Buffer' },
       -- Searches
       { '<leader>sw', function() Snacks.picker.grep_word() end, desc = '[S]earch by [W]ord', mode = { 'n', 'x' } },
