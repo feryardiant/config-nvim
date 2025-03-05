@@ -62,8 +62,10 @@ return {
         SnacksBackdrop = { link = 'WinBar' },
         SnacksIndent = { fg = colors.guide_normal },
         SnacksIndentScope = { fg = colors.accent },
+        SnacksNormal = { link = 'Normal' },
         SnacksPicker = { link = 'WinBar' },
         SnacksTerminal = { link = 'WinBar' },
+        SnacksWinBar = { link = 'WinBar' },
 
         TreesitterContext = { link = 'NormalFloat' },
 
