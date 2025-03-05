@@ -13,7 +13,7 @@ return {
     lazy = false,
     priority = 1000,
     keys = {
-      { '<C-`>', function() Snacks.terminal() end, desc = 'Toggle Terminal' },
+      { '<C-`>', function() Snacks.terminal() end, desc = 'Toggle Terminal', mode = { 'n', 't' } },
       { '<C-p>', function() Snacks.picker.projects() end, desc = '[P]rojects' },
       { '<leader>n', function() Snacks.picker.notifications() end, desc = 'Show [N]otifications' },
       { '<leader><space>', function() Snacks.picker.files() end, desc = 'Find files' },
@@ -84,7 +84,5 @@ return {
       terminal = {},
       win = { backdrop = false },
     },
-    init = function()
-    end,
   },
 }
