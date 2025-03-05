@@ -56,6 +56,7 @@ return {
       -- see https://github.com/feryardiant/config-nvim/pull/19
       local session_id = nil
 
+      ---@param session dap.Session
       dap.listeners.before.event_initialized.dapui_config = function(session)
         local map = util.create_keymap()
 

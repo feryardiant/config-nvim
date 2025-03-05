@@ -28,16 +28,16 @@ return {
         lsp_doc_border = true, -- add a border to hover docs and signature help
       }
 
-      -- opts.routes = {
-      --   -- Credit: https://github.com/neovim/nvim-lspconfig/issues/1931#issuecomment-2138428768
-      --   {
-      --     filter = {
-      --       event = 'notify',
-      --       find = 'No information available',
-      --     },
-      --     opts = { skip = true },
-      --   },
-      -- }
+      opts.routes = {
+        -- Credit: https://github.com/neovim/nvim-lspconfig/issues/1931#issuecomment-2138428768
+        {
+          filter = {
+            event = 'notify',
+            find = 'No information available',
+          },
+          opts = { skip = true },
+        },
+      }
     end,
   },
 
