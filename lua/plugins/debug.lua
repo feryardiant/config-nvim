@@ -47,6 +47,14 @@ return {
         label = 'Dap' .. label
         vim.fn.sign_define(label, { text = icon, texthl = label })
       end
+
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = 'dap-repl',
+        callback = function ()
+          ---@see dap-completion
+          require('dap.ext.autocompl').attach()
+        end
+      })
     end,
     ---@diagnostic disable: inject-field
     config = function()

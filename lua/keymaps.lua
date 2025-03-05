@@ -1,6 +1,14 @@
 local map = require('util').create_keymap()
 local noremap = require('util').create_keymap({ noremap = true })
 
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'qf', 'help', 'man', 'nofile', 'lspinfo' },
+  callback = function (event)
+    vim.bo[event.buf].buflisted = false
+    vim.api.nvim_buf_set_keymap(event.buf, 'n', 'q', '<Cmd>close<CR>', { silent = true })
+  end
+})
+
 -- Clear search with <ESC>
 map('n', '<Esc>', '<Cmd>nohlsearch<CR>', { desc = 'Clear search highlight' })
 
