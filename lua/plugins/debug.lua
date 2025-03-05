@@ -106,13 +106,14 @@ return {
     config = function()
       local dap, util = require('dap'), require('util')
       local mason_registry = require('mason-registry')
-      local sessions = {}
 
-      ---@see https://github.com/feryardiant/config-nvim/pull/19
+      -- see https://github.com/feryardiant/config-nvim/pull/19
+      local session_id = nil
+
       dap.listeners.before.event_initialized.dapui_config = function(session)
         local map = util.create_keymap()
 
-        if #sessions == 0 then
+        if session_id == nil then
           map('n', '<F1>', dap.step_into, { desc = 'Debug: Step into' })
           map('n', '<F2>', dap.step_over, { desc = 'Debug: Step over' })
           map('n', '<F3>', dap.step_out, { desc = 'Debug: Step out' })
@@ -125,13 +126,11 @@ return {
           end, { desc = 'Debug: Evaluate value' })
 
           -- Track in which session we set the keymaps
-          sessions[session.id] = true
+          session_id = session.id
         end
 
         session.on_close['debug.keymap'] = function(sess)
-          Snacks.debug.inspect('closed', { ids = #sessions })
-
-          if sessions[sess.id] == true then
+          if session_id == sess.id then
             vim.keymap.del('n', '<F1>')
             vim.keymap.del('n', '<F2>')
             vim.keymap.del('n', '<F3>')
@@ -144,12 +143,11 @@ return {
             package.loaded.dapui.close()
 
             -- Reset sessions tracker
-            sessions = {}
+            session_id = nil
           end
         end
 
         require('dapui').open()
-        table.insert(sessions, session.id)
       end
 
       -- PHP debug config
