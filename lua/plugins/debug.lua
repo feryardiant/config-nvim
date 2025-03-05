@@ -1,60 +1,5 @@
 return {
   {
-    'jay-babu/mason-nvim-dap.nvim',
-    lazy = true,
-    dependencies = {
-      { 'williamboman/mason.nvim' },
-    },
-    ---@module 'mason-nvim-dap'
-    ---@type MasonNvimDapSettings
-    opts = {
-      ensure_installed = {
-        'firefox-debug-adapter',
-        'js-debug-adapter',
-        'node-debug2-adapter',
-        'php-debug-adapter',
-      },
-    },
-  },
-
-  {
-    'rcarriga/nvim-dap-ui',
-    dependencies = {
-      { 'mfussenegger/nvim-dap' },
-      { 'nvim-neotest/nvim-nio' },
-    },
-    keys = {
-      { '<F7>', function() require('dapui').toggle() end, desc = 'Debug: Toggle UI' },
-    },
-    ---@module 'dapui'
-    ---@type dapui.Config
-    opts = {
-      controls = { element = 'watches' },
-      floating = { border = 'rounded' },
-      layouts = {
-        {
-          size = 32,
-          position = 'right',
-          elements = {
-            { size = 0.3, id = 'scopes' },
-            { size = 0.3, id = 'stacks' },
-            { size = 0.2, id = 'breakpoints' },
-            { size = 0.2, id = 'watches' },
-          },
-        },
-        {
-          size = 10,
-          position = 'bottom',
-          elements = {
-            { size = 0.6, id = 'repl' },
-            { size = 0.4, id = 'console' },
-          },
-        },
-      },
-    },
-  },
-
-  {
     'mfussenegger/nvim-dap',
     dependencies = {
       { 'jay-babu/mason-nvim-dap.nvim' },
@@ -321,6 +266,61 @@ return {
         end
       end
     end,
+  },
+
+  {
+    'rcarriga/nvim-dap-ui',
+    dependencies = {
+      { 'mfussenegger/nvim-dap' },
+      { 'nvim-neotest/nvim-nio' },
+    },
+    keys = {
+      { '<F7>', function() require('dapui').toggle() end, desc = 'Debug: Toggle UI' },
+    },
+    ---@module 'dapui'
+    ---@type dapui.Config
+    opts = {
+      controls = { element = 'watches' },
+      floating = { border = 'rounded' },
+      layouts = {
+        {
+          size = 32,
+          position = 'right',
+          elements = {
+            { size = 0.3, id = 'scopes' },
+            { size = 0.3, id = 'stacks' },
+            { size = 0.2, id = 'breakpoints' },
+            { size = 0.2, id = 'watches' },
+          },
+        },
+        {
+          size = 10,
+          position = 'bottom',
+          elements = {
+            { size = 0.6, id = 'repl' },
+            { size = 0.4, id = 'console' },
+          },
+        },
+      },
+    },
+  },
+
+  {
+    'jay-babu/mason-nvim-dap.nvim',
+    lazy = true,
+    dependencies = {
+      { 'williamboman/mason.nvim' },
+    },
+    ---@module 'mason-nvim-dap'
+    ---@type MasonNvimDapSettings
+    opts = {
+      ensure_installed = {
+        'firefox-debug-adapter',
+        'js-debug-adapter',
+        'node-debug2-adapter',
+        'php-debug-adapter',
+      },
+    },
   },
 
   {
