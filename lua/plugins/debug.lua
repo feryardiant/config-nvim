@@ -55,6 +55,17 @@ return {
           require('dap.ext.autocompl').attach()
         end
       })
+
+      vim.api.nvim_create_autocmd('BufWinEnter', {
+        callback = function()
+          local ft = vim.bo.ft
+
+          if ft == 'dap-repl' or ft:match('^dapui_') then
+            -- Disable status column on DAP windows
+            vim.wo.statuscolumn = ''
+          end
+        end,
+      })
     end,
     ---@diagnostic disable: inject-field
     config = function()
