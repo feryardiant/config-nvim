@@ -346,6 +346,8 @@ return {
 
         if name:match('secret') or name:match('key') or name:match('api') then
           output = '****'
+        elseif output:find('\\') ~= nil then
+          output = '…\\' .. require('custom.php').class_basename(output)
         elseif #value > 10 then
           output = output:sub(1, 10) .. '…'
         end

@@ -28,4 +28,28 @@ function PHP.route_file()
   return nil
 end
 
+local _class_name_caches = {}
+
+---Retrieve basename of a class
+---@param class_name string
+function PHP.class_basename(class_name)
+  if _class_name_caches[class_name] ~= nil then
+    return _class_name_caches[class_name]
+  end
+
+  local parts = {}
+  local pos = 0
+
+  while true do
+    ---@diagnostic disable-next-line: cast-local-type
+    pos = string.find(class_name, '\\', pos+1)
+    if pos == nil then break end
+    table.insert(parts, pos)
+  end
+
+  _class_name_caches[class_name] = class_name:sub(parts[#parts] + 1)
+
+  return _class_name_caches[class_name]
+end
+
 return PHP
