@@ -102,30 +102,54 @@ return {
         vim.fn.sign_define(label, { text = icon, texthl = label })
       end
     end,
+    ---@diagnostic disable: inject-field
     config = function()
       local dap, util = require('dap'), require('util')
       local mason_registry = require('mason-registry')
+      local sessions = {}
 
-      dap.listeners.before.event_initialized.dapui_config = function()
-        local dapui, map = require('dapui'), util.create_keymap()
+      ---@see https://github.com/feryardiant/config-nvim/pull/19
+      dap.listeners.before.event_initialized.dapui_config = function(session)
+        local map = util.create_keymap()
 
-        map('n', '<F1>', dap.step_into, { desc = 'Debug: Step into' })
-        map('n', '<F2>', dap.step_over, { desc = 'Debug: Step over' })
-        map('n', '<F3>', dap.step_out, { desc = 'Debug: Step out' })
-        map('n', '<F4>', dap.step_back, { desc = 'Debug: Step back' })
-        map('n', '<leader>dd', function() dapui.eval(nil, { enter = true }) end, { desc = 'Debug: Evaluate value' })
-        map('n', '<leader>dc', dap.clear_breakpoints, { desc = 'Debug: Clear breakpoints' })
+        if #sessions == 0 then
+          map('n', '<F1>', dap.step_into, { desc = 'Debug: Step into' })
+          map('n', '<F2>', dap.step_over, { desc = 'Debug: Step over' })
+          map('n', '<F3>', dap.step_out, { desc = 'Debug: Step out' })
+          map('n', '<F4>', dap.step_back, { desc = 'Debug: Step back' })
 
-        dapui.open()
-      end
+          map('n', '<leader>dc', dap.clear_breakpoints, { desc = 'Debug: Clear breakpoints' })
+          map('n', '<leader>dd', function()
+            -- Evaluate value under the cursor
+            require('dapui').eval(nil, { enter = true })
+          end, { desc = 'Debug: Evaluate value' })
 
-      dap.listeners.before.event_terminated.dapui_config = function()
-        local dapui, sessions = require('dapui'), dap.sessions()
-
-        if #sessions == 1 then
-          -- Close dapui when there's only 1 session available
-          dapui.close()
+          -- Track in which session we set the keymaps
+          sessions[session.id] = true
         end
+
+        session.on_close['debug.keymap'] = function(sess)
+          Snacks.debug.inspect('closed', { ids = #sessions })
+
+          if sessions[sess.id] == true then
+            vim.keymap.del('n', '<F1>')
+            vim.keymap.del('n', '<F2>')
+            vim.keymap.del('n', '<F3>')
+            vim.keymap.del('n', '<F4>')
+
+            vim.keymap.del('n', '<leader>dc')
+            vim.keymap.del('n', '<leader>dd')
+
+            -- Close dapui panels when only 1 session left
+            package.loaded.dapui.close()
+
+            -- Reset sessions tracker
+            sessions = {}
+          end
+        end
+
+        require('dapui').open()
+        table.insert(sessions, session.id)
       end
 
       -- PHP debug config
