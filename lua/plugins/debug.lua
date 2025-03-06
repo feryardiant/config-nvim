@@ -63,6 +63,7 @@ return {
           if ft == 'dap-repl' or ft:match('^dapui_') then
             -- Disable status column on DAP windows
             vim.wo.statuscolumn = ''
+            vim.wo.colorcolumn = ''
           end
         end,
       })
