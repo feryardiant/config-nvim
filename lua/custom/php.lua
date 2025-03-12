@@ -15,7 +15,7 @@ function PHP.composer_home()
 end
 
 ---Retrieve global include paths
----@return table
+---@return string[]
 function PHP.include_paths()
   local paths = {}
   local composer_home = PHP.composer_home()
@@ -46,6 +46,28 @@ function PHP.xdebug_port()
 
   -- Default xdebug port
   return tonumber(output) or 9003
+end
+
+---Retrieve value from php.ini
+---@param ini string
+---@return string?
+function PHP.ini_get(ini)
+  local ini_value = PHP.exec(string.format('ini_get("%s")', ini))
+
+  if #ini_value == 0 then return nil end
+
+  local booleanish = {
+    ['0'] = 'Off',
+    ['1'] = 'On',
+  }
+
+  if booleanish[ini_value:lower()] ~= nil then
+    -- Some ini just use numeric 0 and 1
+    -- Let's just normalized it to `Off` and `On`
+    return booleanish[ini_value:lower()]
+  end
+
+  return ini_value
 end
 
 ---Run php script as you commonly use `php -r "echo ..."`
@@ -128,6 +150,7 @@ function PHP.installed_extensions()
 
   local output = PHP.exec('implode(PHP_EOL, get_loaded_extensions())')
 
+  -- stylua: ignore
   for line in output:gmatch("([^\n]+)") do
     table.insert(_installed_extensions, line)
   end
@@ -218,14 +241,12 @@ local combined_stubs = {}
 ---@param ext string
 ---@return boolean
 local stub_contains = function (ext)
-  local found = false
   for _, stub in ipairs(intelephense_stubs) do
     if stub == ext then
-      found = true
-      break
+      return true
     end
   end
-  return found
+  return false
 end
 
 function PHP.collect_stubs()
