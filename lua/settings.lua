@@ -40,6 +40,7 @@ return {
         '**/vendor/**',
       },
     },
+    stubs = require('custom.php').collect_stubs()
   },
 
   eslint = {},

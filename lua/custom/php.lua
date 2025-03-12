@@ -73,4 +73,138 @@ function PHP.class_basename(class_name)
   return _class_name_caches[class_name]
 end
 
+local _installed_extensions = {}
+
+---@return string[]
+function PHP.installed_extensions()
+  if #_installed_extensions > 0 then
+    return _installed_extensions
+  end
+
+  local output = PHP.exec('implode(PHP_EOL, get_loaded_extensions())')
+
+  for line in output:gmatch("([^\n]+)") do
+    table.insert(_installed_extensions, line)
+  end
+
+  table.sort(_installed_extensions, function(a, b) return a:upper() < b:upper() end)
+
+  return _installed_extensions
+end
+
+-- Default intelephense stubs
+-- https://github.com/bmewburn/intelephense-docs/blob/master/installation.md#configuration-options
+local intelephense_stubs = {
+  'apache',
+  'bcmath',
+  'bz2',
+  'calendar',
+  'com_dotnet',
+  'Core',
+  'ctype',
+  'curl',
+  'date',
+  'dba',
+  'dom',
+  'enchant',
+  'exif',
+  'FFI',
+  'fileinfo',
+  'filter',
+  'fpm',
+  'ftp',
+  'gd',
+  'gettext',
+  'gmp',
+  'hash',
+  'iconv',
+  'imap',
+  'intl',
+  'json',
+  'ldap',
+  'libxml',
+  'mbstring',
+  'meta',
+  'mysqli',
+  'oci8',
+  'odbc',
+  'openssl',
+  'pcntl',
+  'pcre',
+  'PDO',
+  'pdo_ibm',
+  'pdo_mysql',
+  'pdo_pgsql',
+  'pdo_sqlite',
+  'pgsql',
+  'Phar',
+  'posix',
+  'pspell',
+  'readline',
+  'Reflection',
+  'session',
+  'shmop',
+  'SimpleXML',
+  'snmp',
+  'soap',
+  'sockets',
+  'sodium',
+  'SPL',
+  'sqlite3',
+  'standard',
+  'superglobals',
+  'sysvmsg',
+  'sysvsem',
+  'sysvshm',
+  'tidy',
+  'tokenizer',
+  'xml',
+  'xmlreader',
+  'xmlrpc',
+  'xmlwriter',
+  'xsl',
+  'Zend OPcache',
+  'zip',
+  'zlib'
+}
+
+local combined_stubs = {}
+
+---@param ext string
+---@return boolean
+local stub_contains = function (ext)
+  local found = false
+  for _, stub in ipairs(intelephense_stubs) do
+    if stub == ext then
+      found = true
+      break
+    end
+  end
+  return found
+end
+
+function PHP.collect_stubs()
+  if #combined_stubs > 0 then
+    return combined_stubs
+  end
+
+  combined_stubs = vim.list_extend(combined_stubs, intelephense_stubs)
+
+  for _, ext in ipairs(PHP.installed_extensions()) do
+    if ext == 'openswoole' then
+      -- Apparently intelephense doesn't have stub for openswoole just yet
+      -- https://github.com/bmewburn/vscode-intelephense/issues/2224
+      goto continue
+    end
+
+    if stub_contains(ext) then goto continue end
+
+    table.insert(combined_stubs, ext)
+
+    ::continue::
+  end
+
+  return combined_stubs
+end
+
 return PHP
