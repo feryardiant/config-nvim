@@ -75,6 +75,18 @@ end
 
 local _installed_extensions = {}
 
+---Check wheter `ext` is installed
+---@param ext string
+---@return boolean
+function PHP.has_extension(ext)
+  for _, installed in ipairs(PHP.installed_extensions()) do
+    if ext == installed then
+      return true
+    end
+  end
+  return false
+end
+
 ---@return string[]
 function PHP.installed_extensions()
   if #_installed_extensions > 0 then
