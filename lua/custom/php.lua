@@ -24,6 +24,7 @@ function PHP.include_paths()
 
   local should_available = {}
 
+  -- stylua: ignore
   if PHP.has_extension('openswoole') then
     table.insert(should_available, 'openswoole/ide-helper')
   end
@@ -31,6 +32,7 @@ function PHP.include_paths()
   for _, pkg_path in ipairs(should_available) do
     pkg_path = string.format('%s/vendor/%s', composer_home, pkg_path)
 
+    -- stylua: ignore
     if vim.fn.isdirectory(pkg_path) then
       table.insert(paths, pkg_path)
     end
@@ -97,6 +99,7 @@ function PHP.route_file()
     'vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php',
   }
 
+  -- stylua: ignore
   for _, file in ipairs(try_files) do
     if util.file_exists(file) then return file end
   end
@@ -109,6 +112,7 @@ local _class_name_caches = {}
 ---Retrieve basename of a class
 ---@param class_name string
 function PHP.class_basename(class_name)
+  -- stylua: ignore
   if _class_name_caches[class_name] ~= nil then
     return _class_name_caches[class_name]
   end
@@ -118,7 +122,7 @@ function PHP.class_basename(class_name)
 
   while true do
     ---@diagnostic disable-next-line: cast-local-type
-    pos = string.find(class_name, '\\', pos+1)
+    pos = string.find(class_name, '\\', pos + 1)
     if pos == nil then break end
     table.insert(parts, pos)
   end
@@ -135,15 +139,14 @@ local _installed_extensions = {}
 ---@return boolean
 function PHP.has_extension(ext)
   for _, installed in ipairs(PHP.installed_extensions()) do
-    if ext == installed then
-      return true
-    end
+    if ext == installed then return true end
   end
   return false
 end
 
 ---@return string[]
 function PHP.installed_extensions()
+  -- stylua: ignore
   if #_installed_extensions > 0 then
     return _installed_extensions
   end
@@ -233,23 +236,22 @@ local intelephense_stubs = {
   'xsl',
   'Zend OPcache',
   'zip',
-  'zlib'
+  'zlib',
 }
 
 local combined_stubs = {}
 
 ---@param ext string
 ---@return boolean
-local stub_contains = function (ext)
+local stub_contains = function(ext)
   for _, stub in ipairs(intelephense_stubs) do
-    if stub == ext then
-      return true
-    end
+    if stub == ext then return true end
   end
   return false
 end
 
 function PHP.collect_stubs()
+  -- stylua: ignore
   if #combined_stubs > 0 then
     return combined_stubs
   end
