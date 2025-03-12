@@ -1,3 +1,5 @@
+local php = require('custom.php')
+
 return {
   css = {
     lint = {
@@ -15,7 +17,7 @@ return {
 
   intelephense = {
     environment = {
-      includePaths = {},
+      includePaths = php.include_paths(),
     },
     files = {
       maxSize = 5000000,
@@ -40,7 +42,7 @@ return {
         '**/vendor/**',
       },
     },
-    stubs = require('custom.php').collect_stubs()
+    stubs = php.collect_stubs()
   },
 
   eslint = {},

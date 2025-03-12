@@ -6,6 +6,39 @@ local util = require('util')
 ---@return boolean
 function PHP.is_laravel() return util.file_exists('artisan') end
 
+---Retrieve global `COMPOSER_HOME` directory
+---@return string?
+function PHP.composer_home()
+  local home = os.getenv('COMPOSER_HOME')
+
+  return vim.fn.isdirectory(home) and home or nil
+end
+
+---Retrieve global include paths
+---@return table
+function PHP.include_paths()
+  local paths = {}
+  local composer_home = PHP.composer_home()
+
+  assert(composer_home, '$COMPOSER_HOME directory doesn exists')
+
+  local should_available = {}
+
+  if PHP.has_extension('openswoole') then
+    table.insert(should_available, 'openswoole/ide-helper')
+  end
+
+  for _, pkg_path in ipairs(should_available) do
+    pkg_path = string.format('%s/vendor/%s', composer_home, pkg_path)
+
+    if vim.fn.isdirectory(pkg_path) then
+      table.insert(paths, pkg_path)
+    end
+  end
+
+  return paths
+end
+
 ---Retrieve xdebug port
 ---@return number
 function PHP.xdebug_port()
