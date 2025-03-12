@@ -9,8 +9,29 @@ function PHP.is_laravel() return util.file_exists('artisan') end
 ---Retrieve xdebug port
 ---@return number
 function PHP.xdebug_port()
+  local output = PHP.exec('ini_get("xdebug.client_port")')
+
   -- Default xdebug port
-  return 9003
+  return tonumber(output) or 9003
+end
+
+---Run php script as you commonly use `php -r "echo ..."`
+---@param arg string
+---@return string
+function PHP.exec(arg)
+  local co = coroutine.create(function()
+    local args = { 'php', '-r', string.format("'echo %s;'", arg) }
+    local result = assert(io.popen(table.concat(args, ' '), 'r'))
+    local output = result:read('*a')
+
+    coroutine.yield(output)
+
+    result:close()
+  end)
+
+  local _, value = coroutine.resume(co)
+
+  return value
 end
 
 ---Retrieve route file
