@@ -69,7 +69,7 @@ return {
     schemas = {
       {
         fileMatch = { 'composer.json' },
-        url = 'https://json.schemastore.org/composer',
+        url = 'https://getcomposer.org/schema.json',
       },
       {
         fileMatch = { 'jsconfig.json' },
