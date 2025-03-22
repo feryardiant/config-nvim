@@ -183,7 +183,7 @@ return {
           local map = require('util').create_keymap({ buffer = event.buf, remap = false, desc = 'LSP: ' })
 
           map('n', '<leader>rn', vim.lsp.buf.rename, { desc = '[R]e[n]ame' })
-          map({ 'n', 'x' }, '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ction' })
+          map({ 'n', 'x' }, '<C-.>', vim.lsp.buf.code_action, { desc = '[C]ode [A]ction' })
 
           map('n', 'K', vim.lsp.buf.hover, { desc = 'Show signature help' })
 
