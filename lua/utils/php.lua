@@ -2,13 +2,6 @@
 local PHP = {}
 local fs = require('utils.fs')
 
----Is it a Laravel project
----@return boolean
-function PHP.is_laravel()
-  -- stylua: ignore
-  return fs.file_exists('artisan')
-end
-
 ---Retrieve global `COMPOSER_HOME` directory
 ---@return string?
 function PHP.composer_home()
