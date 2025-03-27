@@ -11,3 +11,11 @@ vim.api.nvim_create_autocmd('FileType', {
   end
 })
 
+vim.api.nvim_create_autocmd('TextYankPost', {
+  pattern = '*',
+  callback = function ()
+    -- Highlight yanked line(s)
+    vim.highlight.on_yank({ higroup = 'Visual', timeout = 150 })
+  end
+})
+
