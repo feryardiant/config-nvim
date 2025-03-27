@@ -19,6 +19,7 @@ vim.opt.rtp:prepend(lazypath)
 
 local spec = {
   { 'wakatime/vim-wakatime', lazy = false },
+  { import = 'plugins' },
 }
 
 if vim.fn.executable('ghostty') then
