@@ -18,7 +18,8 @@
       "test"
     ],
     "library": [
-      "$VIMRUNTIME"
+      "$VIMRUNTIME",
+      "$HOME/.local/share/nvim/lazy"
     ]
   }
 }
