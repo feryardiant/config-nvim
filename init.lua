@@ -17,23 +17,13 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
-local spec = {
-  { 'wakatime/vim-wakatime', lazy = false },
-  { import = 'plugins' },
-}
-
-if vim.fn.executable('ghostty') then
-  table.insert(spec, {
-    'ghostty',
-    dir = '/Applications/Ghostty.app/Contents/Resources/vim/vimfiles/',
-    ft = 'ghostty',
-  })
-end
-
 require('bootstrap')
 
 require('lazy').setup({
-  spec = spec,
+  spec = {
+    { 'wakatime/vim-wakatime', lazy = false },
+    { import = 'plugins' },
+  },
   ui = {
     border = 'rounded',
   },
