@@ -1,11 +1,11 @@
-local fs = require('utils.fs')
+local ws = require('utils.workspace')
 
 ---@type lspconfig.Config
 return {
   settings = {
     deno = {
       -- Disable denols on non-deno project
-      enable = fs.is_deno(),
+      enable = ws.is_deno(),
     },
   },
 }

@@ -1,30 +1,24 @@
 ---@type table<string, lspconfig.Config>
-local servers = {}
+return setmetatable({}, {
+  __index = function (self, server)
+    local ok, config = pcall(require, 'custom.lsp-servers.' .. server)
 
-local ensure_installed = {
-  'bashls',
-  'cssls',
-  'denols',
-  'dockerls',
-  'emmet_ls',
-  'intelephense',
-  'jsonls',
-  'lua_ls',
-  'nginx_language_server',
-  'sqls',
-  'svelte',
-  'ts_ls',
-  'tailwindcss',
-  'unocss',
-  'vimls',
-  'volar',
-  'yamlls',
-}
+    if not ok then
+      -- Fallback to empty table
+      config = {}
+    end
 
-for _, server in ipairs(ensure_installed) do
-  local ok, settings = pcall(require, 'custom.lsp-servers.' .. server)
+    local base_ok, base_config = pcall(require, 'lspconfig.configs.' .. server)
 
-  servers[server] = ok and settings or {}
-end
+    if base_ok then
+      local default_config = base_config.default_config or {}
+      config.filetypes = vim.list_extend(default_config.filetypes, config.filetypes or {})
 
-return servers
+      table.sort(config.filetypes, function(a, b) return a:upper() < b:upper() end)
+    end
+
+    rawset(self, server, config)
+
+    return config
+  end
+})

@@ -1,11 +1,11 @@
-local fs = require('utils.fs')
+local ws = require('utils.workspace')
 
 ---@type lspconfig.Config
 return {
   settings = {
     eslint = {
       -- Disable eslint on a deno project
-      enable = not fs.is_deno(),
+      enable = not ws.is_deno(),
     },
   },
 }
