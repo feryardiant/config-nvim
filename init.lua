@@ -17,7 +17,9 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
-local spec = {}
+local spec = {
+  { 'wakatime/vim-wakatime', lazy = false },
+}
 
 if vim.fn.executable('ghostty') then
   table.insert(spec, {
