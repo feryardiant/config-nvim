@@ -2,7 +2,6 @@
   "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
   "runtime": {
     "path": [
-      "init.lua",
       "lua/?.lua",
       "lua/?/init.lua"
     ],
@@ -18,8 +17,7 @@
       "test"
     ],
     "library": [
-      "$VIMRUNTIME",
-      "$HOME/.local/share/nvim/lazy"
+      "$VIMRUNTIME"
     ]
   }
 }
