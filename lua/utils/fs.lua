@@ -1,11 +1,10 @@
----@class fs
-local FS = {}
+local fs = {}
 local uv = vim.uv or vim.loop
 
 ---Check whether file exists
 ---@param ... string
 ---@return boolean
-function FS.file_exists(...)
+function fs.file_exists(...)
   for _, filepath in ipairs({ ... }) do
     filepath = table.concat({ vim.fn.getcwd(), filepath }, '/')
 
@@ -15,4 +14,4 @@ function FS.file_exists(...)
   return false
 end
 
-return FS
+return fs
