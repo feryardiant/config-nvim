@@ -1,6 +1,6 @@
 ---@type table<string, lspconfig.Config>
 return setmetatable({}, {
-  __index = function (self, server)
+  __index = function(self, server)
     local ok, config = pcall(require, 'custom.lsp-servers.' .. server)
 
     if not ok then
@@ -20,5 +20,5 @@ return setmetatable({}, {
     rawset(self, server, config)
 
     return config
-  end
+  end,
 })

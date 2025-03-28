@@ -31,7 +31,7 @@ return {
         open = 'botright vsplit | vertical resize 32',
       }
     end,
-    config = function (_, opts)
+    config = function(_, opts)
       local neotest = require('neotest')
       local keymap = require('utils.keymap')
 

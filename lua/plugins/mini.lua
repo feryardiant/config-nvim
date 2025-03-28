@@ -6,7 +6,7 @@ return {
     dependencies = {
       { 'JoosepAlviste/nvim-ts-context-commentstring' },
     },
-    setup = function ()
+    setup = function()
       require('mini.pairs').setup()
 
       require('mini.surround').setup()
@@ -20,6 +20,6 @@ return {
           end,
         },
       })
-    end
-  }
+    end,
+  },
 }

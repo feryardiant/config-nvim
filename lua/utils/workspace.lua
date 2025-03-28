@@ -15,5 +15,4 @@ function WS.is_deno()
   return fs.file_exists('deno.json', 'deno.jsonc', 'deno.lock')
 end
 
-
 return WS

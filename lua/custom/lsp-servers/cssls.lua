@@ -7,6 +7,6 @@ return {
         -- Do not warn for Tailwind's @apply rule
         unknownAtRules = 'ignore',
       },
-    }
+    },
   },
 }

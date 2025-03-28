@@ -3,7 +3,7 @@ local common_settings = {
     functionLikeReturnTypes = { enabled = true },
     parameterNames = { enabled = 'literals' },
     parameterTypes = { enabled = true },
-  }
+  },
 }
 
 local js_settings = vim.tbl_deep_extend('keep', {

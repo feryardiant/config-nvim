@@ -32,6 +32,6 @@ return {
           url = 'https://json.schemastore.org/eslintrc.json',
         },
       },
-    }
-  }
+    },
+  },
 }

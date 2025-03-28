@@ -84,7 +84,7 @@ return {
       },
       statuscolumn = {},
       terminal = {
-        win = { border = 'rounded' }
+        win = { border = 'rounded' },
       },
       win = { backdrop = false },
     },

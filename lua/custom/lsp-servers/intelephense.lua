@@ -144,7 +144,6 @@ local function include_paths()
   return cached.include_paths
 end
 
-
 ---@type lspconfig.Config
 return {
   filetypes = { 'blade', 'php_only' },
@@ -176,7 +175,7 @@ return {
           '**/vendor/**',
         },
       },
-      stubs = collect_stubs()
+      stubs = collect_stubs(),
     },
   },
 }

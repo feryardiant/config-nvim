@@ -4,9 +4,7 @@ return {
     name = 'ayu',
     lazy = false,
     priority = 1000,
-    init = function()
-      vim.cmd.colorscheme('ayu')
-    end,
+    init = function() vim.cmd.colorscheme('ayu') end,
     opts = function(_, opts)
       local colors = require('ayu.colors')
 

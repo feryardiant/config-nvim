@@ -38,7 +38,7 @@ end
 -- Delete registered keymaps
 ---@param ... string
 function M.delete(...)
-  for _, lhs in ipairs({...}) do
+  for _, lhs in ipairs({ ... }) do
     -- stylua: ignore
     if M._registered[lhs] ~= nil then
       vim.keymap.del(M._registered[lhs], lhs)
