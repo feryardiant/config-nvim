@@ -21,7 +21,7 @@ local M = {
   {
     'ricardoramirezr/blade-nav.nvim',
     dependencies = {
-      { 'hrsh7th/nvim-cmp' },
+      { 'saghen/blink.compat' },
     },
     ft = { 'blade', 'php' },
     opts = {

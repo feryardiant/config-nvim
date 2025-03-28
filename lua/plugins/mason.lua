@@ -5,6 +5,7 @@ return {
     dependencies = {
       { 'williamboman/mason.nvim' },
       { 'neovim/nvim-lspconfig' },
+      { 'saghen/blink.cmp' },
     },
     ---@module 'mason-lspconfig'
     ---@param opts MasonLspconfigSettings
@@ -41,8 +42,7 @@ return {
           config.capabilities = vim.tbl_deep_extend(
             'force',
             vim.lsp.protocol.make_client_capabilities(),
-            require('cmp_nvim_lsp').default_capabilities(),
-            config.capabilities or {}
+            require('blink.cmp').get_lsp_capabilities(config.capabilities or {})
           )
 
           lspconfig[server].setup(config)
