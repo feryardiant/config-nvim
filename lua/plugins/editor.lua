@@ -30,4 +30,13 @@ return {
       },
     },
   },
+
+  {
+    'folke/which-key.nvim',
+    ---@module 'which-key'
+    ---@type wk.Config
+    opts = {
+      delay = 1500,
+    },
+  },
 }
