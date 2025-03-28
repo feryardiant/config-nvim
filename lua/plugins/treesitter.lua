@@ -22,6 +22,7 @@ return {
         'html',
         'json',
         'javascript',
+        'lua',
         'markdown',
         'markdown_inline',
         'php',
