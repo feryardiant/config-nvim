@@ -2,11 +2,6 @@ return {
   {
     'folke/trouble.nvim',
     cmd = 'Trouble',
-    ---@module 'trouble'
-    ---@type trouble.Config
-    opts = {
-      use_diagnostic_signs = true,
-    },
     init = function()
       local map = require('utils.keymap').create()
       local sings = {
@@ -43,5 +38,10 @@ return {
 
       map('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
     end,
+    ---@module 'trouble'
+    ---@type trouble.Config
+    opts = {
+      use_diagnostic_signs = true,
+    },
   },
 }

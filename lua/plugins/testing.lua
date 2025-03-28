@@ -13,7 +13,7 @@ return {
       { '<leader>tr', function() require('neotest').run.run() end, desc = '[T]est [R]un' },
       { '<leader>td', function() require('neotest').run.run({ strategy = 'dap' }) end, desc = '[T]est run with [D]AP' },
       { '<leader>ts', function() require('neotest').run.run({ suite = true }) end, desc = '[T]est [S]uite' },
-      { '<leader>t', function() require('neotest').summary.toggle() end, desc = 'Toggle [T]est [S]ummary' },
+      { '<leader>t', function() require('neotest').summary.toggle() end, desc = '[T]est Summary' },
     },
     ---@module 'neotest'
     ---@param opts neotest.Config

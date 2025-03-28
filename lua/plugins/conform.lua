@@ -16,6 +16,10 @@ return {
         desc = '[Fo]rmat Buffer',
       },
     },
+    init = function()
+      -- stylua: ignore
+      vim.o.formatexpr = "v:lua.require('conform').formatexpr()"
+    end,
     ---@module 'conform'
     ---@param opts conform.setupOpts
     opts = function(_, opts)
@@ -45,10 +49,6 @@ return {
         lua = { 'stylua' },
         php = { 'pint', stop_after_first = true },
       }
-    end,
-    init = function()
-      -- stylua: ignore
-      vim.o.formatexpr = "v:lua.require('conform').formatexpr()"
     end,
   },
 }

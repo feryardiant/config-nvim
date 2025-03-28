@@ -6,20 +6,26 @@ return {
     dependencies = {
       { 'JoosepAlviste/nvim-ts-context-commentstring' },
     },
-    setup = function()
-      require('mini.pairs').setup()
-
-      require('mini.surround').setup()
-
-      require('mini.comment').setup({
+    opts = function(_, opts)
+      opts.comment = {
         options = {
           custom_commentstring = function()
-            local ts_context_commentstring = require('ts_context_commentstring.internal')
+            local commentstring = require('ts_context_commentstring.internal')
 
-            return ts_context_commentstring.calculate_commentstring() or vim.bo.commentstring
+            return commentstring.calculate_commentstring() or vim.bo.commentstring
           end,
         },
-      })
+      }
+
+      opts.pairs = {}
+
+      opts.surround = {}
+    end,
+    config = function(_, opts)
+      for plugin, config in pairs(opts) do
+        -- stylua: ignore
+        require('mini.'..plugin).setup(config)
+      end
     end,
   },
 }
