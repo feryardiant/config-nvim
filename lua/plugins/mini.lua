@@ -21,6 +21,8 @@ return {
 
       opts.pairs = {}
 
+      opts.snippets = {}
+
       opts.surround = {}
     end,
     config = function(_, opts)
