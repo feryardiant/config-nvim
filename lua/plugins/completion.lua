@@ -38,19 +38,19 @@ return {
               -- Configure completion kind_icon using `mini.icons`
               -- https://cmp.saghen.dev/recipes.html#completion-menu-drawing
               kind_icon = {
-                text = function (ctx)
+                text = function(ctx)
                   local text, _ = kind_icon(ctx)
 
                   return text
                 end,
-                highlight = function (ctx)
+                highlight = function(ctx)
                   local _, highlight = kind_icon(ctx)
 
                   return highlight
                 end,
               },
             },
-          }
+          },
         },
       },
 
