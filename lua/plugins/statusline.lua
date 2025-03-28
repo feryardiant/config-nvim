@@ -49,29 +49,13 @@ return {
         },
       }
 
-      local doc_symbols = require('trouble').statusline({
-        mode = 'lsp_document_symbols',
-        groups = {},
-        max_items = 4,
-        title = false,
-        filter = { range = true },
-        format = '{kind_icon}{symbol.name:Comment}',
-        hl_group = 'lualine_c_normal',
-      })
-
-      local symbols = {
-        doc_symbols.get,
-        cond = doc_symbols.has,
-        padding = { left = 1, right = 0 },
-      }
-
       opts.sections = {
         lualine_a = { 'mode' },
         lualine_b = {
           { 'branch', icon = { '', align = 'right' } },
           { 'diff', padding = { left = 0, right = 1 } },
         },
-        lualine_c = { filetype, filename, symbols },
+        lualine_c = { filetype, filename },
         lualine_x = { 'diagnostics', 'fileformat', 'encoding' },
         lualine_y = { 'progress' },
         lualine_z = { 'location' },

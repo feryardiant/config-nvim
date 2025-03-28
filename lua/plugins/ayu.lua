@@ -45,8 +45,6 @@ return {
         NvimDapVirtualText = { link = 'Comment' },
         NvimDapVirtualTextChanged = { fg = colors.accent },
 
-        StatusLine = { link = 'lualine_c_normal' },
-
         SnacksBackdrop = { link = 'WinBar' },
         SnacksIndent = { fg = colors.guide_normal },
         SnacksIndentScope = { fg = colors.accent },
