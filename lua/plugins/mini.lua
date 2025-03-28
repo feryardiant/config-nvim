@@ -21,6 +21,8 @@ return {
 
       opts.pairs = {}
 
+      opts.statusline = {}
+
       opts.surround = {}
     end,
     config = function(_, opts)
