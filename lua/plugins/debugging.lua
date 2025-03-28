@@ -4,7 +4,6 @@ return {
     dependencies = {
       { 'jay-babu/mason-nvim-dap.nvim' },
       { 'theHamsta/nvim-dap-virtual-text' },
-      { 'LiadOz/nvim-dap-repl-highlights', config = true },
     },
     cmd = { 'DapContinue', 'DapToggleBreakpoint' },
     keys = {

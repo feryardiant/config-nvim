@@ -7,6 +7,7 @@ return {
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
       { 'nvim-treesitter/nvim-treesitter-textobjects' },
+      { 'LiadOz/nvim-dap-repl-highlights', config = true },
     },
     ---@module 'nvim-treesitter'
     ---@type TSConfig
@@ -18,6 +19,7 @@ return {
         'bash',
         'blade',
         'dotenv',
+        'dap_repl',
         'gitignore',
         'html',
         'json',
