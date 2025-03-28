@@ -1,3 +1,12 @@
+local function kind_icon(ctx)
+  if ctx.item.source_id == 'blade_nav' then
+    -- stylua : ignore
+    return MiniIcons.get('filetype', 'blade')
+  end
+
+  return MiniIcons.get('lsp', ctx.kind)
+end
+
 return {
   {
     'saghen/blink.cmp',
@@ -18,7 +27,32 @@ return {
       },
 
       -- (Default) Only show the documentation popup when manually triggered
-      completion = { documentation = { auto_show = false } },
+      completion = {
+        documentation = { auto_show = true },
+
+        ghost_text = { enabled = true },
+
+        menu = {
+          draw = {
+            components = {
+              -- Configure completion kind_icon using `mini.icons`
+              -- https://cmp.saghen.dev/recipes.html#completion-menu-drawing
+              kind_icon = {
+                text = function (ctx)
+                  local text, _ = kind_icon(ctx)
+
+                  return text
+                end,
+                highlight = function (ctx)
+                  local _, highlight = kind_icon(ctx)
+
+                  return highlight
+                end,
+              },
+            },
+          }
+        },
+      },
 
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
