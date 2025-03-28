@@ -17,6 +17,8 @@ return {
         },
       }
 
+      opts.icons = {}
+
       opts.pairs = {}
 
       opts.surround = {}
@@ -26,6 +28,10 @@ return {
         -- stylua: ignore
         require('mini.'..plugin).setup(config)
       end
+
+      -- Mocking nvim_web_devicons for plugins that requires it
+      -- See https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-icons.md#features
+      MiniIcons.mock_nvim_web_devicons()
     end,
   },
 }
