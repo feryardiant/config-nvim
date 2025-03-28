@@ -1,5 +1,8 @@
 local M = {}
 
+---@type table<string, table|string>
+M._registered = {}
+
 ---@param default_opts? number|vim.keymap.set.Opts
 function M.create(default_opts)
   if type(default_opts) == 'number' then
@@ -16,6 +19,8 @@ function M.create(default_opts)
   return function(mode, lhs, rhs, opts)
     opts = opts or {}
 
+    M._registered[lhs] = mode
+
     if default_opts ~= nil then
       -- Assign buffer is available
       opts.buffer = default_opts.buffer
@@ -27,6 +32,25 @@ function M.create(default_opts)
     end
 
     vim.keymap.set(mode, lhs, rhs, opts)
+  end
+end
+
+-- Delete registered keymaps
+---@param ... string
+function M.delete(...)
+  for _, lhs in ipairs({...}) do
+    -- stylua: ignore
+    if M._registered[lhs] ~= nil then
+      vim.keymap.del(M._registered[lhs], lhs)
+    end
+  end
+end
+
+-- Delete all registered keymaps
+function M.delete_all()
+  for lhs, mode in pairs(M._registered) do
+    -- stylua: ignore
+    vim.keymap.del(mode, lhs)
   end
 end
 
