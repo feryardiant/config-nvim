@@ -18,7 +18,7 @@ return {
           if not client then return end
 
           -- Credit: https://github.com/nvim-lua/kickstart.nvim/blob/7201dc4/init.lua#L555-L588
-          if client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+          if client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
             local highlight_augroup = vim.api.nvim_create_augroup('lsp_document_highlight', { clear = false })
 
             vim.api.nvim_create_autocmd('CursorHold', {
@@ -42,7 +42,7 @@ return {
             })
           end
 
-          if client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+          if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
             map(
               'n',
               '<leader>th',
