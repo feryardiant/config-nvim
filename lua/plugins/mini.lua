@@ -14,6 +14,8 @@ return {
 
             return commentstring.calculate_commentstring() or vim.bo.commentstring
           end,
+
+          ignore_blank_line = true,
         },
       }
 
