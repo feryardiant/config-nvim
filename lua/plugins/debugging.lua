@@ -4,7 +4,6 @@ return {
     dependencies = {
       { 'jay-babu/mason-nvim-dap.nvim' },
       { 'theHamsta/nvim-dap-virtual-text' },
-      { 'LiadOz/nvim-dap-repl-highlights', config = true },
     },
     cmd = { 'DapContinue', 'DapToggleBreakpoint' },
     keys = {
@@ -47,30 +46,10 @@ return {
         label = 'Dap' .. label
         vim.fn.sign_define(label, { text = icon, texthl = label })
       end
-
-      vim.api.nvim_create_autocmd('FileType', {
-        pattern = 'dap-repl',
-        callback = function ()
-          ---@see dap-completion
-          require('dap.ext.autocompl').attach()
-        end
-      })
-
-      vim.api.nvim_create_autocmd('BufWinEnter', {
-        callback = function()
-          local ft = vim.bo.ft
-
-          if ft == 'dap-repl' or ft:match('^dapui_') then
-            -- Disable status column on DAP windows
-            vim.wo.statuscolumn = ''
-            vim.wo.colorcolumn = ''
-          end
-        end,
-      })
     end,
     ---@diagnostic disable: inject-field
     config = function()
-      local dap, util = require('dap'), require('util')
+      local dap, keymap = require('dap'), require('utils.keymap')
       local mason_registry = require('mason-registry')
 
       -- see https://github.com/feryardiant/config-nvim/pull/19
@@ -78,7 +57,7 @@ return {
 
       ---@param session dap.Session
       dap.listeners.before.event_initialized.dapui_config = function(session)
-        local map = util.create_keymap()
+        local map = keymap.create()
 
         if session_id == nil then
           map('n', '<F1>', dap.step_into, { desc = 'Debug: Step into' })
@@ -98,13 +77,7 @@ return {
 
         session.on_close['debug.keymap'] = function(sess)
           if session_id == sess.id then
-            vim.keymap.del('n', '<F1>')
-            vim.keymap.del('n', '<F2>')
-            vim.keymap.del('n', '<F3>')
-            vim.keymap.del('n', '<F4>')
-
-            vim.keymap.del('n', '<leader>dc')
-            vim.keymap.del('n', '<leader>dd')
+            keymap.delete('<F1>', '<F2>', '<F3>', '<F4>', '<leader>dd')
 
             -- Close dapui panels when only 1 session left
             package.loaded.dapui.close()
@@ -125,8 +98,7 @@ return {
           command = vim.fn.exepath('php-debug-adapter'),
         }
 
-        local php = require('custom.php')
-        local xdebug_port = php.xdebug_port()
+        local php, fs = require('utils.php'), require('utils.fs')
 
         for _, lang in ipairs({ 'php', 'blade' }) do
           dap.configurations[lang] = {
@@ -134,20 +106,20 @@ return {
               type = 'php',
               request = 'launch',
               name = 'DAP: Listen for XDebug',
-              port = xdebug_port,
+              port = php.xdebug_port(),
               cwd = vim.fn.getcwd(),
             },
           }
         end
 
-        if util.file_exists('public/index.php') then
+        if fs.file_exists('public/index.php') then
           local route_file = php.route_file()
           local dev_server = {
             type = 'php',
             request = 'launch',
             name = 'DAP: Launch Built-in Server and Debug',
             cwd = vim.fn.getcwd() .. '/public',
-            port = xdebug_port,
+            port = php.xdebug_port(),
             env = {
               XDEBUG_CONFIG = 'client_host=127.0.0.1 client_port=${port}',
               XDEBUG_MODE = 'debug',
@@ -155,7 +127,7 @@ return {
             runtimeArgs = { '-dxdebug.start_with_request=yes', '-S', 'localhost:8000', '-t', '.' },
           }
 
-          if util.file_exists('.env') then
+          if fs.file_exists('.env') then
             -- Try to add compatibility with non-laravel project
             dev_server.envFile = '../.env'
           end
@@ -253,7 +225,7 @@ return {
             type = 'pwa-chrome',
             request = 'launch',
             name = 'DAP: Launch Chrome',
-            url = util.launch_url_prompt,
+            url = keymap.launch_url_prompt,
             webroot = '${workspacefolder}',
             sourcemaps = true,
           })
@@ -262,7 +234,7 @@ return {
             type = 'pwa-msedge',
             request = 'launch',
             name = 'DAP: Launch MSEdge',
-            url = util.launch_url_prompt,
+            url = keymap.launch_url_prompt,
             webRoot = '${workspaceFolder}',
             sourceMaps = true,
           })
@@ -280,7 +252,7 @@ return {
             type = 'firefox',
             request = 'launch',
             name = 'DAP: Launch Firefox',
-            url = util.launch_url_prompt,
+            url = keymap.launch_url_prompt,
             webRoot = '${workspaceFolder}',
             sourceMaps = true,
             firefoxExecutable = vim.fn.exepath('firefox'),
@@ -336,11 +308,11 @@ return {
     ---@module 'mason-nvim-dap'
     ---@type MasonNvimDapSettings
     opts = {
+      automatic_installation = true,
       ensure_installed = {
-        'firefox-debug-adapter',
-        'js-debug-adapter',
-        'node-debug2-adapter',
-        'php-debug-adapter',
+        'firefox',
+        'js',
+        'php',
       },
     },
   },

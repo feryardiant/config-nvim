@@ -1,44 +1,5 @@
 return {
   {
-    'JoosepAlviste/nvim-ts-context-commentstring',
-    event = { 'BufReadPre', 'BufNewFile' },
-    dependencies = {
-      { 'nvim-treesitter/nvim-treesitter' },
-    },
-    ---@module 'ts_context_commentstring'
-    ---@type ts_context_commentstring.Config
-    opts = {
-      enable_autocmd = false,
-    },
-  },
-
-  -- Show context of the current function
-  {
-    'nvim-treesitter/nvim-treesitter-context',
-    event = { 'BufReadPre', 'BufNewFile' },
-    dependencies = {
-      { 'nvim-treesitter/nvim-treesitter' },
-    },
-    ---@module 'treesitter-context'
-    ---@type TSContext.UserConfig
-    opts = {
-      mode = 'cursor',
-      max_line = 3,
-    },
-  },
-
-  {
-    'windwp/nvim-ts-autotag',
-    event = { 'BufReadPre', 'BufNewFile' },
-    dependencies = {
-      { 'nvim-treesitter/nvim-treesitter' },
-    },
-    ---@module 'nvim-ts-autotag'
-    ---@type nvim-ts-autotag.PluginSetup
-    opts = {},
-  },
-
-  {
     'nvim-treesitter/nvim-treesitter',
     version = false,
     build = ':TSUpdate',
@@ -46,6 +7,7 @@ return {
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
       { 'nvim-treesitter/nvim-treesitter-textobjects' },
+      { 'LiadOz/nvim-dap-repl-highlights', config = true },
     },
     ---@module 'nvim-treesitter'
     ---@type TSConfig
@@ -56,20 +18,30 @@ return {
       ensure_installed = {
         'bash',
         'blade',
-        'comment',
+        'css',
+        'dotenv',
         'dap_repl',
         'gitignore',
         'html',
         'json',
+        'jsonc',
         'javascript',
+        'latex',
+        'lua',
         'markdown',
         'markdown_inline',
+        'nginx',
+        'norg',
         'php',
         'phpdoc',
         'php_only',
+        'regex',
+        'scss',
+        'svelte',
         'toml',
-        'typescript',
         'tsx',
+        'typescript',
+        'typst',
         'vim',
         'vimdoc',
         'vue',
@@ -83,7 +55,6 @@ return {
       incremental_selection = {
         enable = true,
         keymaps = {
-          -- init_selection = '<C-space>',
           node_incremental = '<C-space>',
           node_decremental = '<bs>',
         },
@@ -146,5 +117,44 @@ return {
 
       require('nvim-treesitter.configs').setup(opts)
     end,
+  },
+
+  {
+    'windwp/nvim-ts-autotag',
+    event = { 'BufReadPre', 'BufNewFile' },
+    dependencies = {
+      { 'nvim-treesitter/nvim-treesitter' },
+    },
+    ---@module 'nvim-ts-autotag'
+    ---@type nvim-ts-autotag.PluginSetup
+    opts = {},
+  },
+
+  {
+    'JoosepAlviste/nvim-ts-context-commentstring',
+    event = { 'BufReadPre', 'BufNewFile' },
+    dependencies = {
+      { 'nvim-treesitter/nvim-treesitter' },
+    },
+    ---@module 'ts_context_commentstring'
+    ---@type ts_context_commentstring.Config
+    opts = {
+      enable_autocmd = false,
+    },
+  },
+
+  -- Show context of the current function
+  {
+    'nvim-treesitter/nvim-treesitter-context',
+    event = { 'BufReadPre', 'BufNewFile' },
+    dependencies = {
+      { 'nvim-treesitter/nvim-treesitter' },
+    },
+    ---@module 'treesitter-context'
+    ---@type TSContext.UserConfig
+    opts = {
+      mode = 'cursor',
+      max_line = 3,
+    },
   },
 }

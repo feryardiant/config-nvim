@@ -37,6 +37,7 @@ return {
       { 'gr', function() Snacks.picker.lsp_references() end, desc = '[G]oto [R]eferences', nowait = true },
       { 'gI', function() Snacks.picker.lsp_implementations() end, desc = '[G]oto [I]mplementation' },
       { 'gy', function() Snacks.picker.lsp_type_definitions() end, desc = '[G]oto T[y]pe Definition' },
+      -- Symbols
       { '<leader>s', function() Snacks.picker.lsp_workspace_symbols() end, desc = 'Workspace Symbols' },
       { '<leader>ss', function() Snacks.picker.lsp_symbols() end, desc = 'Document Symbols' },
     },
@@ -83,7 +84,7 @@ return {
       },
       statuscolumn = {},
       terminal = {
-        win = { border = 'rounded' }
+        win = { border = 'rounded' },
       },
       win = { backdrop = false },
     },

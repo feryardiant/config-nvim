@@ -1,4 +1,5 @@
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
   local out = vim.fn.system({ 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath })
@@ -16,28 +17,14 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
-
-local spec = {
-  { import = 'plugins' },
-}
-
-if vim.fn.executable('ghostty') then
-  table.insert(spec, {
-    'ghostty',
-    dir = '/Applications/Ghostty.app/Contents/Resources/vim/vimfiles/',
-    ft = 'ghostty',
-  })
-end
+require('bootstrap')
 
 require('lazy').setup({
+  spec = {
+    { 'wakatime/vim-wakatime', lazy = false },
+    { import = 'plugins' },
+  },
   ui = {
     border = 'rounded',
   },
-  rocks = { hererocks = true },
-  spec = spec,
 })
-
-require('options')
-require('keymaps')
