@@ -35,6 +35,7 @@ return {
         'php',
         'phpdoc',
         'php_only',
+        'regex',
         'scss',
         'svelte',
         'toml',
