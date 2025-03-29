@@ -34,6 +34,9 @@ return {
       -- Mocking nvim_web_devicons for plugins that requires it
       -- See https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-icons.md#features
       MiniIcons.mock_nvim_web_devicons()
+
+      -- Enable global statusline
+      vim.opt.laststatus = 3
     end,
   },
 }
