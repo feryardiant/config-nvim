@@ -59,7 +59,21 @@ return {
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'blade_nav', 'buffer' },
+        default = function ()
+          local ok, node = pcall(vim.treesitter.get_node)
+          local workspace = require('utils.workspace')
+
+          if ok and node and vim.tbl_contains({'comment', 'line_comment', 'block_commet'}, node:type()) then
+            -- Only provides `lsp` and `buffers` for any comments
+            return { 'lsp', 'buffer' }
+          elseif vim.tbl_contains({'php', 'blade'}, vim.bo.filetype) and workspace.is_laravel() then
+            -- Provide `blade_nav` if it was a laravel project
+            return { 'lsp', 'blade_nav', 'path', 'snippets', 'buffer' }
+          end
+
+          return { 'lsp', 'path', 'snippets', 'buffer' }
+        end,
+
         providers = {
           blade_nav = {
             name = 'blade-nav',
