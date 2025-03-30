@@ -14,6 +14,18 @@ return {
     opts = {
       indent = { enable = true },
       highlight = { enable = true },
+
+      -- List of parsers to ignore installing
+      -- These already come built-in in neovim
+      ignore_install = {
+        'c',
+        'lua',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+      },
       -- A list of parser names
       ensure_installed = {
         'bash',
@@ -21,15 +33,18 @@ return {
         'css',
         'dotenv',
         'dap_repl',
+        'editorconfig',
+        'git_config',
+        'git_rebase',
+        'gitattributes',
+        'gitcommit',
         'gitignore',
         'html',
         'json',
         'jsonc',
         'javascript',
         'latex',
-        'lua',
-        'markdown',
-        'markdown_inline',
+        'luadoc',
         'nginx',
         'norg',
         'php',
@@ -39,11 +54,10 @@ return {
         'scss',
         'svelte',
         'toml',
+        'tmux',
         'tsx',
         'typescript',
         'typst',
-        'vim',
-        'vimdoc',
         'vue',
         'yaml',
       },
