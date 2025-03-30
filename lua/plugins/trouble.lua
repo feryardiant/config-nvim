@@ -6,7 +6,7 @@ return {
       local map = require('utils.keymap').create()
 
       -- Diagnostics
-      local diagnostic_goto = function(next, severity)
+      local diagnostic_jump = function(next, severity)
         local go = next and vim.diagnostic.get_next or vim.diagnostic.get_prev
         severity = severity and vim.diagnostic.severity[severity] or nil
 
@@ -18,14 +18,14 @@ return {
         end
       end
 
-      -- map('n', '[d', diagnostic_goto(false), { desc = 'Prev [D]iagnostic' })
-      -- map('n', ']d', diagnostic_goto(true), { desc = 'Next [D]iagnostic' })
-      map('n', '[e', diagnostic_goto(false, 'ERROR'), { desc = 'Prev [E]rror' })
-      map('n', ']e', diagnostic_goto(true, 'ERROR'), { desc = 'Next [E]rror' })
-      map('n', '[w', diagnostic_goto(false, 'WARN'), { desc = 'Prev [W]arning' })
-      map('n', ']w', diagnostic_goto(true, 'WARN'), { desc = 'Next [W]arning' })
-
       map('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+      map('n', '<leader>ea', function() Snacks.picker.diagnostics() end, { desc = 'Open [D]iagnostics' } )
+      map('n', '<leader>ee', function() Snacks.picker.diagnostics_buffer() end, { desc = 'Open [D]iagnostics Buffer' } )
+
+      map('n', '[e', diagnostic_jump(false, 'ERROR'), { desc = 'Prev [E]rror' })
+      map('n', ']e', diagnostic_jump(true, 'ERROR'), { desc = 'Next [E]rror' })
+      map('n', '[w', diagnostic_jump(false, 'WARN'), { desc = 'Prev [W]arning' })
+      map('n', ']w', diagnostic_jump(true, 'WARN'), { desc = 'Next [W]arning' })
     end,
     ---@module 'trouble'
     ---@type trouble.Config

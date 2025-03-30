@@ -17,6 +17,9 @@ return {
         local gs = package.loaded.gitsigns
         local map = require('utils.keymap').create({ buffer = bufnr })
 
+        map('n', '<leader>gg', function() Snacks.lazygit() end, { desc = 'Open LazyGit' })
+        map('n', '<leader>gl', function() Snacks.picker.git_log({ layout = 'default' }) end, { desc = 'Open [G]it [L]og' })
+
         map('n', ']h', function() gs.nav_hunk('next') end, { desc = 'Next [H]unk' })
         map('n', '[h', function() gs.nav_hunk('prev') end, { desc = 'Prev [H]unk' })
         map('n', ']H', function() gs.nav_hunk('last') end, { desc = 'Last [H]unk' })
