@@ -1,6 +1,6 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-require('custom.events')
+require('custom.autocmds')
 require('custom.options')
 require('custom.keymaps')
