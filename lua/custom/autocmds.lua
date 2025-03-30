@@ -1,5 +1,5 @@
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'dap-repl', 'qf', 'help', 'netrw', 'man', 'nofile', 'lspinfo' },
+  pattern = { 'checkhealth', 'dap-repl', 'qf', 'help', 'netrw', 'man', 'nofile', 'lspinfo' },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
 
