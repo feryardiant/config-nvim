@@ -1,44 +1,15 @@
 ---@class PHP
 local PHP = {}
-local util = require('util')
-
----Is it a Laravel project
----@return boolean
-function PHP.is_laravel() return util.file_exists('artisan') end
+local fs = require('utils.fs')
 
 ---Retrieve global `COMPOSER_HOME` directory
 ---@return string?
 function PHP.composer_home()
   local home = os.getenv('COMPOSER_HOME')
 
-  return vim.fn.isdirectory(home) and home or nil
-end
+  assert(vim.fn.isdirectory(home), '$COMPOSER_HOME directory doesn exists')
 
----Retrieve global include paths
----@return string[]
-function PHP.include_paths()
-  local paths = {}
-  local composer_home = PHP.composer_home()
-
-  assert(composer_home, '$COMPOSER_HOME directory doesn exists')
-
-  local should_available = {}
-
-  -- stylua: ignore
-  if PHP.has_extension('openswoole') then
-    table.insert(should_available, 'openswoole/ide-helper')
-  end
-
-  for _, pkg_path in ipairs(should_available) do
-    pkg_path = string.format('%s/vendor/%s', composer_home, pkg_path)
-
-    -- stylua: ignore
-    if vim.fn.isdirectory(pkg_path) then
-      table.insert(paths, pkg_path)
-    end
-  end
-
-  return paths
+  return home
 end
 
 ---Retrieve xdebug port
@@ -101,7 +72,7 @@ function PHP.route_file()
 
   -- stylua: ignore
   for _, file in ipairs(try_files) do
-    if util.file_exists(file) then return file end
+    if fs.file_exists(file) then return file end
   end
 
   return nil
@@ -141,6 +112,7 @@ function PHP.has_extension(ext)
   for _, installed in ipairs(PHP.installed_extensions()) do
     if ext == installed then return true end
   end
+
   return false
 end
 
@@ -161,118 +133,6 @@ function PHP.installed_extensions()
   table.sort(_installed_extensions, function(a, b) return a:upper() < b:upper() end)
 
   return _installed_extensions
-end
-
--- Default intelephense stubs
--- https://github.com/bmewburn/intelephense-docs/blob/master/installation.md#configuration-options
-local intelephense_stubs = {
-  'apache',
-  'bcmath',
-  'bz2',
-  'calendar',
-  'com_dotnet',
-  'Core',
-  'ctype',
-  'curl',
-  'date',
-  'dba',
-  'dom',
-  'enchant',
-  'exif',
-  'FFI',
-  'fileinfo',
-  'filter',
-  'fpm',
-  'ftp',
-  'gd',
-  'gettext',
-  'gmp',
-  'hash',
-  'iconv',
-  'imap',
-  'intl',
-  'json',
-  'ldap',
-  'libxml',
-  'mbstring',
-  'meta',
-  'mysqli',
-  'oci8',
-  'odbc',
-  'openssl',
-  'pcntl',
-  'pcre',
-  'PDO',
-  'pdo_ibm',
-  'pdo_mysql',
-  'pdo_pgsql',
-  'pdo_sqlite',
-  'pgsql',
-  'Phar',
-  'posix',
-  'pspell',
-  'readline',
-  'Reflection',
-  'session',
-  'shmop',
-  'SimpleXML',
-  'snmp',
-  'soap',
-  'sockets',
-  'sodium',
-  'SPL',
-  'sqlite3',
-  'standard',
-  'superglobals',
-  'sysvmsg',
-  'sysvsem',
-  'sysvshm',
-  'tidy',
-  'tokenizer',
-  'xml',
-  'xmlreader',
-  'xmlrpc',
-  'xmlwriter',
-  'xsl',
-  'Zend OPcache',
-  'zip',
-  'zlib',
-}
-
-local combined_stubs = {}
-
----@param ext string
----@return boolean
-local stub_contains = function(ext)
-  for _, stub in ipairs(intelephense_stubs) do
-    if stub == ext then return true end
-  end
-  return false
-end
-
-function PHP.collect_stubs()
-  -- stylua: ignore
-  if #combined_stubs > 0 then
-    return combined_stubs
-  end
-
-  combined_stubs = vim.list_extend(combined_stubs, intelephense_stubs)
-
-  for _, ext in ipairs(PHP.installed_extensions()) do
-    if ext == 'openswoole' then
-      -- Apparently intelephense doesn't have stub for openswoole just yet
-      -- https://github.com/bmewburn/vscode-intelephense/issues/2224
-      goto continue
-    end
-
-    if stub_contains(ext) then goto continue end
-
-    table.insert(combined_stubs, ext)
-
-    ::continue::
-  end
-
-  return combined_stubs
 end
 
 return PHP

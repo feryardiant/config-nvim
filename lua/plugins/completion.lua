@@ -1,162 +1,91 @@
 return {
   {
-    'hrsh7th/nvim-cmp',
+    'saghen/blink.cmp',
+    version = '1.*',
     event = { 'InsertEnter' },
     dependencies = {
-      { 'hrsh7th/cmp-buffer' },
-      { 'hrsh7th/cmp-nvim-lsp' },
-      { 'hrsh7th/cmp-nvim-lsp-signature-help' },
-      { 'hrsh7th/cmp-path' },
-      { 'saadparwaiz1/cmp_luasnip' },
-      { 'onsails/lspkind.nvim' },
-      { 'williamboman/mason-lspconfig.nvim' },
-    },
-    ---@module 'cmp'
-    ---@param opts cmp.ConfigSchema
-    opts = function(_, opts)
-      local cmp = require('cmp')
-      local kind_icons = {
-        BladeNav = '',
-      }
-
-      opts.sources = cmp.config.sources({
-        {
-          name = 'nvim_lsp',
-          priority = 100,
-          group_index = 1,
-        },
-        {
-          name = 'luasnip',
-          priority = 90,
-          group_index = 2,
-          option = { show_autosnippets = true },
-        },
-        { name = 'path', group_index = 0 },
-        { name = 'lazydev', group_index = 0 },
-      }, {
-        { name = 'buffer', keyword_length = 5 },
-      })
-
-      opts.sorting = {
-        priority_weight = 2,
-        comparators = {
-          cmp.config.compare.exact,
-          cmp.config.compare.score,
-          cmp.config.compare.kind,
-          cmp.config.compare.length,
-          cmp.config.compare.order,
-        },
-      }
-
-      opts.formatting = {
-        expandable_indicator = true,
-        fields = { 'kind', 'abbr', 'menu' },
-        format = function(entry, item)
-          if kind_icons[item.kind] then
-            -- Set custom kind icons
-            item.kind = string.format('%s %s', kind_icons[item.kind], item.kind)
-          end
-
-          return require('lspkind').cmp_format({
-            mode = 'symbol',
-          })(entry, item)
-        end,
-      }
-
-      opts.snippet = {
-        expand = function(args)
-          -- Set luasnip as default snippet engine
-          require('luasnip').lsp_expand(args.body)
-        end,
-      }
-
-      local function has_words_before()
-        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
-      end
-
-      opts.mapping = cmp.mapping.preset.insert({
-        ['<C-space>'] = cmp.mapping.complete(),
-        ['<Esc>'] = cmp.mapping.abort(),
-
-        ['<CR>'] = cmp.mapping.confirm({
-          behavior = cmp.ConfirmBehavior.Replace,
-          select = true,
-        }),
-
-        ['<Tab>'] = cmp.mapping(function(fallback)
-          local ls = require('luasnip')
-
-          if cmp.visible() then
-            cmp.select_next_item()
-          elseif ls.expand_or_locally_jumpable() then
-            ls.expand_or_jump()
-          elseif has_words_before() then
-            cmp.complete()
-          else
-            fallback()
-          end
-        end, { 'i', 's' }),
-
-        ['<S-Tab>'] = cmp.mapping(function(fallback)
-          local ls = require('luasnip')
-
-          if cmp.visible() then
-            cmp.select_prev_item()
-          elseif ls.locally_jumpable(-1) then
-            ls.jump(-1)
-          else
-            fallback()
-          end
-        end, { 'i', 's' }),
-      })
-    end,
-  },
-
-  {
-    'saadparwaiz1/cmp_luasnip',
-    lazy = true,
-    dependencies = {
-      { 'L3MON4D3/LuaSnip' },
       { 'rafamadriz/friendly-snippets' },
     },
-    config = function()
-      require('luasnip.config').set_config({
-        history = true,
-        delete_check_events = 'TextChanged',
-      })
+    ---@module 'blink.cmp'
+    ---@param opts blink.cmp.Config
+    opts = function(_, opts)
+      local function kind_icon(ctx)
+        if ctx.item.source_id == 'blade_nav' then
+          -- stylua : ignore
+          return MiniIcons.get('filetype', 'blade')
+        end
 
-      require('luasnip.loaders.from_vscode').lazy_load()
+        return MiniIcons.get('lsp', ctx.kind)
+      end
+
+      opts.keymap = { preset = 'enter' }
+
+      opts.completion = {
+        documentation = { auto_show = true },
+
+        ghost_text = { enabled = true },
+
+        menu = {
+          draw = {
+            components = {
+              -- Configure completion kind_icon using `mini.icons`
+              -- https://cmp.saghen.dev/recipes.html#completion-menu-drawing
+              kind_icon = {
+                text = function(ctx)
+                  local text, _ = kind_icon(ctx)
+
+                  return text
+                end,
+                highlight = function(ctx)
+                  local _, highlight = kind_icon(ctx)
+
+                  return highlight
+                end,
+              },
+            },
+          },
+        },
+      }
+
+      opts.snippets = { preset = 'mini_snippets' }
+
+      opts.sources = {
+        default = function()
+          local ok, node = pcall(vim.treesitter.get_node)
+          local workspace = require('utils.workspace')
+
+          if ok and node and vim.tbl_contains({ 'comment', 'line_comment', 'block_commet' }, node:type()) then
+            -- Only provides `lsp` and `buffers` for any comments
+            return { 'lsp', 'buffer' }
+          elseif vim.tbl_contains({ 'php', 'blade' }, vim.bo.filetype) and workspace.is_laravel() then
+            -- Provide `blade_nav` if it was a laravel project
+            return { 'lsp', 'blade_nav', 'path', 'snippets', 'buffer' }
+          end
+
+          return { 'lsp', 'path', 'snippets', 'buffer' }
+        end,
+
+        providers = {
+          blade_nav = {
+            name = 'blade-nav',
+            module = 'blink.compat.source',
+          },
+        },
+      }
+
+      opts.fuzzy = { implementation = 'prefer_rust_with_warning' }
     end,
   },
 
   {
-    -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
-    -- used for completion, annotations and signatures of Neovim apis
-    'folke/lazydev.nvim',
-    ft = 'lua',
-    dependencies = {
-      { 'Bilal2453/luvit-meta' },
-    },
-    ---@module 'lazydev'
-    ---@type lazydev.Config
+    'saghen/blink.compat',
+    -- use the latest release, via version = '*', if you also use the latest release for blink.cmp
+    version = '*',
+    -- lazy.nvim will automatically load the plugin when it's required by blink.cmp
+    lazy = true,
+    -- make sure to set opts so that lazy.nvim calls blink.compat's setup
     opts = {
-      library = {
-        -- Load luvit types when the `vim.uv` word is found
-        { path = 'luvit-meta/library', words = { 'vim%.uv' } },
-        { 'nvim-dap-ui' },
-      },
-    },
-  },
-
-  {
-    'ricardoramirezr/blade-nav.nvim',
-    dependencies = {
-      { 'hrsh7th/nvim-cmp' },
-    },
-    ft = { 'blade', 'php' },
-    opts = {
-      close_tag_on_complete = false, -- default: true
+      impersonate_nvim_cmp = true,
     },
   },
 }

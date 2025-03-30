@@ -1,6 +1,20 @@
 vim.opt.termguicolors = true
 vim.opt.clipboard = 'unnamedplus'
-vim.opt.conceallevel = 3
+
+local diagnostic_signs = { text = {}, linehl = {} }
+local sings = {
+  [vim.diagnostic.severity.ERROR] = { label = 'Error', icon = ' ' },
+  [vim.diagnostic.severity.WARN] = { label = 'Warn', icon = ' ' },
+  [vim.diagnostic.severity.INFO] = { label = 'Info', icon = ' ' },
+  [vim.diagnostic.severity.HINT] = { label = 'Hint', icon = '󰌵 ' },
+}
+
+for severity, sign in pairs(sings) do
+  diagnostic_signs.text[severity] = sign.icon
+  diagnostic_signs.linehl[severity] = 'DiagnosticSign' .. sign.label
+end
+
+vim.diagnostic.config({ signs = diagnostic_signs })
 
 vim.opt.confirm = true -- Confirm before exit if file has changed
 vim.opt.hidden = false -- Close the buffer when tab is closed
@@ -8,6 +22,11 @@ vim.opt.wrap = false -- Do not wrap lines
 
 vim.opt.fileformats = 'unix,dos,mac' -- Use Unix as the standard file type
 vim.opt.colorcolumn = '80,100,120'
+vim.opt.signcolumn = 'yes'
+
+vim.opt.number = true -- Enable line numbers
+vim.opt.relativenumber = true -- Relative line numbers
+vim.opt.cursorline = true -- Highlight line under the cursor
 
 vim.opt.formatoptions = {
   c = true, -- Format comments
@@ -18,31 +37,9 @@ vim.opt.formatoptions = {
   l = true, -- Don't break lines that are already long
 }
 
-vim.opt.number = true -- Enable line numbers
-vim.opt.relativenumber = true -- Relative line numbers
-vim.opt.cursorline = true -- Highlight line under the cursor
-
-vim.opt.signcolumn = 'yes'
-
--- Persistent Undo
-vim.opt.undofile = true
-vim.opt.undolevels = 10000
-
-vim.opt.report = 0 -- Show all command reports
-vim.opt.ruler = true -- Show cursor position
-vim.opt.showmode = false -- Hide the current mode
 vim.opt.updatetime = 50
-
--- Completion
-vim.opt.wildmode = 'longest:full,full'
-vim.opt.showfulltag = true
-vim.opt.completeopt = 'menu,menuone,noselect'
-
--- Scrolling
-vim.opt.scrolloff = 5 -- Start scrolling three lines before horizontal border of window
-vim.opt.sidescrolloff = 5 -- Start scrolling three columns before vertical border of window
-
-if vim.fn.has('nvim-0.10') == 1 then vim.opt.smoothscroll = true end
+vim.opt.report = 0 -- Show all command reports
+vim.opt.showmode = false -- Hide the current mode
 
 -- Indentation
 vim.opt.tabstop = 4
@@ -66,14 +63,10 @@ vim.opt.wrapscan = true -- Searches wrap around end of file
 vim.opt.splitbelow = true -- New window goes below
 vim.opt.splitright = true -- New windows goes right
 
--- Folding
-vim.opt.foldenable = false
-vim.opt.foldmethod = 'expr'
-vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-
 -- Whitespace characters
 vim.opt.list = true
 vim.opt.listchars = 'tab:→ ,trail:·,extends:…,precedes:…'
+vim.opt.conceallevel = 3
 vim.opt.fillchars = {
   foldopen = '',
   foldclose = '',
@@ -84,22 +77,27 @@ vim.opt.fillchars = {
   eob = ' ',
 }
 
-vim.opt.suffixes =
-  '.bak,~,.cache,.swp,.swo,.o,.d,.info,.aux,.dvi,.bin,.cb,.dmg,.exe,.ind,.idx,.inx,.out,.toc,.pyc,.pyd,.dll'
+vim.opt.suffixes = {
+  '~',
+  '.bak',
+  '.bin',
+  '.cache',
+  '.dll',
+  '.dmg',
+  '.exe',
+  '.min.js',
+  '.o',
+  '.obj',
+  '.swp',
+  '.swo',
+}
+
 vim.opt.wildignore = {
-  '*.jpg',
-  '*.jpeg',
-  '*.gif',
-  '*.png',
-  '*.gif',
-  '*.psd',
-  '*.pdf',
-  '*.o',
-  '*.obj',
-  '*.min.js',
-  '*/smarty/*',
+  '*.old/*',
   '*/vendor/*',
   '*/node_modules/*',
+  '*/.DS_Store',
   '*/.git/*',
+  '*/.pnpm-store/*',
   '*/.sass-cache/*',
 }

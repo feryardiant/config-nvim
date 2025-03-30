@@ -1,44 +1,5 @@
 return {
   {
-    'JoosepAlviste/nvim-ts-context-commentstring',
-    event = { 'BufReadPre', 'BufNewFile' },
-    dependencies = {
-      { 'nvim-treesitter/nvim-treesitter' },
-    },
-    ---@module 'ts_context_commentstring'
-    ---@type ts_context_commentstring.Config
-    opts = {
-      enable_autocmd = false,
-    },
-  },
-
-  -- Show context of the current function
-  {
-    'nvim-treesitter/nvim-treesitter-context',
-    event = { 'BufReadPre', 'BufNewFile' },
-    dependencies = {
-      { 'nvim-treesitter/nvim-treesitter' },
-    },
-    ---@module 'treesitter-context'
-    ---@type TSContext.UserConfig
-    opts = {
-      mode = 'cursor',
-      max_line = 3,
-    },
-  },
-
-  {
-    'windwp/nvim-ts-autotag',
-    event = { 'BufReadPre', 'BufNewFile' },
-    dependencies = {
-      { 'nvim-treesitter/nvim-treesitter' },
-    },
-    ---@module 'nvim-ts-autotag'
-    ---@type nvim-ts-autotag.PluginSetup
-    opts = {},
-  },
-
-  {
     'nvim-treesitter/nvim-treesitter',
     version = false,
     build = ':TSUpdate',
@@ -46,32 +7,57 @@ return {
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
       { 'nvim-treesitter/nvim-treesitter-textobjects' },
+      { 'LiadOz/nvim-dap-repl-highlights', config = true },
     },
     ---@module 'nvim-treesitter'
     ---@type TSConfig
     opts = {
       indent = { enable = true },
       highlight = { enable = true },
+
+      -- List of parsers to ignore installing
+      -- These already come built-in in neovim
+      ignore_install = {
+        'c',
+        'lua',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+      },
       -- A list of parser names
       ensure_installed = {
         'bash',
         'blade',
-        'comment',
+        'css',
+        'dotenv',
         'dap_repl',
+        'editorconfig',
+        'git_config',
+        'git_rebase',
+        'gitattributes',
+        'gitcommit',
         'gitignore',
         'html',
         'json',
+        'jsonc',
         'javascript',
-        'markdown',
-        'markdown_inline',
+        'latex',
+        'luadoc',
+        'nginx',
+        'norg',
         'php',
         'phpdoc',
         'php_only',
+        'regex',
+        'scss',
+        'svelte',
         'toml',
-        'typescript',
+        'tmux',
         'tsx',
-        'vim',
-        'vimdoc',
+        'typescript',
+        'typst',
         'vue',
         'yaml',
       },
@@ -83,7 +69,6 @@ return {
       incremental_selection = {
         enable = true,
         keymaps = {
-          -- init_selection = '<C-space>',
           node_incremental = '<C-space>',
           node_decremental = '<bs>',
         },
@@ -146,5 +131,44 @@ return {
 
       require('nvim-treesitter.configs').setup(opts)
     end,
+  },
+
+  {
+    'windwp/nvim-ts-autotag',
+    event = { 'BufReadPre', 'BufNewFile' },
+    dependencies = {
+      { 'nvim-treesitter/nvim-treesitter' },
+    },
+    ---@module 'nvim-ts-autotag'
+    ---@type nvim-ts-autotag.PluginSetup
+    opts = {},
+  },
+
+  {
+    'JoosepAlviste/nvim-ts-context-commentstring',
+    event = { 'BufReadPre', 'BufNewFile' },
+    dependencies = {
+      { 'nvim-treesitter/nvim-treesitter' },
+    },
+    ---@module 'ts_context_commentstring'
+    ---@type ts_context_commentstring.Config
+    opts = {
+      enable_autocmd = false,
+    },
+  },
+
+  -- Show context of the current function
+  {
+    'nvim-treesitter/nvim-treesitter-context',
+    event = { 'BufReadPre', 'BufNewFile' },
+    dependencies = {
+      { 'nvim-treesitter/nvim-treesitter' },
+    },
+    ---@module 'treesitter-context'
+    ---@type TSContext.UserConfig
+    opts = {
+      mode = 'cursor',
+      max_line = 3,
+    },
   },
 }

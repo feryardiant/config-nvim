@@ -20,30 +20,16 @@ return {
       { '<leader>ff', function() Snacks.picker.buffers() end, desc = 'Find Bu[ff]ers' },
       { '<leader>fg', function() Snacks.picker.git_files() end, desc = '[F]ind Current [G]it Repo' },
       { '<leader>r', function() Snacks.rename.rename_file() end, desc = '[R]ename File' },
-      -- Terminals
-      { '<C-`>', function() Snacks.terminal() end, desc = 'Toggle Terminal', mode = { 'n', 't' } },
-      -- Diagnostics
-      { '<leader>do', function() Snacks.picker.diagnostics() end, desc = 'Open [D]iagnostics' },
-      { '<leader>da', function() Snacks.picker.diagnostics_buffer() end, desc = 'Open [D]iagnostics Buffer' },
       -- Searches
       { '<leader>sw', function() Snacks.picker.grep_word() end, desc = '[S]earch by [W]ord', mode = { 'n', 'x' } },
       { '<C-f>', function() Snacks.picker.grep() end, desc = 'Live grep' },
-      -- Git
-      { '<leader>gg', function() Snacks.lazygit() end, desc = 'Open LazyGit' },
-      { '<leader>gl', function() Snacks.picker.git_log({ layout = 'default' }) end, desc = 'Open [G]it [L]og' },
-      -- LSP
-      { 'gd', function() Snacks.picker.lsp_definitions() end, desc = '[G]oto [D]efinition' },
-      { 'gD', function() Snacks.picker.lsp_declarations() end, desc = '[G]oto [D]eclaration' },
-      { 'gr', function() Snacks.picker.lsp_references() end, desc = '[G]oto [R]eferences', nowait = true },
-      { 'gI', function() Snacks.picker.lsp_implementations() end, desc = '[G]oto [I]mplementation' },
-      { 'gy', function() Snacks.picker.lsp_type_definitions() end, desc = '[G]oto T[y]pe Definition' },
-      { '<leader>s', function() Snacks.picker.lsp_workspace_symbols() end, desc = 'Workspace Symbols' },
-      { '<leader>ss', function() Snacks.picker.lsp_symbols() end, desc = 'Document Symbols' },
+      -- Terminals
+      { '<C-`>', function() Snacks.terminal() end, desc = 'Toggle Terminal', mode = { 'n', 't' } },
     },
     ---@module 'snacks'
     ---@type snacks.Config
-    opts = {
-      dashboard = {
+    opts = function (_, opts)
+      opts.dashboard = {
         preset = { header = header },
         sections = {
           { section = 'header' },
@@ -51,21 +37,27 @@ return {
           { section = 'projects', icon = ' ', title = 'Projects', padding = 1 },
           { section = 'startup' },
         },
-      },
-      explorer = {
+      }
+
+      opts.explorer = {
         replace_netrw = true,
-      },
-      input = {},
-      indent = {
+      }
+
+      opts.input = {}
+
+      opts.indent = {
         indent = { char = '┆' },
         scope = { char = '│' },
         animate = { step = 10, total = 100 },
-      },
-      image = {
+      }
+
+      opts.image = {
         doc = {},
-      },
-      notifier = {},
-      picker = {
+      }
+
+      opts.notifier = {}
+
+      opts.picker = {
         layout = { preset = 'dropdown' },
         layouts = {
           sidebar = {
@@ -80,12 +72,15 @@ return {
           explorer = { hidden = true },
           files = { hidden = true },
         },
-      },
-      statuscolumn = {},
-      terminal = {
-        win = { border = 'rounded' }
-      },
-      win = { backdrop = false },
-    },
-  },
+      }
+
+      opts.statuscolumn = {}
+
+      opts.terminal = {
+        win = { border = 'rounded' },
+      }
+
+      opts.win = { backdrop = false }
+    end,
+  }
 }
