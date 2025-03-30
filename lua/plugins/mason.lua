@@ -61,7 +61,6 @@ return {
     },
     opts = function(_, opts)
       opts.ensure_installed = {
-        'duster',
         'pint',
         'prettier',
         'stylua',

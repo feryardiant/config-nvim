@@ -4,17 +4,7 @@ return {
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
     keys = {
-      {
-        '<leader>fo',
-        function()
-          require('conform').format({
-            async = true,
-            lsp_format = 'fallback',
-            timeout_ms = 5000,
-          })
-        end,
-        desc = '[Fo]rmat Buffer',
-      },
+      { '<leader>fo', function() require('conform').format() end, desc = '[Fo]rmat Buffer' },
     },
     init = function()
       -- stylua: ignore
@@ -28,21 +18,22 @@ return {
       opts.log_level = vim.log.levels.WARN
 
       opts.formatters = {
+        pint = {
+          command = util.find_executable({
+            'vendor/bin/pint',
+            vim.fn.stdpath('data') .. '/mason/bin/pint',
+          }, 'pint'),
+          args = { '$FILENAME' },
+        },
         prettier = {
           prepend_args = { '--ignore-unknown' },
         },
-        pint = {
-          meta = {
-            url = 'https://github.com/laravel/pint',
-            description = 'Laravel Pint is an opinionated PHP code style fixer for minimalists.',
-          },
-          command = util.find_executable({
-            vim.fn.stdpath('data') .. '/mason/bin/pint',
-            'vendor/bin/pint',
-          }, 'pint'),
-          args = { '$FILENAME' },
-          stdin = false,
-        },
+      }
+
+      opts.default_format_opts = {
+        lsp_format = 'fallback',
+        async = true,
+        timeout_ms = 5000,
       }
 
       opts.formatters_by_ft = {
