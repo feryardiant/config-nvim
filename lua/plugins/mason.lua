@@ -52,6 +52,24 @@ return {
   },
 
   {
+    'WhoIsSethDaniel/mason-tool-installer.nvim',
+    cmd = { 'MasonToolsInstall', 'MasonToolsInstallSync' },
+    dependencies = {
+      { 'williamboman/mason.nvim' },
+      { 'jay-babu/mason-nvim-dap.nvim' },
+      { 'williamboman/mason-lspconfig.nvim' },
+    },
+    opts = function(_, opts)
+      opts.ensure_installed = {
+        'duster',
+        'pint',
+        'prettier',
+        'stylua',
+      }
+    end,
+  },
+
+  {
     'williamboman/mason.nvim',
     cmd = { 'Mason', 'MasonUpdate' },
     ---@module 'mason'
