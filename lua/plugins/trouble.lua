@@ -4,17 +4,6 @@ return {
     cmd = 'Trouble',
     init = function()
       local map = require('utils.keymap').create()
-      local sings = {
-        Error = ' ',
-        Warn = ' ',
-        Info = ' ',
-        Hint = '󰌵 ',
-      }
-
-      for label, icon in pairs(sings) do
-        label = 'DiagnosticSign' .. label
-        vim.fn.sign_define(label, { text = icon, texthl = label })
-      end
 
       -- Diagnostics
       local diagnostic_goto = function(next, severity)

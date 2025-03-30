@@ -1,6 +1,21 @@
 vim.opt.termguicolors = true
 vim.opt.clipboard = 'unnamedplus'
 
+local diagnostic_signs = { text = {}, linehl = {} }
+local sings = {
+  [vim.diagnostic.severity.ERROR] = { label = 'Error', icon = ' ' },
+  [vim.diagnostic.severity.WARN] = { label = 'Warn', icon = ' ' },
+  [vim.diagnostic.severity.INFO] = { label = 'Info', icon = ' ' },
+  [vim.diagnostic.severity.HINT] = { label = 'Hint', icon = '󰌵 ' },
+}
+
+for severity, sign in pairs(sings) do
+  diagnostic_signs.text[severity] = sign.icon
+  diagnostic_signs.linehl[severity] = 'DiagnosticSign' .. sign.label
+end
+
+vim.diagnostic.config({ signs = diagnostic_signs })
+
 vim.opt.confirm = true -- Confirm before exit if file has changed
 vim.opt.hidden = false -- Close the buffer when tab is closed
 vim.opt.wrap = false -- Do not wrap lines
