@@ -1,12 +1,3 @@
-local function kind_icon(ctx)
-  if ctx.item.source_id == 'blade_nav' then
-    -- stylua : ignore
-    return MiniIcons.get('filetype', 'blade')
-  end
-
-  return MiniIcons.get('lsp', ctx.kind)
-end
-
 return {
   {
     'saghen/blink.cmp',
@@ -16,18 +7,20 @@ return {
       { 'rafamadriz/friendly-snippets' },
     },
     ---@module 'blink.cmp'
-    ---@type blink.cmp.Config
-    opts = {
-      keymap = { preset = 'enter' },
+    ---@param opts blink.cmp.Config
+    opts = function(_, opts)
+      local function kind_icon(ctx)
+        if ctx.item.source_id == 'blade_nav' then
+          -- stylua : ignore
+          return MiniIcons.get('filetype', 'blade')
+        end
 
-      appearance = {
-        -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-        -- Adjusts spacing to ensure icons are aligned
-        nerd_font_variant = 'mono',
-      },
+        return MiniIcons.get('lsp', ctx.kind)
+      end
 
-      -- (Default) Only show the documentation popup when manually triggered
-      completion = {
+      opts.keymap = { preset = 'enter' }
+
+      opts.completion = {
         documentation = { auto_show = true },
 
         ghost_text = { enabled = true },
@@ -52,21 +45,19 @@ return {
             },
           },
         },
-      },
+      }
 
-      snippets = { preset = 'mini_snippets' },
+      opts.snippets = { preset = 'mini_snippets' }
 
-      -- Default list of enabled providers defined so that you can extend it
-      -- elsewhere in your config, without redefining it, due to `opts_extend`
-      sources = {
-        default = function ()
+      opts.sources = {
+        default = function()
           local ok, node = pcall(vim.treesitter.get_node)
           local workspace = require('utils.workspace')
 
-          if ok and node and vim.tbl_contains({'comment', 'line_comment', 'block_commet'}, node:type()) then
+          if ok and node and vim.tbl_contains({ 'comment', 'line_comment', 'block_commet' }, node:type()) then
             -- Only provides `lsp` and `buffers` for any comments
             return { 'lsp', 'buffer' }
-          elseif vim.tbl_contains({'php', 'blade'}, vim.bo.filetype) and workspace.is_laravel() then
+          elseif vim.tbl_contains({ 'php', 'blade' }, vim.bo.filetype) and workspace.is_laravel() then
             -- Provide `blade_nav` if it was a laravel project
             return { 'lsp', 'blade_nav', 'path', 'snippets', 'buffer' }
           end
@@ -80,11 +71,10 @@ return {
             module = 'blink.compat.source',
           },
         },
-      },
+      }
 
-      fuzzy = { implementation = 'prefer_rust_with_warning' },
-    },
-    opts_extend = { 'sources.default' },
+      opts.fuzzy = { implementation = 'prefer_rust_with_warning' }
+    end,
   },
 
   {

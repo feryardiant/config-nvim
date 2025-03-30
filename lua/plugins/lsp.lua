@@ -4,7 +4,7 @@ return {
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
       vim.api.nvim_create_autocmd('LspAttach', {
-        group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
+        group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
         callback = function(event)
           local map = require('utils.keymap').create({ buffer = event.buf, remap = false, desc = 'LSP: ' })
 
@@ -37,7 +37,7 @@ return {
               group = vim.api.nvim_create_augroup('lsp-detach', { clear = true }),
               callback = function(e)
                 vim.lsp.buf.clear_references()
-                vim.api.nvim_clear_autocmds({ group = 'lsp_document_highlight', buffer = e.buf })
+                vim.api.nvim_clear_autocmds({ group = highlight_augroup, buffer = e.buf })
               end,
             })
           end

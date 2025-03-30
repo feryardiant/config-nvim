@@ -10,17 +10,18 @@ return {
     opts = function(_, opts)
       opts.lsp = {
         override = {
-          -- ['cmp.entry.get_documentation'] = false,
-          -- ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
+          ['cmp.entry.get_documentation'] = false,
+          ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
           ['vim.lsp.util.stylize_markdown'] = true,
         },
       }
 
-      opts.messages = {
-        view = 'mini',
-      }
+      -- opts.messages = {
+      --   view = 'mini',
+      -- }
 
       opts.presets = {
+        command_palette = true,
         long_message_to_split = true, -- long messages will be sent to a split
         lsp_doc_border = true, -- add a border to hover docs and signature help
       }
