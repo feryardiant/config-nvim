@@ -79,7 +79,7 @@ return {
         'ts_ls',
         'tailwindcss',
         'vimls',
-        'volar',
+        'vue_ls',
         'yamlls',
       }
 
