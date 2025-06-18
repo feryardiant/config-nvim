@@ -163,7 +163,7 @@ return {
       end
 
       if mason_registry.is_installed('js-debug-adapter') then
-        local js_adapter_path = mason_registry.get_package('js-debug-adapter'):get_install_path()
+        local js_adapter_path = vim.fn.exepath('js-debug-adapter')
 
         for _, adapter in ipairs({ 'node', 'chrome', 'msedge' }) do
           local pwa_adapter = 'pwa-' .. adapter

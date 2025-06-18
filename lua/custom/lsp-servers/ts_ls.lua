@@ -33,7 +33,7 @@ if mason_registry.is_installed('vue-language-server') then
     name = '@vue/typescript-plugin',
     languages = { 'vue', 'javascript', 'typescript' },
     location = table.concat({
-      mason_registry.get_package('vue-language-server'):get_install_path(),
+      vim.fn.exepath('vue-language-server'),
       'node_modules/@vue/language-server',
       'node_modules/@vue/typescript-plugin',
     }, '/'),
