@@ -49,8 +49,8 @@ return {
     end,
     ---@diagnostic disable: inject-field
     config = function()
-      local dap, keymap = require('dap'), require('utils.keymap')
-      local mason_registry = require('mason-registry')
+      local utils, keymap = require('utils'), require('utils.keymap')
+      local dap, mason_registry = require('dap'), require('mason-registry')
 
       -- see https://github.com/feryardiant/config-nvim/pull/19
       local session_id = nil
@@ -225,7 +225,7 @@ return {
             type = 'pwa-chrome',
             request = 'launch',
             name = 'DAP: Launch Chrome',
-            url = keymap.launch_url_prompt,
+            url = utils.launch_url_prompt,
             webroot = '${workspacefolder}',
             sourcemaps = true,
           })
@@ -234,7 +234,7 @@ return {
             type = 'pwa-msedge',
             request = 'launch',
             name = 'DAP: Launch MSEdge',
-            url = keymap.launch_url_prompt,
+            url = utils.launch_url_prompt,
             webRoot = '${workspaceFolder}',
             sourceMaps = true,
           })
@@ -252,7 +252,7 @@ return {
             type = 'firefox',
             request = 'launch',
             name = 'DAP: Launch Firefox',
-            url = keymap.launch_url_prompt,
+            url = utils.launch_url_prompt,
             webRoot = '${workspaceFolder}',
             sourceMaps = true,
             firefoxExecutable = vim.fn.exepath('firefox'),
