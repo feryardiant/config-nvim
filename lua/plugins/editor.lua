@@ -17,6 +17,8 @@ return {
             '(%u+_ID)=.+',
             '(%u+_DSN)=.+',
             '(%u+_KEY)=.+',
+            '(%u+_SECRET)=.+',
+            '(%u+_TOKEN)=.+',
             '(%u+_PASS%u+)=.+',
             '(%u+_PRIVATE%u+)=.+',
             '(%u+_SECRET%u+)=.+',
