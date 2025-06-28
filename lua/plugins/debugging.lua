@@ -55,7 +55,7 @@ return {
       -- see https://github.com/feryardiant/config-nvim/pull/19
       local session_id = nil
 
-      ---@param session dap.Session
+      ---@param session table
       dap.listeners.before.event_initialized.dapui_config = function(session)
         local map = keymap.create()
 
@@ -163,28 +163,29 @@ return {
       end
 
       if mason_registry.is_installed('js-debug-adapter') then
-        local js_adapter_path = vim.fn.exepath('js-debug-adapter')
-
         for _, adapter in ipairs({ 'node', 'chrome', 'msedge' }) do
-          local pwa_adapter = 'pwa-' .. adapter
-
-          dap.adapters[pwa_adapter] = {
-            type = 'server',
-            host = 'localhost',
-            port = '${port}',
-            executable = {
-              command = 'node',
-              args = {
-                js_adapter_path .. '/js-debug/src/dapDebugServer.js',
-                '${port}',
-              },
-            },
+          dap.adapters[adapter] = {
+            type = 'executable',
+            command = vim.fn.exepath('js-debug-adapter'),
           }
 
-          dap.adapters[adapter] = function(cb, config)
-            local native_adapter = dap.adapters[pwa_adapter]
+          -- dap.adapters[adapter] = {
+          --   type = 'server',
+          --   host = 'localhost',
+          --   port = '${port}',
+          --   executable = {
+          --     command = 'node',
+          --     args = {
+          --       vim.fn.expand('$MASON/packages/js-debug-adapter/js-debug/src/dapDebugServer.js'),
+          --       '${port}',
+          --     },
+          --   },
+          -- }
 
-            config.type = pwa_adapter
+          dap.adapters['pwa-' .. adapter] = function(cb, config)
+            local native_adapter = dap.adapters[adapter]
+
+            config.type = adapter
 
             if type(native_adapter) == 'function' then
               native_adapter(cb, config)
@@ -196,7 +197,7 @@ return {
 
         for _, lang in ipairs(js_langs) do
           local launchFile = {
-            type = 'pwa-node',
+            type = 'node',
             request = 'launch',
             name = 'DAP: Launch file using Node.js',
             program = '${file}',
@@ -212,7 +213,7 @@ return {
           table.insert(dap.configurations[lang], launchFile)
 
           table.insert(dap.configurations[lang], {
-            type = 'pwa-node',
+            type = 'node',
             request = 'launch',
             name = 'DAP: Attach to Node.js Process',
             processId = require('dap.utils').pick_process,
@@ -222,7 +223,7 @@ return {
 
         for _, lang in ipairs(fe_langs) do
           table.insert(dap.configurations[lang], {
-            type = 'pwa-chrome',
+            type = 'chrome',
             request = 'launch',
             name = 'DAP: Launch Chrome',
             url = utils.launch_url_prompt,
@@ -231,7 +232,7 @@ return {
           })
 
           table.insert(dap.configurations[lang], {
-            type = 'pwa-msedge',
+            type = 'msedge',
             request = 'launch',
             name = 'DAP: Launch MSEdge',
             url = utils.launch_url_prompt,
