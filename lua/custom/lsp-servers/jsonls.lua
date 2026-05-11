@@ -4,8 +4,20 @@ return {
     json = {
       schemas = {
         {
+          fileMatch = { '.gemini/settings.json', 'gemini/settings.json' },
+          url = 'https://raw.githubusercontent.com/google-gemini/gemini-cli/main/schemas/settings.schema.json',
+        },
+        {
+        fileMatch = { '.devcontainer/*/devcontainer.json', '.devcontainer/devcontainer.json', '.devcontainer.json' },
+          url = 'https://raw.githubusercontent.com/devcontainers/spec/refs/heads/main/schemas/devContainer.base.schema.json',
+        },
+        {
           fileMatch = { 'composer.json' },
           url = 'https://getcomposer.org/schema.json',
+        },
+        {
+          fileMatch = { 'deno.json', 'deno.jsonc' },
+          url = 'https://raw.githubusercontent.com/denoland/deno/refs/heads/main/cli/schemas/config-file.v1.json',
         },
         {
           fileMatch = { 'jsconfig.json' },
