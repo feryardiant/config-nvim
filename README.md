@@ -100,9 +100,9 @@
   - `[d` and `]d` : Jump to previous and next diagnostics
   - `[e` and `]e` : Jump to previous and next error diagnostics
   - `[w` and `]w` : Jump to previous and next warning diagnostics
-  - `<leader>`+`e` : Open floating diagnostic message
-  - `<leader>`+`ea` : Open workspace diagnostics
-  - `<leader>`+`ee` : Open buffer diagnostic
+  - `<leader>`+`ee` : Open floating diagnostic message
+  - `<leader>`+`ew` : Open workspace diagnostics
+  - `<leader>`+`eb` : Open buffer diagnostic
 - Buffer
   - `<` and `>` : Dedent and Indent line(s) on `visual` mode
   - `ALT`+`j`/`k` : Move line(s) down or up

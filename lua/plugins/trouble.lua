@@ -18,9 +18,9 @@ return {
         end
       end
 
-      map('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-      map('n', '<leader>ea', function() Snacks.picker.diagnostics() end, { desc = 'Open [D]iagnostics' } )
-      map('n', '<leader>ee', function() Snacks.picker.diagnostics_buffer() end, { desc = 'Open [D]iagnostics Buffer' } )
+      map('n', '<leader>ee', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+      map('n', '<leader>ew', function() Snacks.picker.diagnostics() end, { desc = 'Open [D]iagnostics' })
+      map('n', '<leader>eb', function() Snacks.picker.diagnostics_buffer() end, { desc = 'Open [D]iagnostics Buffer' })
 
       map('n', '[e', diagnostic_jump(false, 'ERROR'), { desc = 'Prev [E]rror' })
       map('n', ']e', diagnostic_jump(true, 'ERROR'), { desc = 'Next [E]rror' })
