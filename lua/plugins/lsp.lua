@@ -1,8 +1,4 @@
 -- Delete default keymap
-vim.keymap.del('n', 'gra') -- code_action
-vim.keymap.del('n', 'grn') -- rename
-vim.keymap.del('n', 'grr') -- references
-vim.keymap.del('n', 'gri') -- implementation
 
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
@@ -70,10 +66,11 @@ return {
         'dockerls',
         'emmet_ls',
         'eslint',
-        'intelephense',
+        -- 'intelephense',
         'jsonls',
         'lua_ls',
-        'nginx_language_server',
+        'laravel_ls',
+        'phpantom_lsp',
         'sqls',
         'svelte',
         'ts_ls',
