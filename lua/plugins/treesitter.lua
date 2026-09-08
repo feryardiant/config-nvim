@@ -91,19 +91,9 @@ return {
       },
     },
     config = function(_, opts)
-      local parser = require('nvim-treesitter.parsers')
-      local parser_config = parser.get_parser_configs()
+      local parsers = require('nvim-treesitter.parsers')
 
-      parser_config['blade'] = {
-        install_info = {
-          url = 'https://github.com/EmranMR/tree-sitter-blade',
-          files = { 'src/parser.c' },
-          branch = 'main',
-        },
-        filetype = 'blade',
-      }
-
-      parser_config['dotenv'] = {
+      parsers['dotenv'] = {
         install_info = {
           url = 'https://github.com/pnx/tree-sitter-dotenv',
           files = { 'src/parser.c', 'src/scanner.c' },
@@ -124,12 +114,10 @@ return {
           ['.exports'] = 'bash',
           ['.functions'] = 'bash',
           ['.profile'] = 'bash',
-          ['.*%.blade%.php'] = 'blade',
+          -- ['.*%.blade%.php'] = 'blade',
           ['.*%.neon%.dist'] = 'yaml',
         },
       })
-
-      require('nvim-treesitter.configs').setup(opts)
     end,
   },
 
