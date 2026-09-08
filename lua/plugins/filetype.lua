@@ -17,17 +17,6 @@ local M = {
       },
     },
   },
-
-  -- {
-  --   'ricardoramirezr/blade-nav.nvim',
-  --   dependencies = {
-  --     { 'saghen/blink.compat' },
-  --   },
-  --   ft = { 'blade', 'php' },
-  --   opts = {
-  --     close_tag_on_complete = false, -- default: true
-  --   },
-  -- },
 }
 
 if vim.fn.executable('ghostty') then
