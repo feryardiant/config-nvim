@@ -42,6 +42,7 @@ return {
 
   {
     'akinsho/git-conflict.nvim',
+    event = { 'BufReadPre', 'BufNewFile' },
     version = '*',
     ---@module 'git-conflict'
     ---@type GitConflictConfig
