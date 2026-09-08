@@ -73,10 +73,10 @@ return {
         'phpantom_lsp',
         'sqls',
         'svelte',
-        'ts_ls',
         'tailwindcss',
         'vimls',
         'vue_ls',
+        'vtsls',
         'yamlls',
       }
 
