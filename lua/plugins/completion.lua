@@ -5,6 +5,7 @@ return {
     event = { 'InsertEnter' },
     dependencies = {
       { 'rafamadriz/friendly-snippets' },
+      { 'echasnovski/mini.nvim' },
     },
     ---@module 'blink.cmp'
     ---@param opts blink.cmp.Config
