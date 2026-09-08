@@ -16,6 +16,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     map('n', '<leader>rn', vim.lsp.buf.rename, { desc = '[R]e[n]ame Symbol' })
     map({ 'n', 'x' }, '<C-.>', vim.lsp.buf.code_action, { desc = '[C]ode [A]ction' })
+    map('n', 'K', vim.lsp.buf.signature_help, { desc = 'Signature [H]elp' })
 
     local client = vim.lsp.get_client_by_id(event.data.client_id)
 
