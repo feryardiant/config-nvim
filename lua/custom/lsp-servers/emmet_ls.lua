@@ -1,4 +1,4 @@
----@type lspconfig.Config
+---@type vim.lsp.Config
 return {
   filetypes = { 'blade', 'gohtml', 'gohtmltmpl', 'handlebars', 'hbs', 'njk', 'nunjucks', 'templ' },
 }

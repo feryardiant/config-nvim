@@ -1,6 +1,6 @@
 local ws = require('utils.workspace')
 
----@type lspconfig.Config
+---@type vim.lsp.Config
 return {
   settings = {
     eslint = {

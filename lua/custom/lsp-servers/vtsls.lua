@@ -14,7 +14,7 @@ local ts_settings = vim.tbl_deep_extend('keep', {
   -- TS specific settings goes here
 }, common_settings)
 
----@type lspconfig.Config
+---@type vim.lsp.Config
 local server = {
   filetypes = {},
   settings = {

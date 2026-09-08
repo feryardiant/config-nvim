@@ -144,7 +144,7 @@ local function include_paths()
   return cached.include_paths
 end
 
----@type lspconfig.Config
+---@type vim.lsp.Config
 return {
   filetypes = { 'blade', 'php_only' },
   settings = {
