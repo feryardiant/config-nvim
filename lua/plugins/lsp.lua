@@ -79,26 +79,34 @@ return {
         'vtsls',
         'yamlls',
       }
+    end,
 
-      opts.handlers = {
-        -- Default handler for all available LSP server.
-        ---@param server string
-        function(server)
-          local lspconfig = require('lspconfig')
-          local servers = require('custom.lsp-servers')
+    ---@module 'mason-lspconfig'
+    ---@param opts MasonLspconfigSettings
+    config = function(_, opts)
+      require('mason-lspconfig').setup(opts)
 
-          ---@type lspconfig.Config
-          local config = servers[server]
+      -- NOTE: This mason-lspconfig version auto-enables installed servers through
+      -- `vim.lsp.enable` and no longer runs the legacy `opts.handlers`, so
+      -- per-server overrides must be registered with `vim.lsp.config` instead.
 
-          config.capabilities = vim.tbl_deep_extend(
-            'force',
-            vim.lsp.protocol.make_client_capabilities(),
-            require('blink.cmp').get_lsp_capabilities(config.capabilities or {})
-          )
+      -- Shared capabilities for all servers (blink.cmp).
+      vim.lsp.config('*', {
+        capabilities = vim.tbl_deep_extend(
+          'force',
+          vim.lsp.protocol.make_client_capabilities(),
+          require('blink.cmp').get_lsp_capabilities()
+        ),
+      })
 
-          lspconfig[server].setup(config)
-        end,
-      }
+      -- Apply per-server overrides defined in `lua/custom/lsp-servers/*`.
+      local servers = require('custom.lsp-servers')
+
+      for _, server in ipairs(opts.ensure_installed) do
+        if pcall(require, 'custom.lsp-servers.' .. server) then
+          vim.lsp.config(server, servers[server])
+        end
+      end
     end,
   },
 }
