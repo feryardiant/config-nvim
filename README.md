@@ -57,11 +57,18 @@
   - [`windwp/nvim-ts-autotag`](https://github.com/windwp/nvim-ts-autotag)
   - [`EmranMR/tree-sitter-blade`](https://github.com/EmranMR/tree-sitter-blade)
   - [`pnx/tree-sitter-dotenv`](https://github.com/pnx/tree-sitter-dotenv)
+- [`Shatur/neovim-ayu`](https://github.com/Shatur/neovim-ayu) — colorscheme
+- [`wakatime/vim-wakatime`](https://github.com/wakatime/vim-wakatime)
+- `ghostty` — Vim runtime files for Ghostty (added only when the app is installed)
+
+### Editor
+
+- [`laytan/cloak.nvim`](https://github.com/laytan/cloak.nvim)
+- [`norcalli/nvim-colorizer.lua`](https://github.com/norcalli/nvim-colorizer.lua)
 
 ### Extras
 
 - [`folke/lazydev.nvim`](https://github.com/folke/lazydev.nvim)
-- [`ricardoramirezr/blade-nav.nvim`](https://github.com/ricardoramirezr/blade-nav.nvim)
 
 ### Completion
 
@@ -101,7 +108,7 @@
   - `[e` and `]e` : Jump to previous and next error diagnostics
   - `[w` and `]w` : Jump to previous and next warning diagnostics
   - `<leader>`+`ee` : Open floating diagnostic message
-  - `<leader>`+`ew` : Open workspace diagnostics
+  - `<leader>`+`ew` : Open all diagnostics
   - `<leader>`+`eb` : Open buffer diagnostic
 - Buffer
   - `<` and `>` : Dedent and Indent line(s) on `visual` mode
@@ -125,7 +132,7 @@
   - `<C-.>` : Code Action
 - Git
   - `<leader>`+`gg` : Open lazygit
-  - `<leader>`+`gl` : Toggle Git Logs Picker
+  - `<leader>`+`gl` : Open Git Log
   - Hunks
     - `[h` and `]h` : Jump to previous and next hunk
     - `[H` and `]H` : Jump to first and last hunk
@@ -141,13 +148,14 @@
     - `<leader>`+`cb` : Choose both
 - File Navigations
   - `TAB` or `SHIFT`+`TAB` : Navigate to next or previous buffers (normal mode)
-  - `n` and `N` : Jump to previous and next search results and keep the cursor in the center
+  - `n` : Next search result and keep the cursor in the center
+  - `N` : Previous search result and keep the cursor in the center
   - `<leader>`+`f` : File explorer
   - `<leader>`+`ff` : Find Buffers
   - `<leader>`+`fg` : Find File in current git repo
   - `<leader>`+`r` : Rename File
-  - `<leader>`+`<space>` : File Picker
-  - `<C-f>` : Find files
+  - `<leader>`+`<space>` : Find files
+  - `<C-f>` : Live grep
   - `<C-p>` : Projects Picker
 - Testing
   - `<leader>`+`t` : Toggle Test Summary
