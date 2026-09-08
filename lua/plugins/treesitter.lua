@@ -3,31 +3,50 @@ return {
     'nvim-treesitter/nvim-treesitter',
     version = false,
     build = ':TSUpdate',
-    cmd = { 'TSUpdateSync', 'TSUpdate', 'TSInstall' },
-    event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
-      { 'nvim-treesitter/nvim-treesitter-textobjects' },
       { 'LiadOz/nvim-dap-repl-highlights', config = true },
     },
     ---@module 'nvim-treesitter'
     ---@type TSConfig
     opts = {
-      indent = { enable = true },
-      highlight = { enable = true },
+      -- Directory to install parsers and queries to
+      install_dir = vim.fn.stdpath('data') .. '/site',
+    },
+    config = function(_, opts)
+      local nvim_treesitter = require('nvim-treesitter')
 
-      -- List of parsers to ignore installing
-      -- These already come built-in in neovim
-      ignore_install = {
-        'c',
-        'lua',
-        'markdown',
-        'markdown_inline',
-        'query',
-        'vim',
-        'vimdoc',
-      },
-      -- A list of parser names
-      ensure_installed = {
+      nvim_treesitter.setup(opts)
+
+      -- Register the custom `dotenv` parser via the `TSUpdate` user event so it
+      -- survives nvim-treesitter's internal parser reload during install.
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'TSUpdate',
+        callback = function()
+          local parsers = require('nvim-treesitter.parsers')
+          parsers['dotenv'] = {
+            install_info = {
+              url = 'https://github.com/pnx/tree-sitter-dotenv',
+              files = { 'src/parser.c', 'src/scanner.c' },
+              branch = 'main',
+            },
+            filetype = 'dotenv',
+          }
+        end,
+      })
+
+      -- Start treesitter highlighting for every filetype. Treesitter takes
+      -- precedence over Vim's regex syntax highlighting for the nodes it
+      -- captures, so this makes treesitter the primary highlighter. Vim syntax
+      -- remains as a fallback for languages without a treesitter parser.
+      vim.api.nvim_create_autocmd('FileType', {
+        callback = function()
+          pcall(vim.treesitter.start)
+        end,
+      })
+
+      -- Install parsers (no-op if already installed). `ensure_installed` was
+      -- removed in the nvim-treesitter rewrite, so install explicitly.
+      nvim_treesitter.install {
         'bash',
         'blade',
         'css',
@@ -41,12 +60,10 @@ return {
         'gitignore',
         'html',
         'json',
-        'jsonc',
         'javascript',
         'latex',
         'luadoc',
         'nginx',
-        'norg',
         'php',
         'phpdoc',
         'php_only',
@@ -54,52 +71,11 @@ return {
         'scss',
         'svelte',
         'toml',
-        'tmux',
         'tsx',
         'typescript',
         'typst',
         'vue',
         'yaml',
-      },
-      -- Install parsers asynchronously
-      sync_install = false,
-      -- Auto install missing parsers when entering buffer
-      auto_install = true,
-      -- Incremental selection
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-          node_incremental = '<C-space>',
-          node_decremental = '<bs>',
-        },
-      },
-      textobjects = {
-        select = {
-          enable = true,
-          lookahead = true,
-          keymaps = {
-            ['if'] = '@function.inner',
-            ['af'] = '@function.outer',
-            ['ic'] = '@class.inner',
-            ['ac'] = '@class.outer',
-            ['il'] = '@loop.inner',
-            ['al'] = '@loop.outer',
-            ['ia'] = '@parameter.inner',
-            ['aa'] = '@parameter.outer',
-          },
-        },
-      },
-    },
-    config = function(_, opts)
-      local parsers = require('nvim-treesitter.parsers')
-
-      parsers['dotenv'] = {
-        install_info = {
-          url = 'https://github.com/pnx/tree-sitter-dotenv',
-          files = { 'src/parser.c', 'src/scanner.c' },
-          branch = 'main',
-        },
-        filetype = 'dotenv',
       }
 
       vim.filetype.add({
@@ -118,6 +94,52 @@ return {
           ['.*%.neon%.dist'] = 'yaml',
         },
       })
+    end,
+  },
+
+  {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    event = { 'BufReadPre', 'BufNewFile' },
+    dependencies = {
+      { 'nvim-treesitter/nvim-treesitter' }
+    },
+    opts = {
+      select = {
+        lookahead = true,
+        selection_modes = {
+          ['@function.outer'] = 'V',
+          ['@parameter.outer'] = 'v',
+        },
+      },
+    },
+    config = function(_, opts)
+      require('nvim-treesitter-textobjects').setup(opts)
+
+      local select = require('nvim-treesitter-textobjects.select')
+      vim.keymap.set({ 'x', 'o' }, 'if', function()
+        select.select_textobject('@function.inner', 'textobjects')
+      end)
+      vim.keymap.set({ 'x', 'o' }, 'af', function()
+        select.select_textobject('@function.outer', 'textobjects')
+      end)
+      vim.keymap.set({ 'x', 'o' }, 'ic', function()
+        select.select_textobject('@class.inner', 'textobjects')
+      end)
+      vim.keymap.set({ 'x', 'o' }, 'ac', function()
+        select.select_textobject('@class.outer', 'textobjects')
+      end)
+      vim.keymap.set({ 'x', 'o' }, 'il', function()
+        select.select_textobject('@loop.inner', 'textobjects')
+      end)
+      vim.keymap.set({ 'x', 'o' }, 'al', function()
+        select.select_textobject('@loop.outer', 'textobjects')
+      end)
+      vim.keymap.set({ 'x', 'o' }, 'ia', function()
+        select.select_textobject('@parameter.inner', 'textobjects')
+      end)
+      vim.keymap.set({ 'x', 'o' }, 'aa', function()
+        select.select_textobject('@parameter.outer', 'textobjects')
+      end)
     end,
   },
 
@@ -156,7 +178,7 @@ return {
     ---@type TSContext.UserConfig
     opts = {
       mode = 'cursor',
-      max_line = 3,
+      max_lines = 3,
     },
   },
 }
