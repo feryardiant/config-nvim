@@ -6,8 +6,8 @@ local noremap = keymap.create({ noremap = true })
 map('n', '<Esc>', '<Cmd>nohlsearch<CR>', { desc = 'Clear search highlight' })
 
 -- Keep cursor in the middle while navigate through search results
-noremap('n', 'n', 'nzzzv', { desc = 'Previeous search result' })
-noremap('n', 'N', 'Nzzzv', { desc = 'Next search result' })
+noremap('n', 'n', 'nzzzv', { desc = 'Next search result' })
+noremap('n', 'N', 'Nzzzv', { desc = 'Previous search result' })
 
 -- Keep cursor in the middle while scrolling page
 map('n', '<C-d>', '<C-d>zz')
