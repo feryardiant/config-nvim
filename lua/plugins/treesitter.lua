@@ -12,6 +12,8 @@ return {
       -- Directory to install parsers and queries to
       install_dir = vim.fn.stdpath('data') .. '/site',
     },
+    ---@module 'nvim-treesitter'
+    ---@param opts TSConfig
     config = function(_, opts)
       local nvim_treesitter = require('nvim-treesitter')
 
@@ -103,6 +105,8 @@ return {
     dependencies = {
       { 'nvim-treesitter/nvim-treesitter' }
     },
+    ---@module 'nvim-treesitter-textobjects'
+    ---@type TSTextObjects.UserConfig
     opts = {
       select = {
         lookahead = true,
@@ -112,6 +116,7 @@ return {
         },
       },
     },
+    ---@param opts TSTextObjects.UserConfig
     config = function(_, opts)
       require('nvim-treesitter-textobjects').setup(opts)
 

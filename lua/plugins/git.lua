@@ -21,7 +21,6 @@ return {
       }
 
       opts.on_attach = function (buffer)
-        ---@type Gitsigns.actions
         local gs = package.loaded.gitsigns
         local bmap = keymap.create({ buffer = buffer })
 

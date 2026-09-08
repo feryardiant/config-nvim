@@ -1,4 +1,4 @@
----@type table<string, lspconfig.Config>
+---@type table<string, vim.lsp.Config>
 return setmetatable({}, {
   __index = function(self, server)
     local ok, config = pcall(require, 'custom.lsp-servers.' .. server)

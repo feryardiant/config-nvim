@@ -7,6 +7,8 @@ return {
       { 'jay-babu/mason-nvim-dap.nvim' },
       { 'williamboman/mason-lspconfig.nvim' },
     },
+    ---@module 'mason-tool-installer'
+    ---@type MasonToolInstallerSettings
     opts = {
       ensure_installed = {
         'pint',

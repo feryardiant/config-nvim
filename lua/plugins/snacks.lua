@@ -27,7 +27,7 @@ return {
       { '<C-`>', function() Snacks.terminal() end, desc = 'Toggle Terminal', mode = { 'n', 't' } },
     },
     ---@module 'snacks'
-    ---@type snacks.Config
+    ---@param opts snacks.Config
     opts = function (_, opts)
       opts.dashboard = {
         preset = { header = header },
